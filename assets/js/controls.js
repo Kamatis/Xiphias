@@ -306,7 +306,9 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
-})
+});
+
+$('#txt-exp-input').val($('.slider input').val());
 
 //$('#btn-qreg-refresh').on('click', function(){
 //  var questId = $()

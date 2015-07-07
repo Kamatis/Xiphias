@@ -1,6 +1,3 @@
-.slider {
-  margin-bottom: 40px; }
-
 .slider-vertical {
   margin: 10px; }
 
@@ -8,7 +5,7 @@
   display: inline-block;
   vertical-align: middle;
   position: relative;
-  width: 100%; }
+  width: 100% !important; }
   .slider.slider-horizontal {
     height: 30px; }
     .slider.slider-horizontal .slider-track {

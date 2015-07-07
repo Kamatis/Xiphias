@@ -7,11 +7,13 @@
   
   
     <script src="<?php echo base_url('assets/js/jquery-1.11.3.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-3.3.4-dist/js/bootstrap.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-dialog/js/bootstrap-dialog.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-date-range/js/moment.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-date-range/js/daterangepicker.js'); ?>"></script>
     <script src="<?php echo base_url('assets/knob/jquery.knob.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/bootstrap-3.3.4-dist/js/bootstrap.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/bootstrap-dialog/js/bootstrap-dialog.min.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-slider/js/plugin.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-slider/js/main.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/validator.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/controls.js'); ?>"></script>
     <script src="<?php echo base_url('assets/highcharts/highcharts.js'); ?>"></script>

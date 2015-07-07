@@ -85,12 +85,16 @@
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Rewards</strong></h5></legend>
-        <input type="text" placeholder="Enter EXP" name="questExp" id="quest-exp" class="form-control">
+          <input class="slider" data-slider-max="500" data-slider-min="0" data-slider-value="25" type="text" style="width=100%;">
+          <div class="input-group">
+            <span class="input-group-addon" id="exp-addon">Exp</span>
+            <input type="text" class="form-control" aria-describedby="exp-addon" id="txt-exp-input">
+          </div>
       </div>
       
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right">Revert</button>
+          <button class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</button>
           <button class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</button>
           <button class="btn btn-success pull-right m-right" id="btn-quest-add">Add</button>
         </div>
