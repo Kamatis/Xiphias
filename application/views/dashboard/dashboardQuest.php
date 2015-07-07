@@ -118,6 +118,8 @@
         Registrants
         <button id="btn-del-qmember" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-trash"></i></button>
         <button type="button" class="btn btn-warning btn-xs m-right pull-right" id="btn-award-badge"><i class="glyphicon glyphicon-star"></i></button>
+        <button type="button" class="btn btn-success btn-xs m-right pull-right" id="btn-qreg-refresh"><i class="glyphicon glyphicon-refresh"></i></button>
+
       </div>
       <div class="panel-body">
         <input type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">

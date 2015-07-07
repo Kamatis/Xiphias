@@ -303,10 +303,14 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-venue').val(dataPass['questVenue']);
             $('#quest-date').val(dataPass['questDate']);
             $('#quest-exp').val(dataPass['questExp']);
-            $('#quest-members').html(dataPass['questMembers']);
+            $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
 })
+
+//$('#btn-qreg-refresh').on('click', function(){
+//  var questId = $()
+//});
 
 $('#form-quest').on('submit', function(e){
     e.preventDefault();
