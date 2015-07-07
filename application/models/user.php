@@ -8,7 +8,7 @@ class User extends CI_Model{
     }
     
     public function valid_login($data){
-        $this->db->where('username like binary \''.$data['username'] . '\'');
+        $this->db->where('username like binary \'' .$data['username'] .'\'');
         $this->db->where('password', md5($data['password']));
         $query = $this->db->get('user');
         if($query->num_rows() == 1)
