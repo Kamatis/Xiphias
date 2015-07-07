@@ -1,0 +1,40 @@
+{
+  "css": {
+    "snippets": {
+      "c": "/**\n*----------------------------------------- \n* ${1:Section} \n*-----------------------------------------\n*/\n"
+    }
+  },
+  "html": {
+        "filters":"html",
+    "snippets": {
+            "php": "<?php ${cursor} ?>",
+            "php:foreach": "<?php foreach(\\$array as \\$k=>\\$v){\n\t${child}${cursor}\n} ?>",
+            "php:if": "<?php if (): (${1}) (${2}) ?>",
+            "php:elseif": "<?php elseif (${cursor}): ?>",
+            "php:else": "<?php else: ?>${cursor}",
+            "php:endif": "<?php endif; ?>${cursor}",
+            "trial": "hi ${1:firstname} ${2:lastname}",
+            "html-": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\t<meta charset=\"utf-8\">\n\t<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\t<meta name=\"description\" content=\"\">\n\t<meta name=\"author\" content=\"\">\n\t<title>${cursor}</title>\n\t<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">\n</head>\n<body>\n\t\n\t<script src=\"js/jquery.js\"></script>\n\t<script src=\"js/bootstrap.min.js\"></script></body>\n</html>",
+            "html--": "!DOCTYPE html>html>head"
+    },
+        "abbreviations": {
+            "phpt": "some text",
+            "ct": "div.container",
+            "form-": "form[role=form method=${1} action=${2}]",
+            "form-inline": "form[role=form method=${1} action=${2}].form-inline",
+            "form-horizontal": "form[role=form method=${1} action=${2}].form-horizontal",
+            "form-group": "div.form-group",
+            "fc-email": "input[type=email].form-control",
+            "fc-text": "input[type=text].form-control",
+            "fc-password": "input[type=password].form-control",
+            "fcl-email": "label[for={}].sr-only+input[type=email].form-control",
+            "tooltip": "data-toggle=\"validator\" data-placement=\"left\" data-trigger=\"focus\" data-html=\"true\" title=\"Tooltip on left\""
+        }        
+  },
+  "clike": {
+    "snippets": {
+      "c": "/**\n*----------------------------------------- \n* ${1:Section} \n*-----------------------------------------\n*/\n",
+            "foreach": "foreach(\\$array as \\$k=>\\$v){\n\t${child}${cursor}\n}\n"
+    }
+  }
+}
