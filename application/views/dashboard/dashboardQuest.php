@@ -24,7 +24,6 @@
         <legend><h5><strong>Quest Rarity</strong></h5></legend>
         <div id="questRarities">
           <?php echo $questRarities; ?>
-          <?php echo $rare; ?>
         </div>
       </div>
       
