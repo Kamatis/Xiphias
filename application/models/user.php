@@ -40,6 +40,7 @@ class User extends CI_Model{
         return false;
     }
     
+    
     public function getUserInfo($username){
         $this->db->where('username like binary \''.$username. '\'');
         $query = $this->db->get('user');
