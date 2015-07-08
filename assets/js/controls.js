@@ -308,7 +308,9 @@ $('body').on('click', '.list-item-quest', function() {
     });
 });
 
-$('#txt-exp-input').val($('.slider input').val());
+$('.slider-handle round').on('change', function(){
+  alert('yow');
+});
 
 //$('#btn-qreg-refresh').on('click', function(){
 //  var questId = $()
