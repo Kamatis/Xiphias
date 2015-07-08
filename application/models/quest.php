@@ -57,4 +57,17 @@ class Quest extends CI_model{
         $this->db->where('quest_id', $quest_id);
         $this->db->update('quest', $data);
     }
+  
+    public function getRarityInfo() {
+        $query = $this->db->get('rarity');
+        $x = 0;
+        foreach($query->result() as $row) {
+          $rarities[$x]['rarity_name'] = $row->rarity_name;
+          $rarities[$x]['rarity_range_min'] = $row->rarity_range_min;
+          $rarities[$x]['rarity_range_max'] = $row->rarity_range_max;
+          $rarities[$x]['rarity_icon'] = $row->rarity_icon;
+          $x++;
+        }
+        return $rarities;
+    }
 }
