@@ -44,13 +44,13 @@ class Pages extends CI_Controller {
     
     public function login_attempt() {
         $data = array(
-            'username' => $this->input->post('txtUsername'),
+            'username' => $this->db->escape_str($this->input->post('txtUsername')),
             'password' => $this->input->post('txtPassword')
         );
         if($this->user->valid_login($data)){
-            $userId = $this->user->getUserId($data['username']);
+            $userId = $this->user->getUserId($this->input->post('txtUsername'));
             $data_session = array (
-                'username'     => $data['username'],
+                'username'     => $this->input->post('txtUsername'),
                 'user_id'      => $userId,
                 'login_type'   => $this->user->getUserType($data['username']),
                 'is_logged_in' => 1,
@@ -180,6 +180,12 @@ class Pages extends CI_Controller {
     public function getQuestDetails() {
         $questId = $this->input->post('quest_id');
         $quest = $this->quest->getQuestInfo($questId);
+        $registrants = $this->quest->getQuestRegistrants($questId);
+      
+        foreach($registrants as $reg) {
+          $registrantView .= $this->load->view('dashboard/questRegistrants', $reg, true);
+        }
+        $quest['questRegistrant'] = $registrantView;
         echo json_encode($quest);
     }
   
@@ -214,8 +220,8 @@ class Pages extends CI_Controller {
 //      txtRequirement[]          = badge requirements(lvl 2 = [0])
 //      badge-pix[]               = badge pictures (lvl 1 = [0])
         $badgeName        = $this->input->post('txtBadgeName');
-        $badgeDescription = $this->input->post('txtaBadgeDescription');
-        $badgeRequirement = $this->input->post('txtRequirement');
+        $badgeDescription = $this->db->escape_str($this->input->post('txtaBadgeDescription'));
+        $badgeRequirement = $this->db->escape_str($this->input->post('txtRequirement'));
         $badgePictures    = $_FILES['badge-pix'];
         
         $badge['badge_description'] = $badgeDescription;
@@ -230,7 +236,7 @@ class Pages extends CI_Controller {
             $filePath = $_SERVER['DOCUMENT_ROOT'] . "drive/xiphias/codeigniter/assets/images/" . $badgePictures['name'][$x-1];
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
-            $badge_ups['badge_ups_name'] = $badgeName[$x-1];
+            $badge_ups['badge_ups_name'] = $this->db->escape_str($badgeName[$x-1]);
             $badge_ups['badge_ups_lvl' ] = $x;
             $badge_ups['badge_ups_pix' ] = 'assets/images/' . $badgePictures['name'][$x-1];
             if($x != 1)
@@ -259,13 +265,13 @@ class Pages extends CI_Controller {
 //      questEXP
         
         $time = explode(' ', $this->input->post('date-range'));
-        $quest['quest_title']       = $this->input->post('questName');
-        $quest['quest_description'] = $this->input->post('questDescription');
+        $quest['quest_title']       = $this->db->escape_str($this->input->post('questName'));
+        $quest['quest_description'] = $this->db->escape_str($this->input->post('questDescription'));
         $quest['quest_rarity']      = $this->input->post('rarity');
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->input->post('questExp');
+        $quest['experience']        = $this->db->escape_str($this->input->post('questExp'));
         $quest['quest_type']        = "Academic";
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
@@ -278,9 +284,8 @@ class Pages extends CI_Controller {
 //      partyPasscode    
 //      partyDescription 
 //      partyMembers[]        = list of party members
-        
         $party['creator_id']     = $this->session->userdata('user_id');
-        $party['party_name']     = $this->input->post('partyName');
+        $party['party_name']     = $this->db->escape_str($this->input->post('partyName'));
         $party['party_password'] = md5($this->input->post('partyPasscode'));
         $this->party->addParty($party);
     }
@@ -291,10 +296,10 @@ class Pages extends CI_Controller {
 //      txtOfficeName
 //      txtShortForm
 //      txtaOfficeDescription
-        $office['office_name']         = $this->input->post('txtOfficeName');
+        $office['office_name']         = $this->db->escape_str($this->input->post('txtOfficeName'));
         $office['office_logo']         = base_url('assets/images') . '/' . $_FILE['officeLogo']['name'];
-        $office['office_abbreviation'] = $this->input->post('txtShortForm');
-        $office['office_description']  = $this->input->post('txtOfficeDescription');
+        $office['office_abbreviation'] = $this->db->escape_str($this->input->post('txtShortForm'));
+        $office['office_description']  = $this->db->escape_str($this->input->post('txtOfficeDescription'));
         $this->office->addOffice($office);
     }
     
@@ -311,7 +316,7 @@ class Pages extends CI_Controller {
     }
     
     public function generateSerial(){
-        $username = $this->input->post('npcID');
+        $username = $this->db->escape_str($this->input->post('npcID'));
         echo $this->user->getSerial($username);
     }
     
@@ -335,13 +340,13 @@ class Pages extends CI_Controller {
   
     public function account_registration() {
         $data = array (
-            'first_name' => $this->input->post('first_name'),
-            'middle_name' => $this->input->post('middle_name'),
-            'last_name' => $this->input->post('last_name'),
-            'username' => $this->input->post('username'),
-            'password' => md5($this->input->post('password')),
-            'email' => $this->input->post('email'),
-            'serial' => md5(uniqid())
+            'first_name'  => $this->db->escape_str($this->input->post('first_name')),
+            'middle_name' => $this->db->escape_str($this->input->post('middle_name')),
+            'last_name'   => $this->db->escape_str($this->input->post('last_name')),
+            'username'    => $this->db->escape_str($this->input->post('username')),
+            'password'    => md5($this->input->post('password')),
+            'email'       => $this->db->escape_str($this->input->post('email')),
+            'serial'      => md5(uniqid())
         );
         
         $config = array (
@@ -359,7 +364,7 @@ class Pages extends CI_Controller {
         $this->load->library('email', $config);
         $this->email->set_newline("\r\n");
         $this->email->from('kellymilla18@gmail.com', 'Kelly Milla');
-        $this->email->to($this->input->post('email'));
+        $this->email->to($this->db->escape_str($this->input->post('email')));
         $this->email->subject('Xhipias : Account Confirmation');
         $this->email->message($message);
         

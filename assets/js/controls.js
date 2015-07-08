@@ -303,10 +303,18 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-venue').val(dataPass['questVenue']);
             $('#quest-date').val(dataPass['questDate']);
             $('#quest-exp').val(dataPass['questExp']);
-            $('#quest-members').html(dataPass['questMembers']);
+            $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
-})
+});
+
+$('.slider-handle round').on('change', function(){
+  alert('yow');
+});
+
+//$('#btn-qreg-refresh').on('click', function(){
+//  var questId = $()
+//});
 
 $('#form-quest').on('submit', function(e){
     e.preventDefault();
@@ -387,7 +395,7 @@ $('#verify-account').on('click', function() {
           dialog.close();
         else {
             $.ajax({
-              url: 'http://127.0.0.1/drive/xiphias/codeigniter/index.php/pages/checkVerification',
+              url: 'http://127.0.0.1/xiphias/index.php/pages/checkVerification',
               type: 'post',
               data: { verificationCode: vcode },
               success: function(dataPass) {

@@ -30,6 +30,18 @@ class Quest extends CI_model{
             
         return $quest;
     }
+  
+    public function getQuestRegistrants($quest_id){
+        $this->db->where('quest_id', $quest_id);
+        $query = $this->db->get('quest_registration');
+        $x = 0;
+        foreach($query->result() as $row){
+            $questRegistrants[$x]['userId'] = $row->user_id;
+            $questRegistrants[$x]['username'] = $this->user->getUsername($row->user_id);
+            $x++;
+        }
+        return $questRegistrants;
+    }
     
     public function addQuest($data){
         $this->db->insert('quest', $data);

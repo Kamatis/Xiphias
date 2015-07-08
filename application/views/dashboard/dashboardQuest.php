@@ -85,12 +85,24 @@
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Rewards</strong></h5></legend>
-        <input type="text" placeholder="Enter EXP" name="questExp" id="quest-exp" class="form-control">
+          <div class="range range-success">
+            <output id="exp-label">EXP</output>
+            <input type="range" name="range" min="1" max="100" value="50" oninput="rangeSuccess.value=value">
+            <output id="rangeSuccess">50</output>
+          </div>
+          
+<!--
+          <input class="slider" data-slider-max="500" data-slider-min="0" data-slider-value="25" type="text" style="width=100%;">
+          <div class="input-group">
+            <span class="input-group-addon" id="exp-addon">Exp</span>
+            <input type="text" class="form-control" aria-describedby="exp-addon" id="txt-exp-input">
+          </div>
+-->
       </div>
       
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right">Revert</button>
+          <button class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</button>
           <button class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</button>
           <button class="btn btn-success pull-right m-right" id="btn-quest-add">Add</button>
         </div>
@@ -118,6 +130,8 @@
         Registrants
         <button id="btn-del-qmember" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-trash"></i></button>
         <button type="button" class="btn btn-warning btn-xs m-right pull-right" id="btn-award-badge"><i class="glyphicon glyphicon-star"></i></button>
+        <button type="button" class="btn btn-success btn-xs m-right pull-right" id="btn-qreg-refresh"><i class="glyphicon glyphicon-refresh"></i></button>
+
       </div>
       <div class="panel-body">
         <input type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">
