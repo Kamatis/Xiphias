@@ -44,17 +44,9 @@
         <legend><h5><strong>Rewards</strong></h5></legend>
           <div class="range range-success">
             <output id="exp-label">EXP</output>
-            <input type="range" name="range" min="1" max="100" value="50" oninput="rangeSuccess.value=value">
-            <output id="rangeSuccess">50</output>
+            <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
+            <output id="rangeSuccess">--</output>
           </div>
-          
-<!--
-          <input class="slider" data-slider-max="500" data-slider-min="0" data-slider-value="25" type="text" style="width=100%;">
-          <div class="input-group">
-            <span class="input-group-addon" id="exp-addon">Exp</span>
-            <input type="text" class="form-control" aria-describedby="exp-addon" id="txt-exp-input">
-          </div>
--->
       </div>
       
       <div class="row">

@@ -308,13 +308,13 @@ $('body').on('click', '.list-item-quest', function() {
     });
 });
 
-$('.slider-handle round').on('change', function(){
-  alert('yow');
+$('.choice').on('click', function(){
+  $('input[name="range"]').prop('disabled', false);
+  $('input[name="range"]').attr('min', $(this).children('input:checked').data('minexp'));
+  $('input[name="range"]').attr('max', $(this).children('input:checked').data('maxexp'));
+  $('input[name="range"]').attr('value', $(this).children('input:checked').data('minexp'));
+  $('#rangeSuccess').html($(this).children('input:checked').data('minexp'));
 });
-
-//$('#btn-qreg-refresh').on('click', function(){
-//  var questId = $()
-//});
 
 $('#form-quest').on('submit', function(e){
     e.preventDefault();
