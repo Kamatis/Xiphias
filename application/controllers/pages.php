@@ -2,7 +2,7 @@
 
 // just to make some things work while views@php are at work
 // comment when working on this php file
-error_reporting(0);
+//error_reporting(0);
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
