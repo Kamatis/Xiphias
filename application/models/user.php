@@ -45,11 +45,13 @@ class User extends CI_Model{
         $query = $this->db->get('user');
         if($query->num_rows() == 1){
             $data['user_image'] = "http:/" . $query->row()->profile_pic;
-            $data['username'] = $username;
-            $data['firstname'] = $query->row()->first_name;
+            $data['username']   = $username;
+            $data['firstname']  = $query->row()->first_name;
             $data['middlename'] = $query->row()->middle_name;
-            $data['lastname'] = $query->row()->last_name;
-            $data['name'] = $data['firstname'] . " " . $data['middlename'][0] . ". " . $data['lastname'];
+            $data['lastname']   = $query->row()->last_name;
+            $data['name']       = $data['firstname'] . " " . $data['middlename'][0] . ". " . $data['lastname'];
+            $data['isOwner']    = ($this->session->userdata('username') == $username); 
+            $data['isNPC']      = ($query->row()->user_type == 2);
             return $data;
         }
     }

@@ -395,7 +395,7 @@ $('#verify-account').on('click', function() {
           dialog.close();
         else {
             $.ajax({
-              url: 'http://127.0.0.1/drive/xiphias/codeigniter/index.php/pages/checkVerification',
+              url: 'http://127.0.0.1/xiphias/index.php/pages/checkVerification',
               type: 'post',
               data: { verificationCode: vcode },
               success: function(dataPass) {
