@@ -55,11 +55,31 @@ class User extends CI_Model{
         return $this->db->get('avatar')->row()->image;
     }
     
+    public function updateDescription($user_id, $data){
+        $this->db->where('user_id', $user_id);
+        $this->db->update('user', $data);
+    }
+    
+    public function getDescription($user_id){
+        $this->db->where('user_id', $user_id);
+        $data['description'] = $this->db->get('user')->row()->description;
+        return $data;
+    }
+    
+    public function getUserPhoto($user_id) {
+        if($this->user->isNPC($user_id))
+            return "assets/images/new_logo.png";
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('player');
+        return $this->user->getLvlImage($query->row()->player_level);
+    }
+    
     public function getUserInfo($username){
         $this->db->where('username like binary \''.$username. '\'');
         $query = $this->db->get('user');
         if($query->num_rows() == 1) {
             $data['username']   = $username;
+            $data['user_id']    = $query->row()->user_id;
             $data['firstname']  = $query->row()->first_name;
             $data['middlename'] = $query->row()->middle_name;
             $data['lastname']   = $query->row()->last_name;
