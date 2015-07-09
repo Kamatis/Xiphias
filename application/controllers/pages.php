@@ -160,10 +160,15 @@ class Pages extends CI_Controller {
   }
   
   public function getAwardingBadge() {
+    $activeBadge = $this->input->post('badge_id');
     $user_id = $this->session->userdata('user_id');
     $myBadges = $this->badge->getMyBadges($user_id);
     for($x = 0; $x < count($myBadges); $x++)
+    {
+      $myBadges[$x]['active'] = $activeBadge;
       $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+    }
+      
     echo $badges['mybadges'];
   }
   
