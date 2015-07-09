@@ -42,11 +42,14 @@
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Rewards</strong></h5></legend>
-          <div class="range range-success">
-            <output id="exp-label">EXP</output>
-            <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
-            <output id="rangeSuccess">--</output>
-          </div>
+        <div class="range range-success">
+          <output id="exp-label">EXP</output>
+          <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
+          <output id="rangeSuccess">--</output>
+        </div>
+        <div id="quest-badge-reward" class="choice" data-badgeid="0" data-toggle="popover" data-trigger="focus" data-placement="top" title="Badge Reward" data-html="true" data-content="">
+          <img class="icon" src="" alt="Badge" style="width: 100px; height: 100px;">
+        </div>
       </div>
       
       <div class="row">

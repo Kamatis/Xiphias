@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});
+
 $("#txtaDescription").focus(function(){
   $(this).siblings(".edit-controls").show();
   $(this).removeClass("txtaDescription");
@@ -310,6 +314,53 @@ $('.choice').on('click', function(){
   $('input[name="range"]').attr('max', $(this).children('input:checked').data('maxexp'));
   $('input[name="range"]').attr('value', $(this).children('input:checked').data('minexp'));
   $('#rangeSuccess').html($(this).children('input:checked').data('minexp'));
+});
+
+function popOver(element, body){
+    element
+        .attr('data-content', body)
+        .popover('fixTitle')
+        .popover('setContent');
+
+    element.popover('show');
+}
+
+$('body').on('click', '#badge-reward-list .badge-thumb', function(){
+  alert($(this).data('badgeid'));
+  alert($('#quest-badge-reward').data('badgeid'));
+  var id = $(this).data('badgeid');
+  $('#quest-badge-reward').data('badgeid', id);
+//  var badgeId = $(this).data('badgeid');
+//  $.ajax({
+//    url: "getBadgeDetails",
+//    async: true,
+//    type: "POST",
+//    dataType: 'json',
+//    data: { badge_id:badgeId},
+//    success: function(jsonData) {
+//      $('#base-lvl-badge').attr('src', jsonData.baseLvlBadge);
+//      $('#txtBadgeName').val(jsonData.name);
+//      $('#txtaDescription').val(jsonData.description);
+//      $('.badge-level').remove();
+//      $('#badge-level-wrapper').append(jsonData.badgeLvls);
+//    }
+//  });
+//  $('#btn-save').show();
+//  $('#btn-add').hide();
+});
+
+$('#quest-badge-reward').on('click', function(){
+  var badgeID = $(this).data('badgeid');
+  $.ajax({
+    url: 'getAwardingBadge',
+    type: 'post',
+    data: { badge_id:badgeID },
+    success: function(datapass){
+      var ul = '<ul class="grid columns-3 nav scrollable-menu" id="badge-reward-list">' + datapass + '</ul>';
+      popOver($('#quest-badge-reward'), ul);
+    }
+  });
+  
 });
 
 $('#form-quest').on('submit', function(e){
