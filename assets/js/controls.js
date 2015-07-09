@@ -405,7 +405,7 @@ $('#verify-account').on('click', function() {
                   $('#btn-verify-cancel').remove();
                 }
                 else {
-                
+                  alert("ERROR!");
                 }
               }
             });
