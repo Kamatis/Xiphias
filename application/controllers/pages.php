@@ -88,10 +88,10 @@ class Pages extends CI_Controller {
     $data['isVerified'] = $this->session->userdata('isVerified');
     
     $description = $this->user->getDescription($user_profile['user_id']);
-    // Individual views for each mini modules
+    $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
     $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
-    $views['profileBadges']       = $this->load->view('profile/profileBadges', '', true);
+    $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
     $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
     
     // views in <body>
@@ -252,12 +252,15 @@ class Pages extends CI_Controller {
         $upgradesCount = count($badgeName);
         
         for($x = 1; $x <= $upgradesCount; $x++){
-            $filePath = $_SERVER['DOCUMENT_ROOT'] . "drive/xiphias/codeigniter/assets/images/" . $badgePictures['name'][$x-1];
+            $ext = pathinfo($badgePictures['name'][$x-1], PATHINFO_EXTENSION);
+            $newfilename = "badge".$badgeId."_".$x.".".$ext;
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/badges/" . $newfilename;
+            
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
             $badge_ups['badge_ups_name'] = $this->db->escape_str($badgeName[$x-1]);
             $badge_ups['badge_ups_lvl' ] = $x;
-            $badge_ups['badge_ups_pix' ] = 'assets/images/' . $badgePictures['name'][$x-1];
+            $badge_ups['badge_ups_pix' ] = 'assets/images/badges/' . $newfilename;
             if($x != 1)
                 $badge_ups['requirement'] = $badgeRequirement[$x-2];
             else
