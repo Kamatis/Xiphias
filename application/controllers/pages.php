@@ -12,7 +12,7 @@ class Pages extends CI_Controller {
         if($this->session->userdata('is_logged_in')){
             $query = $this->db->get('user');
             $data['title']      = 'Xiphias | Home';
-            $data['user_image'] = "http:/" . $query->row()->profile_pic;
+            $data['user_image'] = $this->session->userdata('image');
             $data['username']   = $this->session->userdata('username');
             $data['isNPC']      = $this->session->userdata('isNPC');
             $data['isAdmin']    = $this->session->userdata('isAdmin');
@@ -34,6 +34,11 @@ class Pages extends CI_Controller {
         $this->load->view('landing');
     }
     
+    public function updateUserDescription(){
+        $data['description'] = $this->input->post('description');
+        $this->user->updateDescription($this->session->userdata('user_id'), $data);
+    }
+    
 	public function register() {
         $query = $this->db->get('program');
         $data['courses'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
@@ -50,6 +55,7 @@ class Pages extends CI_Controller {
         if($this->user->valid_login($data)){
             $userId = $this->user->getUserId($this->input->post('txtUsername'));
             $data_session = array (
+                'image'        => $this->user->getUserPhoto($userId),
                 'username'     => $this->input->post('txtUsername'),
                 'user_id'      => $userId,
                 'login_type'   => $this->user->getUserType($data['username']),
@@ -75,15 +81,16 @@ class Pages extends CI_Controller {
     $user_profile = $this->user->getUserInfo($username);
     
     $data['title']      = $username . "@Xiphias";
-    $data['user_image'] = "http:/";
+    $data['user_image'] = $this->session->userdata('image');
     $data['username']   = $this->session->userdata('username');
     $data['isNPC']      = $this->session->userdata('isNPC');
     $data['isAdmin']    = $this->session->userdata('isAdmin');
     $data['isVerified'] = $this->session->userdata('isVerified');
-            
+    
+    $description = $this->user->getDescription($user_profile['user_id']);
     // Individual views for each mini modules
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
-    $views['profileDescription']  = $this->load->view('profile/profileDescription', '', true);
+    $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
     $views['profileBadges']       = $this->load->view('profile/profileBadges', '', true);
     $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
     
@@ -99,7 +106,7 @@ class Pages extends CI_Controller {
   public function dashboard() {
     $query = $this->db->get('user');
     $data['title'] =  $this->session->userdata('username') . "@Xiphias";
-    $data['user_image'] = "http:/" . $query->row()->profile_pic;
+    $data['user_image'] = $this->session->userdata('image');
     $data['username']   = $this->session->userdata('username');
     $data['isNPC']      = $this->session->userdata('isNPC');
     $data['isAdmin']    = $this->session->userdata('isAdmin');

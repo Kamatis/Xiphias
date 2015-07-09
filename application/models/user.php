@@ -40,19 +40,62 @@ class User extends CI_Model{
         return false;
     }
     
+    public function getPlayerInfo($user_id){
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player');
+    }
+    
+    public function getLvlExp($level){
+        $this->db->where('lvl', $level);
+        return $this->db->get('avatar')->row()->experience_needed;
+    }
+    
+    public function getLvlImage($level){
+        $this->db->where('lvl', $level);
+        return $this->db->get('avatar')->row()->image;
+    }
+    
+    public function updateDescription($user_id, $data){
+        $this->db->where('user_id', $user_id);
+        $this->db->update('user', $data);
+    }
+    
+    public function getDescription($user_id){
+        $this->db->where('user_id', $user_id);
+        $data['description'] = $this->db->get('user')->row()->description;
+        return $data;
+    }
+    
+    public function getUserPhoto($user_id) {
+        if($this->user->isNPC($user_id))
+            return "assets/images/new_logo.png";
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('player');
+        return $this->user->getLvlImage($query->row()->player_level);
+    }
     
     public function getUserInfo($username){
         $this->db->where('username like binary \''.$username. '\'');
         $query = $this->db->get('user');
-        if($query->num_rows() == 1){
-            $data['user_image'] = "http:/" . $query->row()->profile_pic;
+        if($query->num_rows() == 1) {
             $data['username']   = $username;
+            $data['user_id']    = $query->row()->user_id;
             $data['firstname']  = $query->row()->first_name;
             $data['middlename'] = $query->row()->middle_name;
             $data['lastname']   = $query->row()->last_name;
             $data['name']       = $data['firstname'] . " " . $data['middlename'][0] . ". " . $data['lastname'];
             $data['isOwner']    = ($this->session->userdata('username') == $username); 
             $data['isNPC']      = ($query->row()->user_type == 2);
+            if(!$data['isNPC']){
+                $playerData = $this->user->getPlayerInfo($query->row()->user_id);
+                $data['experience']   = $playerData->row()->experience;
+                $data['course']       = $playerData->row()->program_code;
+                $data['player_level'] = $playerData->row()->player_level;
+                $data['house_id']     = $playerData->row()->house_id;
+                $data['min_exp']      = $this->user->getLvlExp($data['player_level']);
+                $data['max_exp']      = $this->user->getLvlExp($data['player_level'] + 1);
+                $data['lvl_image']    = $this->user->getLvlImage($data['player_level']);
+            }
             return $data;
         }
     }
