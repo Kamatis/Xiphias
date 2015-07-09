@@ -22,51 +22,9 @@
       <!-- rarity of quests -->
       <div class="form-group">
         <legend><h5><strong>Quest Rarity</strong></h5></legend>
-        <div class="col-md-5ths">
-          <div class="choice" data-toggle="radio">
-            <input type="radio" name="rarity" value="1" id="rarity1">
-            <div class="icon">
-              <i class="fa fa-pencil"></i>
-            </div>
-            <h6>Common</h6>
-            <h6 class="caption" style="display: none;">Choose Player if you are a student.<br>Players earn points, etc.. blah blah blah</h6>
-          </div>
-        </div>
-        <div class="col-md-5ths">
-          <div class="choice" data-toggle="radio">
-            <input type="radio" name="rarity" value="2" id="rarity2">
-            <div class="icon">
-              <i class="fa fa-pencil"></i>
-            </div>
-            <h6>Uncommon</h6>
-          </div>
-        </div>
-        <div class="col-md-5ths">
-          <div class="choice" data-toggle="radio">
-            <input type="radio" name="rarity" value="3" id="rarity3">
-            <div class="icon">
-              <i class="fa fa-pencil"></i>
-            </div>
-            <h6>Rare</h6>
-          </div>
-        </div>
-        <div class="col-md-5ths">
-          <div class="choice" data-toggle="radio">
-            <input type="radio" name="rarity" value="4" id="rarity4">
-            <div class="icon">
-              <i class="fa fa-pencil"></i>
-            </div>
-            <h6>Legendary</h6>
-          </div>
-        </div>
-        <div class="col-md-5ths">
-          <div class="choice" data-toggle="radio">
-            <input type="radio" name="rarity" value="5" id="rarity5">
-            <div class="icon">
-              <i class="fa fa-pencil"></i>
-            </div>
-            <h6>Blue Moon</h6>
-          </div>
+        <div id="questRarities">
+          <?php echo $questRarities; ?>
+          <?php echo $rare; ?>
         </div>
       </div>
       

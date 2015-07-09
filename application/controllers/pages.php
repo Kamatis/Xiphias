@@ -125,6 +125,13 @@ class Pages extends CI_Controller {
     for($x = 0; $x < count($myQuests); $x++)
       $quest['myQuests'] .= $this->load->view('dashboard/myquests', $myQuests[$x], true);
     
+    $rarities = $this->quest->getRarityInfo();
+    
+    for($x = 0; $x < count($rarities); $x++)
+      $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
+    
+    $quest['rare'] = count($rarities);
+    
     $myParties = $this->party->getMyParties($user_id);
     for($x = 0; $x < count($myParties); $x++)
       $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
