@@ -25,7 +25,9 @@ class Quest extends CI_model{
             'questRarity'      => $row->quest_rarity,
             'questDate'        => $row->start_date . ' to ' . $row->end_date,
             'questVenue'       => $row->quest_venue,
-            'questExp'         => $row->experience
+            'questExp'         => $row->experience,
+            'badge_id'         => $row->badge_id,
+            'badge_image'      => $this->badge->getBadgeThumbnail($row->badge_id, 1)
         );
             
         return $quest;
