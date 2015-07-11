@@ -48,7 +48,7 @@
           <output id="rangeSuccess">--</output>
         </div>
         <div id="quest-badge-reward" class="choice" data-badgeid="0" data-toggle="popover" data-trigger="focus" data-placement="top" title="Badge Reward" data-html="true" data-content="">
-          <img class="icon" src="" alt="Badge" style="width: 100px; height: 100px;">
+          <img class="icon" id="badge-reward-img" src="" alt="Badge" style="width: 100px; height: 100px;">
         </div>
       </div>
       

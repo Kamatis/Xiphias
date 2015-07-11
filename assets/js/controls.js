@@ -196,7 +196,7 @@ $('body').on('click', '#btn-award-ok', function(){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+        $('#base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
         $('.badge-level').remove();
         $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
         $('#my-badges').html(dataPass);
@@ -302,7 +302,13 @@ $('body').on('click', '.list-item-quest', function() {
             $(rarityID).parent().addClass('active');
             $('#quest-venue').val(dataPass['questVenue']);
             $('#quest-date').val(dataPass['questDate']);
-            $('#quest-exp').val(dataPass['questExp']);
+            $('input[name="range"]').prop('disabled', false);
+            $('input[name="range"]').attr('min', $('.choice').children('input:checked').data('minexp'));
+            $('input[name="range"]').attr('max', $('.choice').children('input:checked').data('maxexp'));
+            $('input[name="range"]').attr('value', dataPass['questExp']);
+            $('#rangeSuccess').html(dataPass['questExp']);
+            $('#quest-badge-reward').data('badgeid', dataPass('badge_id'));
+            $('#badge-reward-img').attr('src', dataPass('badge_image'));
             $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
@@ -325,28 +331,16 @@ function popOver(element, body){
     element.popover('show');
 }
 
+function popDown(element) {
+  element.popover('hide');
+}
+
 $('body').on('click', '#badge-reward-list .badge-thumb', function(){
-  alert($(this).data('badgeid'));
-  alert($('#quest-badge-reward').data('badgeid'));
   var id = $(this).data('badgeid');
   $('#quest-badge-reward').data('badgeid', id);
-//  var badgeId = $(this).data('badgeid');
-//  $.ajax({
-//    url: "getBadgeDetails",
-//    async: true,
-//    type: "POST",
-//    dataType: 'json',
-//    data: { badge_id:badgeId},
-//    success: function(jsonData) {
-//      $('#base-lvl-badge').attr('src', jsonData.baseLvlBadge);
-//      $('#txtBadgeName').val(jsonData.name);
-//      $('#txtaDescription').val(jsonData.description);
-//      $('.badge-level').remove();
-//      $('#badge-level-wrapper').append(jsonData.badgeLvls);
-//    }
-//  });
-//  $('#btn-save').show();
-//  $('#btn-add').hide();
+  var imgSource = $(this).children('img').attr('src');
+  $('#badge-reward-img').attr('src', imgSource);
+  popDown($('#quest-badge-reward'));
 });
 
 $('#quest-badge-reward').on('click', function(){
