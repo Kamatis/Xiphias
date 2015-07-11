@@ -49,7 +49,7 @@ $('body').on('click', '.btn-dashboard-menu', function(){
 $('body').on('click', '.badge-thumb', function(){
   var badgeId = $(this).data('badgeid');
   $.ajax({
-    url: "getBadgeDetails",
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getBadgeDetails",
     async: true,
     type: "POST",
     dataType: 'json',

@@ -719,9 +719,12 @@ ul.grid.columns-3 li {
 .choice .icon{
    text-align: center;
    vertical-align: middle;
-   height: 50px;
-   width: 50px;
+   height: 100px;
+   width: 100px;
    border-radius: 50%;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -o-border-radius:50%;
    background-color: #999999;
    color: #FFFFFF;
    margin: 0 auto 20px;

@@ -103,6 +103,25 @@ class Pages extends CI_Controller {
     $this->load->view('body', $body);
   }
   
+  public function questboard() {
+    $query = $this->db->get('user');
+    $data['title'] =  'Quest Board';
+    $data['user_image'] = $this->session->userdata('image');
+    $data['username']   = $this->session->userdata('username');
+    $data['isNPC']      = $this->session->userdata('isNPC');
+    $data['isAdmin']    = $this->session->userdata('isAdmin');
+    $data['isVerified'] = $this->session->userdata('isVerified');
+    
+    // this should be iterated to get the quest data to be pushed to the view
+    $views['questpins'] = $this->load->view('questboard/questpin', '', true);
+    
+    $body['menu'] = $this->load->view('menu', $data, true);
+    $body['content'] = $this->load->view('questboard', $views, true);
+    
+    $this->load->view('header');
+    $this->load->view('body', $body);
+  }
+  
   public function dashboard() {
     $query = $this->db->get('user');
     $data['title'] =  $this->session->userdata('username') . "@Xiphias";
