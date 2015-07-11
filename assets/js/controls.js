@@ -307,8 +307,8 @@ $('body').on('click', '.list-item-quest', function() {
             $('input[name="range"]').attr('max', $('.choice').children('input:checked').data('maxexp'));
             $('input[name="range"]').attr('value', dataPass['questExp']);
             $('#rangeSuccess').html(dataPass['questExp']);
-            $('#quest-badge-reward').data('badgeid', dataPass('badge_id'));
-            $('#badge-reward-img').attr('src', dataPass('badge_image'));
+            $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
+            $('#badge-reward-img').attr('src', (dataPass['badge_image']));
             $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
