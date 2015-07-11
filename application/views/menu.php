@@ -16,7 +16,7 @@
         <a href="#" style="color: #ececea">News</a>
       </li>
       <li class="xiphiasMenu">
-        <a href="#" style="color: #ececea">Quests</a>
+        <a href="<?php echo base_url('index.php/pages/questboard'); ?>" style="color: #ececea">Quests</a>
       </li>
       <li class="xiphiasMenu">
         <a href="#" style="color: #ececea">Leaderboards</a>
