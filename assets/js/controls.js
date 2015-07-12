@@ -165,7 +165,7 @@ $('#btn-party-add').on('click', function(e){
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.pgetPartyDetails",
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getPartyDetails",
     async: true,
     type: "POST",
     dataType: 'json',
