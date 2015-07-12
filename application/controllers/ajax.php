@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Ajax extends CI_Controller {
@@ -10,7 +12,7 @@ class Ajax extends CI_Controller {
         for($x = 0; $x < count($badgelvls); $x++) 
             $badge['upgradeViews'] .= $this->load->view('dashboard/badgeUpgrade.php', $badgelvls[$x], true);
         $json = array(
-              'baseLvlBadge'  => base_url($badge['baseLvlBadge']),
+              'baseLvlBadge'  => $badge['baseLvlBadge'],
               'name'          => $badge['name'],
               'description'   => $badge['description'],
               'badgeLvls'     => $badge['upgradeViews']

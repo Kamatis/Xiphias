@@ -57,7 +57,7 @@ class Badge extends CI_Model{
         $x = 0;
         foreach($query->result() as $row){
             $badgelvl[$x]['badgeName'] = $row->badge_ups_name;
-            $badgelvl[$x]['imageSource'] = $row->badge_ups_pix;
+            $badgelvl[$x]['imageSource'] = base_url($row->badge_ups_pix);
             $badgelvl[$x]['requirement'] = $row->requirement;
             $x++;
         }
