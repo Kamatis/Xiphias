@@ -357,7 +357,7 @@ $('#quest-badge-reward').on('click', function(){
   
 });
 
-$('#form-quest').on('submit', function(e){
+$('#quest-form').on('submit', function(e){
     e.preventDefault();
   var formData = new FormData(this);
   $.ajax({
