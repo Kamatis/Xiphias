@@ -338,6 +338,7 @@ function popDown(element) {
 $('body').on('click', '#badge-reward-list .badge-thumb', function(){
   var id = $(this).data('badgeid');
   $('#quest-badge-reward').data('badgeid', id);
+  $('#quest-badge-reward').attr('data-badgeid', id);
   var imgSource = $(this).children('img').attr('src');
   $('#badge-reward-img').attr('src', imgSource);
   popDown($('#quest-badge-reward'));
