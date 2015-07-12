@@ -24,10 +24,10 @@ class Quest extends CI_model{
             'questdescription' => $row->quest_description,
             'questRarity'      => $row->quest_rarity,
             'questDate'        => $row->start_date . ' to ' . $row->end_date,
-            'questVenue'       => $row->quest_venue,
+            'questVenue'       => $row->venue,
             'questExp'         => $row->experience,
             'badge_id'         => $row->badge_id,
-            'badge_image'      => base_url($this->badge->getBadgeThumbnail($row->badge_id, 1))
+            'badge_image'      => $this->badge->getBadgeThumbnail($row->badge_id, 1)
         );
             
         return $quest;

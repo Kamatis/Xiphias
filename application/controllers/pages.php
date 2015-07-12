@@ -195,7 +195,7 @@ class Pages extends CI_Controller {
     $badge_id = $this->input->post('badge_id');
     
     if($badge_id == 0)
-      $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
+        $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
     
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
@@ -297,8 +297,11 @@ class Pages extends CI_Controller {
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->db->escape_str($this->input->post('questExp'));
+        $quest['experience']        = $this->db->escape_str($this->input->post('range'));
+        $quest['venue']             = $this->db->escape_str($this->input->post('questVenue'));
         $quest['quest_type']        = "Academic";
+        $quest['house_points']      = 1;
+        $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
         echo 'ok';

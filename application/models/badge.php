@@ -5,7 +5,7 @@ class Badge extends CI_Model{
         $this->db->where('badge_ups_id', $badge_id);
         $this->db->where('badge_ups_lvl', $level);
         $query = $this->db->get('badge_ups');
-        return $query->row()->badge_ups_pix;
+        return base_url($query->row()->badge_ups_pix);
     }
     
     public function getBadgeName($badge_id, $level){
