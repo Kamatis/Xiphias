@@ -361,6 +361,8 @@ $('#quest-badge-reward').on('click', function(){
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
   var formData = new FormData(this);
+  var badgeid = $('#quest-badge-reward').data('badgeid');
+  formdata.append('badge_id', badgeid);
 //  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
