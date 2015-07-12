@@ -357,8 +357,10 @@ $('#quest-badge-reward').on('click', function(){
   
 });
 
-$('#quest-form').on('submit', function(e){
+$('#form-quest').on('submit', function(e){
+   e.preventDefault();
   var formData = new FormData(this);
+//  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
     type: "post",
@@ -366,7 +368,7 @@ $('#quest-form').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
-        alert(dataPass);
+//        alert(dataPass);
         if(dataPass == "ok") {
             BootstrapDialog.show({
                title: 'SUCCESS',
@@ -393,11 +395,11 @@ $('#quest-form').on('submit', function(e){
         }
     }
   });
-  e.preventDefault();
   
 });
 
 $('#btn-quest-add').on('click', function(e) {
+//  e.preventDefault();
    $('#form-quest').submit(); 
 });
 // endregion

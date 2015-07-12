@@ -289,7 +289,7 @@ class Pages extends CI_Controller {
 //      date-range
 //      questVenue
 //      questEXP
-        
+//        echo $this->input->get('questName');
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->db->escape_str($this->input->post('questName'));
         $quest['quest_description'] = $this->db->escape_str($this->input->post('questDescription'));
@@ -301,7 +301,7 @@ class Pages extends CI_Controller {
         $quest['quest_type']        = "Academic";
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
-        echo "ok";
+        echo 'ok';
     }
   
     public function addParty() {

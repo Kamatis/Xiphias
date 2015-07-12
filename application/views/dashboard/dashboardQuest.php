@@ -8,7 +8,7 @@
   <hr>
 
   <div class="col-md-7">
-    <form name="quest-form" id="form-quest" method="post" action="" class="form-horizontal">
+    <form name="quest-form" id="form-quest" method="post" action="#" class="form-horizontal" enctype="multipart/form-data">
       <div class="form-group">
         <legend><h5><strong>Title</strong></h5></legend>
         <input name="questName" type="text" class="form-control" placeholder="Quest Title" id="quest-name">
