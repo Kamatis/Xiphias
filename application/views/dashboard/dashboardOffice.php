@@ -30,8 +30,8 @@
       <div class="row">
         <div class="form-group">
           <a class="btn btn-primary pull-right m-right">Revert</a>
-          <a class="btn btn-success pull-right m-right" id="btn-save" style="display: none">Save</a>
-          <a class="btn btn-success pull-right m-right" id="btn-add">Add</a>
+          <a class="btn btn-success pull-right m-right" id="btn-office-save" style="display: none">Save</a>
+          <a class="btn btn-success pull-right m-right" id="btn-office-add">Add</a>
         </div>
       </div>
     </form>
