@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="background: #73afad; border: none;">
+<nav class="navbar navbar-inverse navbar-fixed-top dashed-bottom" role="navigation" style="background: #73afad; border-bottom: 3px dashed white;">
   
   <div class="navbar-header">
     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
