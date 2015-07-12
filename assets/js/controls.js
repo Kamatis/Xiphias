@@ -160,7 +160,7 @@ $('#btn-add-badge').on('click', function(e){
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
   $.ajax({
-    url: "getPartyDetails",
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getPartyDetails",
     async: true,
     type: "POST",
     dataType: 'json',

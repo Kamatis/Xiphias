@@ -24,9 +24,24 @@ class Ajax extends CI_Controller {
         $questId = $this->input->post('quest_id');
         $quest = $this->quest->getQuestInfo($questId);
         $registrants = $this->quest->getQuestRegistrants($questId);
+        
         foreach($registrants as $reg) 
             $registrantView .= $this->load->view('dashboard/questRegistrants', $reg, true);
+        
         $quest['questRegistrant'] = $registrantView;
         echo json_encode($quest);
     }
+    
+    public function getPartyDetails(){
+        $partyId = $this->input->post('party_id');
+        $party = $this->party->getPartyInfo($partyId);
+        $members = $this->party->getPartyMembers($partyId);
+        
+        foreach($members as $mem) 
+          $memberView .= $this->load->view('dashboard/partyMembers', $mem, true);
+
+        $party['partyMember'] = $memberView;
+        echo json_encode($party);
+    }
+    
 }

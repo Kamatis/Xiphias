@@ -202,20 +202,6 @@ class Pages extends CI_Controller {
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
     
-    public function getPartyDetails(){
-        $partyId = $this->input->post('party_id');
-//        $partyId = 1;
-        $party = $this->party->getPartyInfo($partyId);
-        $members = $this->party->getPartyMembers($partyId);
-        
-        foreach($members as $mem) {
-          $memberView .= $this->load->view('dashboard/partyMembers', $mem, true);
-        }
-        $party['partyMember'] = $memberView;
-//        $party['partyMember '] = $this->party->getPartyMembers($partyId);
-        echo json_encode($party);
-    }
-    
     public function getOfficeDetails(){
         $officeId = $this->input->post('office_id');
         $office = $this->office->getOfficeInfo($officeId);
