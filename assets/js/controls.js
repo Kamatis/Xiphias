@@ -40,9 +40,9 @@ $('body').on('click', '.btn-dashboard-menu', function(){
   var panelForm = $(panel).data('form');
   $('input:text').val("");
   $('textarea').val("");
-  $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+  $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
   $('.badge-level').remove();
-  $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+  $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
   $('#btn-change-passcode').hide();
 });
 
@@ -142,9 +142,9 @@ $('#badge-form').on('submit', function(e){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('#my-badges').html(dataPass);
     }
   })
@@ -196,9 +196,9 @@ $('body').on('click', '#btn-award-ok', function(){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('#my-badges').html(dataPass);
     }
   })
