@@ -54,8 +54,8 @@
       
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</button>
-          <button class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</button>
+          <a class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</a>
+          <a class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</a>
           <a class="btn btn-success pull-right m-right" id="btn-quest-add">Add</a>
         </div>
       </div>

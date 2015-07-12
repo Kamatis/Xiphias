@@ -42,9 +42,9 @@
       
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right">Revert</button>
-          <button class="btn btn-success pull-right m-right" id="btn-save" style="display: none">Save</button>
-          <button class="btn btn-success pull-right m-right" id="btn-add-badge">Add</button>
+          <a class="btn btn-primary pull-right m-right">Revert</a>
+          <a class="btn btn-success pull-right m-right" id="btn-save" style="display: none">Save</a>
+          <a class="btn btn-success pull-right m-right" id="btn-add-badge">Add</a>
         </div>
       </div>
     </form>
