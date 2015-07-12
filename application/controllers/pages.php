@@ -283,10 +283,12 @@ class Pages extends CI_Controller {
 //      partyPasscode    
 //      partyDescription 
 //      partyMembers[]        = list of party members
-        $party['creator_id']     = $this->session->userdata('user_id');
-        $party['party_name']     = $this->db->escape_str($this->input->post('partyName'));
-        $party['party_password'] = md5($this->input->post('partyPasscode'));
+        $party['creator_id']        = $this->session->userdata('user_id');
+        $party['party_name']        = $this->db->escape_str($this->input->post('partyName'));
+        $party['party_description'] = $this->db->escape_str($this->input->post('partyDescription'));
+        $party['party_password']    = md5($this->input->post('partyPasscode'));
         $this->party->addParty($party);
+        echo 'ok';
     }
   
     public function addOffice() {

@@ -156,11 +156,16 @@ $('#btn-add-badge').on('click', function(e){
 })
 //endregion
 
+$('#btn-party-add').on('click', function(e){
+    e.preventDefault();
+    $('#party-form').submit();         
+})
+
 //region Party
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.php/ajax/getPartyDetails",
+    url: "http://127.0.0.1/xiphias/index.pgetPartyDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -358,10 +363,49 @@ $('#quest-badge-reward').on('click', function(){
   
 });
 
+$('#party-form').on('submit', function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    
+    $.ajax({
+        url: "addParty",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(dataPass){
+            if(dataPass == "ok") {
+                BootstrapDialog.show({
+                   title: 'SUCCESS',
+                    message: 'Party Added!',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                   title: 'OOPS...',
+                    message: 'Something is wrong',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+        }
+    });
+});
+                    
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
-  var formData = new FormData(this);
-  var badgeid = $('#quest-badge-reward').data('badgeid');
+   var formData = new FormData(this);
+   var badgeid = $('#quest-badge-reward').data('badgeid');
   formData.append('badge_id', badgeid);
 //  alert(JSON.stringify(formData));
   $.ajax({
