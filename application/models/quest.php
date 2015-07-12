@@ -24,8 +24,10 @@ class Quest extends CI_model{
             'questdescription' => $row->quest_description,
             'questRarity'      => $row->quest_rarity,
             'questDate'        => $row->start_date . ' to ' . $row->end_date,
-            'questVenue'       => $row->quest_venue,
-            'questExp'         => $row->experience
+            'questVenue'       => $row->venue,
+            'questExp'         => $row->experience,
+            'badge_id'         => $row->badge_id,
+            'badge_image'      => $this->badge->getBadgeThumbnail($row->badge_id, 1)
         );
             
         return $quest;
@@ -62,6 +64,7 @@ class Quest extends CI_model{
         $query = $this->db->get('rarity');
         $x = 0;
         foreach($query->result() as $row) {
+          $rarities[$x]['rarity_id'] = $row->rarity_id;
           $rarities[$x]['rarity_name'] = $row->rarity_name;
           $rarities[$x]['rarity_range_min'] = $row->rarity_range_min;
           $rarities[$x]['rarity_range_max'] = $row->rarity_range_max;

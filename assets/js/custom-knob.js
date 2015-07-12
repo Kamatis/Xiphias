@@ -55,6 +55,6 @@ $(function($) {
   
 //  $("#avatar").css("background-color", "green");
   // ajax this URL guy
-  var imageURL = "http://static.zerochan.net/Pikachu.full.1618345.jpg";
+  var imageURL = $("#profile-pic").attr("src");
   $("#avatar").css("background-image", 'url(' + imageURL + ')');
 });

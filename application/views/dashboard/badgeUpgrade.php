@@ -2,7 +2,7 @@
   <div class="col-sm-2">
     <div class="picture-container">
       <div class="upgrade-picture">
-        <img src="<?php echo base_url($imageSource); ?>" class="picture-src" >
+        <img src="<?php echo $imageSource; ?>" class="picture-src" >
         <input type="file" class="input-preview" name="badge-pix[]">
       </div>
     </div>

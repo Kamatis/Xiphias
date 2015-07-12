@@ -1,0 +1,101 @@
+/* credits: http://davidwalsh.name/css-flip */
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+	transform-style: preserve-3d;
+  display: inline-block;
+}
+	/*  UPDATED! flip the pane when hovered */
+	.flip-container:hover .back {
+		transform: rotateY(0deg);
+	}
+	.flip-container:hover .front {
+	    transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 250px;
+	height: 350px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/*  UPDATED! front pane, placed above back */
+.front {
+	z-index: 2;
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(-180deg);
+}
+
+/* 
+	Some vertical flip updates 
+*/
+.vertical.flip-container {
+	position: relative;
+}
+
+.vertical .back {
+    transform: rotateX(180deg);
+}
+
+.vertical.flip-container:hover .back {
+    transform: rotateX(0deg);
+}
+
+.vertical.flip-container:hover .front {
+    transform: rotateX(180deg);
+}
+
+.stitched {
+  margin: 10px;
+  height: 330px;
+  border: 3px dashed #ebebeb;
+  border-radius: 10px;
+}
+
+/* Rarity Colors */
+/* Common:      #b0c3d9 */
+/* Uncommon:    #879eb8 */
+/* Rare:        #4b69ff */
+/* Legendary:   #8847ff */
+/* Blue Moon:   #d32ce6 */
+
+.rarity-card-common {
+  background-color: #b0c3d9;
+}
+
+.rarity-card-uncommon {
+  background-color: #879eb8;
+}
+
+.rarity-card-rare {
+  background-color: #4b69ff;
+}
+
+.rarity-card-legendary {
+  background-color: #8847ff;
+}
+
+.rarity-card-bluemoon {
+  background-color: #d32ce6;
+}

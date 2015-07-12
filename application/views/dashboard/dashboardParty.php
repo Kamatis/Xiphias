@@ -33,9 +33,9 @@
       <!-- Party Members -->      
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right">Revert</button>
-          <button class="btn btn-success pull-right m-right" id="btn-save" style="display: none">Save</button>
-          <button class="btn btn-success pull-right m-right" id="btn-add">Add</button>
+          <a class="btn btn-primary pull-right m-right">Revert</a>
+          <a class="btn btn-success pull-right m-right" id="btn-party-save" style="display: none">Save</a>
+          <a class="btn btn-success pull-right m-right" id="btn-party-add">Add</a>
         </div>
       </div>
     </form>
@@ -59,8 +59,8 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         Party Members
-        <button id="btn-del-pmember" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-trash"></i></button>
-        <button type="button" class="btn btn-warning btn-xs m-right pull-right" id="btn-award-badge"><i class="glyphicon glyphicon-star"></i></button>
+        <a id="btn-del-pmember" class="btn btn-danger btn-xs pull-right"><i class="glyphicon glyphicon-trash"></i></a>
+        <a class="btn btn-warning btn-xs m-right pull-right" id="btn-award-badge"><i class="glyphicon glyphicon-star"></i></a>
       </div>
       <div class="panel-body">
         <input type="text" class="form-control txt-search" data-where="party_member" placeholder="Search party member">

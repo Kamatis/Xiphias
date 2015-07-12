@@ -8,7 +8,7 @@
   <hr>
 
   <div class="col-md-7">
-    <form name="quest-form" id="form-quest" method="post" action="" class="form-horizontal">
+    <form name="quest-form" id="form-quest" method="post" action="#" class="form-horizontal" enctype="multipart/form-data">
       <div class="form-group">
         <legend><h5><strong>Title</strong></h5></legend>
         <input name="questName" type="text" class="form-control" placeholder="Quest Title" id="quest-name">
@@ -24,7 +24,6 @@
         <legend><h5><strong>Quest Rarity</strong></h5></legend>
         <div id="questRarities">
           <?php echo $questRarities; ?>
-          <?php echo $rare; ?>
         </div>
       </div>
       
@@ -43,26 +42,21 @@
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Rewards</strong></h5></legend>
-          <div class="range range-success">
-            <output id="exp-label">EXP</output>
-            <input type="range" name="range" min="1" max="100" value="50" oninput="rangeSuccess.value=value">
-            <output id="rangeSuccess">50</output>
-          </div>
-          
-<!--
-          <input class="slider" data-slider-max="500" data-slider-min="0" data-slider-value="25" type="text" style="width=100%;">
-          <div class="input-group">
-            <span class="input-group-addon" id="exp-addon">Exp</span>
-            <input type="text" class="form-control" aria-describedby="exp-addon" id="txt-exp-input">
-          </div>
--->
+        <div class="range range-success">
+          <output id="exp-label">EXP</output>
+          <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
+          <output id="rangeSuccess">--</output>
+        </div>
+        <div id="quest-badge-reward" class="choice" data-badgeid="0" data-toggle="popover" data-trigger="focus" data-placement="top" title="Badge Reward" data-html="true" data-content="">
+          <img class="icon" id="badge-reward-img" src="" alt="Badge">
+        </div>
       </div>
       
       <div class="row">
         <div class="form-group">
-          <button class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</button>
-          <button class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</button>
-          <button class="btn btn-success pull-right m-right" id="btn-quest-add">Add</button>
+          <a class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</a>
+          <a class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</a>
+          <a class="btn btn-success pull-right m-right" id="btn-quest-add">Add</a>
         </div>
       </div>
     </form>

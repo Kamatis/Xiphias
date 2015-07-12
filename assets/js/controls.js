@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});
+
 $("#txtaDescription").focus(function(){
   $(this).siblings(".edit-controls").show();
   $(this).removeClass("txtaDescription");
@@ -36,16 +40,16 @@ $('body').on('click', '.btn-dashboard-menu', function(){
   var panelForm = $(panel).data('form');
   $('input:text').val("");
   $('textarea').val("");
-  $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+  $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
   $('.badge-level').remove();
-  $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+  $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
   $('#btn-change-passcode').hide();
 });
 
 $('body').on('click', '.badge-thumb', function(){
   var badgeId = $(this).data('badgeid');
   $.ajax({
-    url: "getBadgeDetails",
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getBadgeDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -138,9 +142,9 @@ $('#badge-form').on('submit', function(e){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('#my-badges').html(dataPass);
     }
   })
@@ -156,7 +160,7 @@ $('#btn-add-badge').on('click', function(e){
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
   $.ajax({
-    url: "getPartyDetails",
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getPartyDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -192,9 +196,9 @@ $('body').on('click', '#btn-award-ok', function(){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://localhost/drive/Xiphias/CodeIgniter/assets/images/emptyBadge.png");
+        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "<?php echo base_url('assets/images/emptyBadge.png'); ?>");
+        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
         $('#my-badges').html(dataPass);
     }
   })
@@ -258,11 +262,7 @@ $('input[name="date-range"]').daterangepicker({
         timePicker12Hour: true,
         ranges: {
            'Today': [moment(), moment()],
-           'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-           'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-           'Last 30 Days': [moment().subtract(29, 'days'), moment()],
            'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         },
         opens: 'left',
         drops: 'down',
@@ -288,7 +288,7 @@ $('input[name="date-range"]').daterangepicker({
 $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
     $.ajax({
-        url: 'getQuestDetails',
+        url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
         dataType: 'json',
         data: { quest_id : questId },
@@ -302,23 +302,68 @@ $('body').on('click', '.list-item-quest', function() {
             $(rarityID).parent().addClass('active');
             $('#quest-venue').val(dataPass['questVenue']);
             $('#quest-date').val(dataPass['questDate']);
-            $('#quest-exp').val(dataPass['questExp']);
+            $('input[name="range"]').prop('disabled', false);
+            $('input[name="range"]').attr('min', $('.choice').children('input:checked').data('minexp'));
+            $('input[name="range"]').attr('max', $('.choice').children('input:checked').data('maxexp'));
+            $('input[name="range"]').attr('value', dataPass['questExp']);
+            $('#rangeSuccess').html(dataPass['questExp']);
+            $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
+            $('#badge-reward-img').attr('src', (dataPass['badge_image']));
             $('#quest-members').html(dataPass['questRegistrant']);
         }
     });
 });
 
-$('.slider-handle round').on('change', function(){
-  alert('yow');
+$('.choice').on('click', function(){
+  $('input[name="range"]').prop('disabled', false);
+  $('input[name="range"]').attr('min', $(this).children('input:checked').data('minexp'));
+  $('input[name="range"]').attr('max', $(this).children('input:checked').data('maxexp'));
+  $('input[name="range"]').attr('value', $(this).children('input:checked').data('minexp'));
+  $('#rangeSuccess').html($(this).children('input:checked').data('minexp'));
 });
 
-//$('#btn-qreg-refresh').on('click', function(){
-//  var questId = $()
-//});
+function popOver(element, body){
+    element
+        .attr('data-content', body)
+        .popover('fixTitle')
+        .popover('setContent');
+
+    element.popover('show');
+}
+
+function popDown(element) {
+  element.popover('hide');
+}
+
+$('body').on('click', '#badge-reward-list .badge-thumb', function(){
+  var id = $(this).data('badgeid');
+  $('#quest-badge-reward').data('badgeid', id);
+  $('#quest-badge-reward').attr('data-badgeid', id);
+  var imgSource = $(this).children('img').attr('src');
+  $('#badge-reward-img').attr('src', imgSource);
+  popDown($('#quest-badge-reward'));
+});
+
+$('#quest-badge-reward').on('click', function(){
+  var badgeID = $(this).data('badgeid');
+  $.ajax({
+    url: 'getAwardingBadge',
+    type: 'post',
+    data: { badge_id:badgeID },
+    success: function(datapass){
+      var ul = '<ul class="grid columns-3 nav scrollable-menu" id="badge-reward-list">' + datapass + '</ul>';
+      popOver($('#quest-badge-reward'), ul);
+    }
+  });
+  
+});
 
 $('#form-quest').on('submit', function(e){
-    e.preventDefault();
+   e.preventDefault();
   var formData = new FormData(this);
+  var badgeid = $('#quest-badge-reward').data('badgeid');
+  formData.append('badge_id', badgeid);
+//  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
     type: "post",
@@ -326,7 +371,7 @@ $('#form-quest').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
-        alert(dataPass);
+//        alert(dataPass);
         if(dataPass == "ok") {
             BootstrapDialog.show({
                title: 'SUCCESS',
@@ -357,7 +402,7 @@ $('#form-quest').on('submit', function(e){
 });
 
 $('#btn-quest-add').on('click', function(e) {
-    e.preventDefault();
+//  e.preventDefault();
    $('#form-quest').submit(); 
 });
 // endregion

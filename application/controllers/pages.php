@@ -12,7 +12,7 @@ class Pages extends CI_Controller {
         if($this->session->userdata('is_logged_in')){
             $query = $this->db->get('user');
             $data['title']      = 'Xiphias | Home';
-            $data['user_image'] = "http:/" . $query->row()->profile_pic;
+            $data['user_image'] = $this->session->userdata('image');
             $data['username']   = $this->session->userdata('username');
             $data['isNPC']      = $this->session->userdata('isNPC');
             $data['isAdmin']    = $this->session->userdata('isAdmin');
@@ -34,6 +34,11 @@ class Pages extends CI_Controller {
         $this->load->view('landing');
     }
     
+    public function updateUserDescription(){
+        $data['description'] = $this->input->post('description');
+        $this->user->updateDescription($this->session->userdata('user_id'), $data);
+    }
+    
 	public function register() {
         $query = $this->db->get('program');
         $data['courses'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
@@ -50,6 +55,7 @@ class Pages extends CI_Controller {
         if($this->user->valid_login($data)){
             $userId = $this->user->getUserId($this->input->post('txtUsername'));
             $data_session = array (
+                'image'        => $this->user->getUserPhoto($userId),
                 'username'     => $this->input->post('txtUsername'),
                 'user_id'      => $userId,
                 'login_type'   => $this->user->getUserType($data['username']),
@@ -75,16 +81,19 @@ class Pages extends CI_Controller {
     $user_profile = $this->user->getUserInfo($username);
     
     $data['title']      = $username . "@Xiphias";
-    $data['user_image'] = "http:/";
+    $data['user_image'] = $this->session->userdata('image');
     $data['username']   = $this->session->userdata('username');
     $data['isNPC']      = $this->session->userdata('isNPC');
     $data['isAdmin']    = $this->session->userdata('isAdmin');
     $data['isVerified'] = $this->session->userdata('isVerified');
-            
-    // Individual views for each mini modules
+    
+    $description = $this->user->getDescription($user_profile['user_id']);
+    $description['isOwner'] = ($data['username'] == $username);
+      
+    $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
-    $views['profileDescription']  = $this->load->view('profile/profileDescription', '', true);
-    $views['profileBadges']       = $this->load->view('profile/profileBadges', '', true);
+    $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
+    $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
     $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
     
     // views in <body>
@@ -96,10 +105,29 @@ class Pages extends CI_Controller {
     $this->load->view('body', $body);
   }
   
+  public function questboard() {
+    $query = $this->db->get('user');
+    $data['title'] =  'Quest Board';
+    $data['user_image'] = $this->session->userdata('image');
+    $data['username']   = $this->session->userdata('username');
+    $data['isNPC']      = $this->session->userdata('isNPC');
+    $data['isAdmin']    = $this->session->userdata('isAdmin');
+    $data['isVerified'] = $this->session->userdata('isVerified');
+    
+    // this should be iterated to get the quest data to be pushed to the view
+    $views['questpins'] = $this->load->view('questboard/questpin', '', true);
+    
+    $body['menu'] = $this->load->view('menu', $data, true);
+    $body['content'] = $this->load->view('questboard', $views, true);
+    
+    $this->load->view('header');
+    $this->load->view('body', $body);
+  }
+  
   public function dashboard() {
     $query = $this->db->get('user');
     $data['title'] =  $this->session->userdata('username') . "@Xiphias";
-    $data['user_image'] = "http:/" . $query->row()->profile_pic;
+    $data['user_image'] = $this->session->userdata('image');
     $data['username']   = $this->session->userdata('username');
     $data['isNPC']      = $this->session->userdata('isNPC');
     $data['isAdmin']    = $this->session->userdata('isAdmin');
@@ -153,10 +181,15 @@ class Pages extends CI_Controller {
   }
   
   public function getAwardingBadge() {
+    $activeBadge = $this->input->post('badge_id');
     $user_id = $this->session->userdata('user_id');
     $myBadges = $this->badge->getMyBadges($user_id);
     for($x = 0; $x < count($myBadges); $x++)
+    {
+      $myBadges[$x]['active'] = $activeBadge;
       $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+    }
+      
     echo $badges['mybadges'];
   }
   
@@ -164,57 +197,10 @@ class Pages extends CI_Controller {
     $badge_id = $this->input->post('badge_id');
     
     if($badge_id == 0)
-      $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
+        $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
     
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
-  
-    public function getBadgeDetails() {
-        $badge_id = $this->input->post('badge_id');
-        $badge = $this->badge->getBadgeInfo($badge_id); 
-        $badgelvls = $this->badge->getBadgeUpgrades($badge_id);
-        for($x = 0; $x < count($badgelvls); $x++) 
-            $badge['upgradeViews'] .= $this->load->view('dashboard/badgeUpgrade.php', $badgelvls[$x], true);
-        $json = array(
-              'baseLvlBadge'  => base_url($badge['baseLvlBadge']),
-              'name'          => $badge['name'],
-              'description'   => $badge['description'],
-              'badgeLvls'     => $badge['upgradeViews']
-        );
-        echo json_encode($json);
-    }
-    
-    public function getQuestDetails() {
-        $questId = $this->input->post('quest_id');
-        $quest = $this->quest->getQuestInfo($questId);
-        $registrants = $this->quest->getQuestRegistrants($questId);
-      
-        foreach($registrants as $reg) {
-          $registrantView .= $this->load->view('dashboard/questRegistrants', $reg, true);
-        }
-        $quest['questRegistrant'] = $registrantView;
-        echo json_encode($quest);
-    }
-  
-    public function getPartyDetails(){
-        $partyId = $this->input->post('party_id');
-//        $partyId = 1;
-        $party = $this->party->getPartyInfo($partyId);
-        $members = $this->party->getPartyMembers($partyId);
-        
-        foreach($members as $mem) {
-          $memberView .= $this->load->view('dashboard/partyMembers', $mem, true);
-        }
-        $party['partyMember'] = $memberView;
-//        $party['partyMember '] = $this->party->getPartyMembers($partyId);
-        echo json_encode($party);
-    }
-    
-    public function getOfficeDetails(){
-        $officeId = $this->input->post('office_id');
-        $office = $this->office->getOfficeInfo($officeId);
-        echo json_encode($office);
-    }
     
     public function getMyQuests() {
 
@@ -240,12 +226,15 @@ class Pages extends CI_Controller {
         $upgradesCount = count($badgeName);
         
         for($x = 1; $x <= $upgradesCount; $x++){
-            $filePath = $_SERVER['DOCUMENT_ROOT'] . "drive/xiphias/codeigniter/assets/images/" . $badgePictures['name'][$x-1];
+            $ext = pathinfo($badgePictures['name'][$x-1], PATHINFO_EXTENSION);
+            $newfilename = "badge".$badgeId."_".$x.".".$ext;
+            $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/badges/" . $newfilename;
+            
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
             $badge_ups['badge_ups_name'] = $this->db->escape_str($badgeName[$x-1]);
             $badge_ups['badge_ups_lvl' ] = $x;
-            $badge_ups['badge_ups_pix' ] = 'assets/images/' . $badgePictures['name'][$x-1];
+            $badge_ups['badge_ups_pix' ] = 'assets/images/badges/' . $newfilename;
             if($x != 1)
                 $badge_ups['requirement'] = $badgeRequirement[$x-2];
             else
@@ -270,7 +259,7 @@ class Pages extends CI_Controller {
 //      date-range
 //      questVenue
 //      questEXP
-        
+//        echo $this->input->get('questName');
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->db->escape_str($this->input->post('questName'));
         $quest['quest_description'] = $this->db->escape_str($this->input->post('questDescription'));
@@ -278,11 +267,14 @@ class Pages extends CI_Controller {
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->db->escape_str($this->input->post('questExp'));
+        $quest['experience']        = $this->db->escape_str($this->input->post('range'));
+        $quest['venue']             = $this->db->escape_str($this->input->post('questVenue'));
         $quest['quest_type']        = "Academic";
+        $quest['house_points']      = 1;
+        $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
-        echo "ok";
+        echo 'ok';
     }
   
     public function addParty() {
