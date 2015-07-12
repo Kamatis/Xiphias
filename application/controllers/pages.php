@@ -93,7 +93,7 @@ class Pages extends CI_Controller {
     $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
     $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
-    $views['profile`s']       = $this->load->view('profile/profileBadges', $badges, true);
+    $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
     $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
     
     // views in <body>
