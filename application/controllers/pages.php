@@ -88,6 +88,8 @@ class Pages extends CI_Controller {
     $data['isVerified'] = $this->session->userdata('isVerified');
     
     $description = $this->user->getDescription($user_profile['user_id']);
+    $description['isOwner'] = ($data['username'] == $username);
+      
     $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
     $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
