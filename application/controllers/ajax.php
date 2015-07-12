@@ -44,4 +44,10 @@ class Ajax extends CI_Controller {
         echo json_encode($party);
     }
     
+    
+    public function getOfficeDetails(){
+        $officeId = $this->input->post('office_id');
+        $office = $this->office->getOfficeInfo($officeId);
+        echo json_encode($office);
+    }
 }

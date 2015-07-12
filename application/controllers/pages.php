@@ -202,12 +202,6 @@ class Pages extends CI_Controller {
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
     
-    public function getOfficeDetails(){
-        $officeId = $this->input->post('office_id');
-        $office = $this->office->getOfficeInfo($officeId);
-        echo json_encode($office);
-    }
-    
     public function getMyQuests() {
 
     }
