@@ -56,7 +56,7 @@
         <div class="form-group">
           <button class="btn btn-primary pull-right m-right" id="btn-quest-revert">Revert</button>
           <button class="btn btn-success pull-right m-right" id="btn-quest-save" style="display: none">Save</button>
-          <button class="btn btn-success pull-right m-right" id="btn-quest-add">Add</button>
+          <a class="btn btn-success pull-right m-right" id="btn-quest-add">Add</a>
         </div>
       </div>
     </form>

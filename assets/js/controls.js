@@ -358,7 +358,6 @@ $('#quest-badge-reward').on('click', function(){
 });
 
 $('#quest-form').on('submit', function(e){
-    e.preventDefault();
   var formData = new FormData(this);
   $.ajax({
     url: "addQuest",
@@ -394,11 +393,11 @@ $('#quest-form').on('submit', function(e){
         }
     }
   });
+  e.preventDefault();
   
 });
 
 $('#btn-quest-add').on('click', function(e) {
-    e.preventDefault();
    $('#form-quest').submit(); 
 });
 // endregion
