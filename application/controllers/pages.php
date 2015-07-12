@@ -202,18 +202,6 @@ class Pages extends CI_Controller {
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
     
-    public function getQuestDetails() {
-        $questId = $this->input->post('quest_id');
-        $quest = $this->quest->getQuestInfo($questId);
-        $registrants = $this->quest->getQuestRegistrants($questId);
-      
-        foreach($registrants as $reg) {
-          $registrantView .= $this->load->view('dashboard/questRegistrants', $reg, true);
-        }
-        $quest['questRegistrant'] = $registrantView;
-        echo json_encode($quest);
-    }
-  
     public function getPartyDetails(){
         $partyId = $this->input->post('party_id');
 //        $partyId = 1;

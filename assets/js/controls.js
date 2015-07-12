@@ -288,7 +288,7 @@ $('input[name="date-range"]').daterangepicker({
 $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
     $.ajax({
-        url: 'getQuestDetails',
+        url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
         dataType: 'json',
         data: { quest_id : questId },
