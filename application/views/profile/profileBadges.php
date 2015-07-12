@@ -6,7 +6,7 @@
         for($x = 0; $x < $badge_count; $x++) {
     ?>
     <div class="col-sm-2">
-      <img class="badgeShow" src="<?php echo base_url($badge[$x]['imageSource']); ?>">
+      <img class="badgeShow" src="<?php echo $badge[$x]['imageSource']; ?>">
     </div>
     <?php } ?>
   </div>
