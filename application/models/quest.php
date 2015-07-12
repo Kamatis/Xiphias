@@ -73,4 +73,28 @@ class Quest extends CI_model{
         }
         return $rarities;
     }
+    
+    public function getAllQuests(){
+        $query = $this->db->get('quest');
+        $x = 0;
+        
+        foreach($query->result() as $row){
+            $quest[$x]['quest_id']          = $row->quest_id;
+            $quest[$x]['title']       = $row->quest_title;
+            $quest[$x]['description'] = $row->quest_description;
+            $quest[$x]['rarity']            = $row->quest_rarity;
+            $quest[$x]['date_created']      = $row->date_created;
+            $quest[$x]['start_date']        = $row->start_date;
+            $quest[$x]['end_date']          = $row->end_date;
+            $quest[$x]['venue']             = $row->venue;
+            $quest[$x]['experience']        = $row->experience;
+            $quest[$x]['house_points']      = $row->house_points;
+            $quest[$x]['quest_type']        = $row->quest_type;
+            $quest[$x]['creator_id']        = $row->creator_id;
+            $quest[$x]['badge_id']          = $row->badge_id;
+            $quest[$x]['badge_name']        = $this->badge->getBadgeName($row->badge_id, 1);
+            $x++;
+        }
+        return $quest;
+    }
 }
