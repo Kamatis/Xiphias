@@ -176,23 +176,26 @@ class Pages extends CI_Controller {
       $quest['myQuests'] .= $this->load->view('dashboard/myquests', $myQuests[$x], true);
     
     $rarities = $this->quest->getRarityInfo();
-    
     for($x = 0; $x < count($rarities); $x++)
       $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
-    
     $quest['rare'] = count($rarities);
-    
+      
+    // Parties
     $myParties = $this->party->getMyParties($user_id);
     for($x = 0; $x < count($myParties); $x++)
       $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
     
+    // Offices
+    $myOffices = $this->office->getMyOffices($user_id);
+    for($x = 0; $x < count($myOffices); $x++)
+        $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
       
     $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
     $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
     $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
     $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
     $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
-    $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', '', true);
+    $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
     $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
       
     $body['menu'] = $this->load->view('menu', $data, true);
