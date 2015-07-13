@@ -105,6 +105,24 @@ class Pages extends CI_Controller {
     $this->load->view('body', $body);
   }
   
+  public function settings() {
+    $user_profile = $this->user->getUserInfo($username);
+    
+    $data['title']      = $username . "@Xiphias";
+    $data['user_image'] = $this->session->userdata('image');
+    $data['username']   = $this->session->userdata('username');
+    $data['isNPC']      = $this->session->userdata('isNPC');
+    $data['isAdmin']    = $this->session->userdata('isAdmin');
+    $data['isVerified'] = $this->session->userdata('isVerified');
+    
+    $body['menu'] = $this->load->view('menu', $data, true);
+    $body['content'] = $this->load->view('settings', '', true);
+    
+    // Main views inserted in <html>
+    $this->load->view('header');
+    $this->load->view('body', $body);
+  }
+  
     public function questboard() {
         $query = $this->db->get('user');
         $data['title'] =  'Quest Board';

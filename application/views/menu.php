@@ -60,7 +60,7 @@
             <li class="divider"></li>
           <?php } ?>
           <li><a href="<?php echo base_url('index.php/pages/profile/' . $username); ?>"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-          <li><a href="<?php echo base_url('index.php/pages/settings.php') ?>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+          <li><a href="<?php echo base_url('index.php/pages/settings'); ?>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
           <li class="divider"></li>
           <li><a href="<?php echo base_url('index.php/pages/logout'); ?>"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
         </ul>
