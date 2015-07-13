@@ -45,7 +45,7 @@
       </div>
       <div class="panel-body">
         <input type="text" id="txt-search" class="form-control" placeholder="Search office">
-        <ul id="office-list" class="nav nav-stacked scrollable-menu>
+        <ul id="office-list" class="nav nav-stacked scrollable-menu">
           <?php echo $myOffices; ?>
         </ul>
       </div>
