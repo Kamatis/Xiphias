@@ -359,7 +359,13 @@ class Pages extends CI_Controller {
         move_uploaded_file($officeLogo['tmp_name'], $filePath);
         $logo['office_logo'] = "assets/images/offices/" . $newfilename;
         $this->office->updateLogo($officeId, $logo);
-        echo 'ok';
+        
+        $user_id = $this->session->userdata('user_id');
+        $myOffices = $this->office->getMyOffices($user_id);
+      
+        for($x = 0; $x < count($myOffices); $x++)
+            $officeRefresh .= $this->load->view('dashboard/myoffices', $myOffices[$x], TRUE);
+        echo $officeRefresh;
     }
     
     public function checkVerification() {
