@@ -156,11 +156,6 @@ $('#btn-add-badge').on('click', function(e){
 })
 //endregion
 
-$('#btn-party-add').on('click', function(e){
-    e.preventDefault();
-    $('#party-form').submit();         
-})
-
 //region Party
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
@@ -250,6 +245,51 @@ $('#btn-change-passcode').on('click', function(){
     }
   })
 });
+
+$('#btn-party-add').on('click', function(e){
+    e.preventDefault();
+    $('#party-form').submit();         
+})
+
+$('#party-form').on('submit', function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    
+    $.ajax({
+        url: "addParty",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(dataPass){
+            if(dataPass == "ok") {
+                BootstrapDialog.show({
+                   title: 'SUCCESS',
+                    message: 'Party Added!',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                   title: 'OOPS...',
+                    message: 'Something is wrong',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+        }
+    });
+});
+
 // endregion
 
 // region Quests
@@ -362,45 +402,6 @@ $('#quest-badge-reward').on('click', function(){
   });
   
 });
-
-$('#party-form').on('submit', function(e){
-    e.preventDefault();
-    var formData = new FormData(this);
-    
-    $.ajax({
-        url: "addParty",
-        type: "post",
-        data: formData,
-        contentType: false,
-        processData: false,
-        success: function(dataPass){
-            if(dataPass == "ok") {
-                BootstrapDialog.show({
-                   title: 'SUCCESS',
-                    message: 'Party Added!',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
-            else {
-                BootstrapDialog.show({
-                   title: 'OOPS...',
-                    message: 'Something is wrong',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
-        }
-    });
-});
                     
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
@@ -449,6 +450,53 @@ $('#btn-quest-add').on('click', function(e) {
 //  e.preventDefault();
    $('#form-quest').submit(); 
 });
+// endregion
+
+// region Office
+
+$('#btn-office-add').on('click', function(e){
+    e.preventDefault();
+    $('#office-form').submit();         
+})
+
+$('#office-form').on('submit', function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+        url: "addOffice",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(dataPass){
+            if(dataPass == "ok") {
+                BootstrapDialog.show({
+                   title: 'SUCCESS',
+                    message: 'Office Added!',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+            else {
+                BootstrapDialog.show({
+                   title: 'OOPS...',
+                    message: 'Something is wrong',
+                    buttons: [{
+                        label: 'OK',
+                        action: function(dialog) {
+                            dialog.close();   
+                        }
+                    }]
+                });
+            }
+        }
+    });
+});
+
 // endregion
 
 // region Serial

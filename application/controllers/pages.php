@@ -319,11 +319,23 @@ class Pages extends CI_Controller {
 //      txtOfficeName
 //      txtShortForm
 //      txtaOfficeDescription
-        $office['office_name']         = $this->db->escape_str($this->input->post('txtOfficeName'));
-        $office['office_logo']         = base_url('assets/images') . '/' . $_FILE['officeLogo']['name'];
-        $office['office_abbreviation'] = $this->db->escape_str($this->input->post('txtShortForm'));
-        $office['office_description']  = $this->db->escape_str($this->input->post('txtOfficeDescription'));
-        $this->office->addOffice($office);
+                
+       
+        $office['office_name']         = $this->db->escape_str($this->input->post('officeName'));
+        $office['office_abbreviation'] = "HELLO"; // $this->db->escape_str($this->input->post('txtShortForm'));
+        $office['office_description']  = $this->db->escape_str($this->input->post('officeDescription'));
+        $office['user_id'] = $this->session->userdata('user_id');
+        $officeId = $this->office->addOffice($office);
+         
+        $officeLogo = $_FILES['office-pix'];
+        
+        $ext = pathinfo($officeLogo['name'], PATHINFO_EXTENSION);
+        $newfilename = "office".$officeId.".".$ext;
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/offices/" . $newfilename;
+        move_uploaded_file($officeLogo['tmp_name'], $filePath);
+        $logo['office_logo'] = "assets/images/offices/" . $newfilename;
+        $this->office->updateLogo($officeId, $logo);
+        echo 'ok';
     }
     
     public function checkVerification() {
