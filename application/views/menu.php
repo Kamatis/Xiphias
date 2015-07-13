@@ -55,14 +55,14 @@
               <?php endforeach; ?>
             <?php }?>
             <?php if(!$isVerified) {?>
-              <li><a href="#" id="verify-account">Verify Account</a></li>
+              <li><a href="#" id="verify-account"><span class="glyphicon glyphicon-ok"></span> Verify Account</a></li>
             <?php }?>
             <li class="divider"></li>
           <?php } ?>
-          <li><a href="<?php echo base_url('index.php/pages/profile/' . $username); ?>">Profile</a></li>
-          <li><a href="#">Settings</a></li>
+          <li><a href="<?php echo base_url('index.php/pages/profile/' . $username); ?>"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+          <li><a href="<?php echo base_url('index.php/pages/settings.php') ?>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
           <li class="divider"></li>
-          <li><a href="<?php echo base_url('index.php/pages/logout'); ?>">Log Out</a></li>
+          <li><a href="<?php echo base_url('index.php/pages/logout'); ?>"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
         </ul>
       </li>
     </ul>
