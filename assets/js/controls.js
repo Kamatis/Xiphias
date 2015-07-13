@@ -262,30 +262,14 @@ $('#party-form').on('submit', function(e){
         contentType: false,
         processData: false,
         success: function(dataPass){
-            if(dataPass == "ok") {
-                BootstrapDialog.show({
-                   title: 'SUCCESS',
-                    message: 'Party Added!',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
-            else {
-                BootstrapDialog.show({
-                   title: 'OOPS...',
-                    message: 'Something is wrong',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
+            alert(dataPass);
+            BootstrapDialog.show({
+                title: 'SUCCESS',
+                message: 'ADDED!'
+            });
+            $('input').val("");
+            $('textarea').val("");
+            $('#party-list').html(dataPass);
         }
     });
 });

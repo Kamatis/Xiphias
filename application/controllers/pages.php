@@ -329,7 +329,13 @@ class Pages extends CI_Controller {
         $party['party_description'] = $this->db->escape_str($this->input->post('partyDescription'));
         $party['party_password']    = md5($this->input->post('partyPasscode'));
         $this->party->addParty($party);
-        echo 'ok';
+        
+        $user_id = $this->session->userdata('user_id');
+        $myParties = $this->party->getMyParties($user_id);
+      
+        for($x = 0; $x < count($myParties); $x++)
+            $partyRefresh .= $this->load->view('dashboard/myparties', $myParties[$x], TRUE);
+        echo $partyRefresh;
     }
   
     public function addOffice() {
@@ -339,7 +345,6 @@ class Pages extends CI_Controller {
 //      txtShortForm
 //      txtaOfficeDescription
                 
-       
         $office['office_name']         = $this->db->escape_str($this->input->post('officeName'));
         $office['office_abbreviation'] = "HELLO"; // $this->db->escape_str($this->input->post('txtShortForm'));
         $office['office_description']  = $this->db->escape_str($this->input->post('officeDescription'));
