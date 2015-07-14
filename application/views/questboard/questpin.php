@@ -1,5 +1,5 @@
-<div class="flip-container" ontouchstart="this.classList.toggle('hover);">
-  <div class="flipper">
+<div class="flip-container" ontouchstart="this.classList.toggle('hover);" >
+  <div class="flipper" >
     <div class="front 
       <?php if($rarity == 1) {
         echo "rarity-card-common";
@@ -65,7 +65,7 @@
           <div>
             <h6><b>Rewards:</b></h6>
             <div>
-              <img src="<?php echo $badge_image; ?>" style="width: 20px; height: 20px">
+              <img src="<?php echo $badge_image; ?>" style="width: 20px; height: 20px; border: 0;">
               <text style="font-size: 12px;"><?php echo $badge_name; ?></text>
             </div>
             <text style="font-size: 12px;"><?php echo $experience; ?> XP</text>

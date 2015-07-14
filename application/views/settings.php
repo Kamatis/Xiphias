@@ -1,9 +1,9 @@
-<div class="wrapper">
+<div class="wrapper" style="margin-left: 50px; margin-right: 50px;">
   <div class="col-sm-6">
     <h4><span class="glyphicon glyphicon-info-sign"></span> <strong>Info</strong></h4>
     
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-11">
         <h5><strong>Change Password</strong></h5>
         <input type="password" name="pw-change" class="form-control">
         <a href="#" class="btn btn-success btn-sm" style="margin-top: 5px;">Change Password</a>
