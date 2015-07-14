@@ -58,7 +58,7 @@
       </div>
       <div class="panel-body" id="badge-panel-body">
         <ul class="grid columns-3" id="my-badges">
-          <?php echo $mybadges ?>
+          <?php echo $mybadges; ?>
         </ul>
       </div>
     </div>
