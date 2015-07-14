@@ -10,13 +10,8 @@ class Pages extends CI_Controller {
 
     public function index() {
         if($this->session->userdata('is_logged_in')){
-            $query = $this->db->get('user');
+            $data = $this->user->getSessionData();
             $data['title']      = 'Xiphias | Home';
-            $data['user_image'] = $this->session->userdata('image');
-            $data['username']   = $this->session->userdata('username');
-            $data['isNPC']      = $this->session->userdata('isNPC');
-            $data['isAdmin']    = $this->session->userdata('isAdmin');
-            $data['isVerified'] = $this->session->userdata('isVerified');
             
             $views['carousel'] = $this->load->view('index/carousel', '', true);
           
@@ -80,12 +75,8 @@ class Pages extends CI_Controller {
     // Data fields
     $user_profile = $this->user->getUserInfo($username);
     
+    $data = $this->user->getSessionData();
     $data['title']      = $username . "@Xiphias";
-    $data['user_image'] = $this->session->userdata('image');
-    $data['username']   = $this->session->userdata('username');
-    $data['isNPC']      = $this->session->userdata('isNPC');
-    $data['isAdmin']    = $this->session->userdata('isAdmin');
-    $data['isVerified'] = $this->session->userdata('isVerified');
     
     $description = $this->user->getDescription($user_profile['user_id']);
     $description['isOwner'] = ($data['username'] == $username);
@@ -108,12 +99,8 @@ class Pages extends CI_Controller {
   public function settings() {
     $user_profile = $this->user->getUserInfo($username);
     
+    $data = $this->user->getSessionData();
     $data['title']      = $username . "@Xiphias";
-    $data['user_image'] = $this->session->userdata('image');
-    $data['username']   = $this->session->userdata('username');
-    $data['isNPC']      = $this->session->userdata('isNPC');
-    $data['isAdmin']    = $this->session->userdata('isAdmin');
-    $data['isVerified'] = $this->session->userdata('isVerified');
     
     $body['menu'] = $this->load->view('menu', $data, true);
     $body['content'] = $this->load->view('settings', '', true);
@@ -125,12 +112,9 @@ class Pages extends CI_Controller {
   
   public function questboard() {
       $query = $this->db->get('user');
-      $data['title'] =  'Quest Board';
-      $data['user_image'] = $this->session->userdata('image');
-      $data['username']   = $this->session->userdata('username');
-      $data['isNPC']      = $this->session->userdata('isNPC');
-      $data['isAdmin']    = $this->session->userdata('isAdmin');
-      $data['isVerified'] = $this->session->userdata('isVerified');
+      $data = $this->user->getSessionData();
+      $data['title'] = 'Quest Board';
+      
 
       $quests = $this->quest->getAllQuests();
 
@@ -148,12 +132,9 @@ class Pages extends CI_Controller {
   
   public function leaderboards() {
       $query = $this->db->get('user');
+      
+      $data = $this->user->getSessionData();
       $data['title'] =  'Quest Board';
-      $data['user_image'] = $this->session->userdata('image');
-      $data['username']   = $this->session->userdata('username');
-      $data['isNPC']      = $this->session->userdata('isNPC');
-      $data['isAdmin']    = $this->session->userdata('isAdmin');
-      $data['isVerified'] = $this->session->userdata('isVerified');
 
       $body['menu'] = $this->load->view('menu', $data, true);
       $body['content'] = $this->load->view('leaderboards', $views, true);
@@ -164,20 +145,12 @@ class Pages extends CI_Controller {
   
   public function dashboard() {
     $query = $this->db->get('user');
+    
+    $data = $this->user->getSessionData();  
     $data['title'] =  $this->session->userdata('username') . "@Xiphias";
-    $data['user_image'] = $this->session->userdata('image');
-    $data['username']   = $this->session->userdata('username');
-    $data['isNPC']      = $this->session->userdata('isNPC');
-    $data['isAdmin']    = $this->session->userdata('isAdmin');
-    $data['isVerified'] = $this->session->userdata('isVerified');
-
+    
     $data['offices'][0] = "Ateneo Coders' Circle";
     $data['offices'][1] = "TACTICS";
-    
-//    $data['firstname'] = "Matthew Allan";
-//    $data['middlename'] = "Atienza";
-//    $data['lastname'] = "Rosales";
-//    $data['name'] = $data['firstname'] . " " .    $data['middlename'][0] . ". " . $data['lastname'];
     
     $user_id = $this->session->userdata('user_id');
     
@@ -440,7 +413,7 @@ class Pages extends CI_Controller {
         $this->email->set_newline("\r\n");
         $this->email->from('kellymilla18@gmail.com', 'Kelly Milla');
         $this->email->to($this->input->post('email'));
-        $this->email->subject('Xhipias : Account Confirmation');
+        $this->email->subject('Xiphias : Account Confirmation');
         $this->email->message($message);
         
         if($this->user->add_user($data)){
