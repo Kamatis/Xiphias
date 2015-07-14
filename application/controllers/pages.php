@@ -265,7 +265,8 @@ class Pages extends CI_Controller {
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
-        
+        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges'))
+             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges', 0777, true);
         for($x = 1; $x <= $upgradesCount; $x++){
             $ext = pathinfo($badgePictures['name'][$x-1], PATHINFO_EXTENSION);
             $newfilename = "badge".$badgeId."_".$x.".".$ext;
@@ -358,6 +359,9 @@ class Pages extends CI_Controller {
         $officeId = $this->office->addOffice($office);
          
         $officeLogo = $_FILES['office-pix'];
+        
+        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices'))
+             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices', 0777, true);
         
         $ext = pathinfo($officeLogo['name'], PATHINFO_EXTENSION);
         $newfilename = "office".$officeId.".".$ext;
