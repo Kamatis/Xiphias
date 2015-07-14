@@ -19,7 +19,7 @@
         <a href="<?php echo base_url('index.php/pages/questboard'); ?>" style="color: #ececea">Quests</a>
       </li>
       <li class="xiphiasMenu">
-        <a href="#" style="color: #ececea">Leaderboards</a>
+        <a href="<?php echo base_url('index.php/pages/leaderboards'); ?>" style="color: #ececea">Leaderboards</a>
       </li>
       <?php if($isNPC) { ?>
       <li class="xiphiasMenu">
