@@ -399,31 +399,13 @@ $('#form-quest').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
-//        alert(dataPass);
-        if(dataPass == "ok") {
-            BootstrapDialog.show({
-               title: 'SUCCESS',
-                message: 'Quest Added!',
-                buttons: [{
-                    label: 'OK',
-                    action: function(dialog) {
-                        dialog.close();   
-                    }
-                }]
-            });
-        }
-        else {
-            BootstrapDialog.show({
-               title: 'OOPS...',
-                message: 'Something is wrong',
-                buttons: [{
-                    label: 'OK',
-                    action: function(dialog) {
-                        dialog.close();   
-                    }
-                }]
-            });
-        }
+        BootstrapDialog.show({
+            title: 'SUCCESS',
+            message: 'ADDED!'
+        });
+        $('input').val("");
+        $('textarea').val("");
+        $('#quest-list').html(dataPass);
     }
   });
   

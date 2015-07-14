@@ -92,7 +92,7 @@ class Quest extends CI_model{
             $quest[$x]['badge_id']     = $row->badge_id;
             $quest[$x]['badge_name']   = $this->badge->getBadgeName($row->badge_id, 1);
             $quest[$x]['badge_image']  = $this->badge->getBadgeThumbnail($row->badge_id, 1);
-            if($row->start_date == $end->start_date)
+            if($row->start_date == $row->end_date)
                 $quest[$x]['quest_date'] = $row->start_date;
             else
                 $quest[$x]['quest_date'] = $row->start_date . ' - ' . $row->end_date;

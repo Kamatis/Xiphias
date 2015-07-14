@@ -254,8 +254,8 @@ class Pages extends CI_Controller {
 //      txtRequirement[]          = badge requirements(lvl 2 = [0])
 //      badge-pix[]               = badge pictures (lvl 1 = [0])
         $badgeName        = $this->input->post('txtBadgeName');
-        $badgeDescription = $this->db->escape_str($this->input->post('txtaBadgeDescription'));
-        $badgeRequirement = $this->db->escape_str($this->input->post('txtRequirement'));
+        $badgeDescription = $this->input->post('txtaBadgeDescription');
+        $badgeRequirement = $this->input->post('txtRequirement');
         $badgePictures    = $_FILES['badge-pix'];
         
         $badge['badge_description'] = $badgeDescription;
@@ -273,7 +273,7 @@ class Pages extends CI_Controller {
             
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
-            $badge_ups['badge_ups_name'] = $this->db->escape_str($badgeName[$x-1]);
+            $badge_ups['badge_ups_name'] = $badgeName[$x-1];
             $badge_ups['badge_ups_lvl' ] = $x;
             $badge_ups['badge_ups_pix' ] = 'assets/images/badges/' . $newfilename;
             if($x != 1)
@@ -302,20 +302,26 @@ class Pages extends CI_Controller {
 //      questEXP
 //        echo $this->input->get('questName');
         $time = explode(' ', $this->input->post('date-range'));
-        $quest['quest_title']       = $this->db->escape_str($this->input->post('questName'));
-        $quest['quest_description'] = $this->db->escape_str($this->input->post('questDescription'));
+        $quest['quest_title']       = $this->input->post('questName');
+        $quest['quest_description'] = $this->input->post('questDescription');
         $quest['quest_rarity']      = $this->input->post('rarity');
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->db->escape_str($this->input->post('range'));
-        $quest['venue']             = $this->db->escape_str($this->input->post('questVenue'));
+        $quest['experience']        = $this->input->post('range');
+        $quest['venue']             = $this->input->post('questVenue');
         $quest['quest_type']        = "Academic";
         $quest['house_points']      = 1;
         $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
-        echo 'ok';
+        
+        $user_id = $this->session->userdata('user_id');
+        $myQuests = $this->quest->getMyQuests($user_id);
+      
+        for($x = 0; $x < count($myQuests); $x++)
+            $questRefresh .= $this->load->view('dashboard/myquests', $myQuests[$x], TRUE);
+        echo $questRefresh;
     }
   
     public function addParty() {
@@ -325,8 +331,8 @@ class Pages extends CI_Controller {
 //      partyDescription 
 //      partyMembers[]        = list of party members
         $party['creator_id']        = $this->session->userdata('user_id');
-        $party['party_name']        = $this->db->escape_str($this->input->post('partyName'));
-        $party['party_description'] = $this->db->escape_str($this->input->post('partyDescription'));
+        $party['party_name']        = $this->input->post('partyName');
+        $party['party_description'] = $this->input->post('partyDescription');
         $party['party_password']    = md5($this->input->post('partyPasscode'));
         $this->party->addParty($party);
         
@@ -345,9 +351,9 @@ class Pages extends CI_Controller {
 //      txtShortForm
 //      txtaOfficeDescription
                 
-        $office['office_name']         = $this->db->escape_str($this->input->post('officeName'));
-        $office['office_abbreviation'] = "HELLO"; // $this->db->escape_str($this->input->post('txtShortForm'));
-        $office['office_description']  = $this->db->escape_str($this->input->post('officeDescription'));
+        $office['office_name']         = $this->input->post('officeName');
+        $office['office_abbreviation'] = "HELLO"; // $this->input->post('txtShortForm');
+        $office['office_description']  = $this->input->post('officeDescription');
         $office['user_id'] = $this->session->userdata('user_id');
         $officeId = $this->office->addOffice($office);
          
@@ -405,12 +411,12 @@ class Pages extends CI_Controller {
   
     public function account_registration() {
         $data = array (
-            'first_name'  => $this->db->escape_str($this->input->post('first_name')),
-            'middle_name' => $this->db->escape_str($this->input->post('middle_name')),
-            'last_name'   => $this->db->escape_str($this->input->post('last_name')),
-            'username'    => $this->db->escape_str($this->input->post('username')),
+            'first_name'  => $this->input->post('first_name'),
+            'middle_name' => $this->input->post('middle_name'),
+            'last_name'   => $this->input->post('last_name'),
+            'username'    => $this->input->post('username'),
             'password'    => md5($this->input->post('password')),
-            'email'       => $this->db->escape_str($this->input->post('email')),
+            'email'       => $this->input->post('email'),
             'serial'      => md5(uniqid())
         );
         
@@ -429,7 +435,7 @@ class Pages extends CI_Controller {
         $this->load->library('email', $config);
         $this->email->set_newline("\r\n");
         $this->email->from('kellymilla18@gmail.com', 'Kelly Milla');
-        $this->email->to($this->db->escape_str($this->input->post('email')));
+        $this->email->to($this->input->post('email'));
         $this->email->subject('Xhipias : Account Confirmation');
         $this->email->message($message);
         
