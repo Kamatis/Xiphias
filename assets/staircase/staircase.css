@@ -13,6 +13,8 @@
     right: 0;
     bottom: 0;
   clear: both;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 
 .header-name {
@@ -36,7 +38,7 @@
 }
 
 .body-badge-award {
-  background-color: #eeeeee;
+  background-color: white;
   padding: 35px;
   text-align: center;
 }
@@ -76,12 +78,22 @@
   background-color: #7fd99d;
 }
 
+.stair-step.house-1{
+  border-left: 1px solid #66cc88;
+  border-right: 1px solid #66cc88;
+}
+
 .header-name.house-2{
   background-color: #d9d96c;
 }
 
 .header-lvl-house.house-2,.footer-place.house-2{
   background-color: #e1e188;
+}
+
+.stair-step.house-2{
+  border-left: 1px solid #d9d96c;
+  border-right: 1px solid #d9d96c;
 }
 
 .header-name.house-3{
@@ -92,10 +104,20 @@
   background-color: #e57272;
 }
 
+.stair-step.house-3{
+  border-left: 1px solid #cc6666;
+  border-right: 1px solid #cc6666;
+}
+
 .header-name.house-4{
   background-color: #6688cc;
 }
 
 .header-lvl-house.house-4,.footer-place.house-4{
   background-color: #7396db;
+}
+
+.stair-step.house-4{
+  border-left: 1px solid #6688cc;
+  border-right: 1px solid #6688cc;
 }

@@ -2,7 +2,7 @@
   
   <div class="staircase">
     
-    <div class="stair-step">
+    <div class="stair-step house-3">
       <div class="header-name house-3">Kamatis</div>
       <div class="header-lvl-house house-3">
         <p>Lvl 16</p>
@@ -16,7 +16,7 @@
       </div>
     </div>
     
-    <div class="stair-step">
+    <div class="stair-step house-2">
       <div class="header-name house-2">Kamatis</div>
       <div class="header-lvl-house house-2">
         <p>Lvl 16</p>
@@ -30,7 +30,7 @@
       </div>
     </div>
     
-    <div class="stair-step">
+    <div class="stair-step house-4">
       <div class="header-name house-4">Kamatis</div>
       <div class="header-lvl-house house-4">
         <p>Lvl 16</p>
