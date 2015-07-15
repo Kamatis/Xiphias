@@ -1,7 +1,34 @@
-.staircase {
-  width: 100%;
-  margin: 0 auto;
+.stair-container {
   text-align: center;
+  white-space: nowrap;
+}
+
+.stair-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+
+.vertical-align-wrap {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+.vertical-align {
+  display: table-cell;
+}
+
+.vertical-align--middle {
+  vertical-align: middle;
+}
+
+.staircase {
+  width: 80%;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .stair-step {
