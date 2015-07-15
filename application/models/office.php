@@ -10,7 +10,7 @@ class Office extends CI_Model{
         $this->db->where('office_id', $office_id);
         $query = $this->db->get('office');
         $row = $query->row();
-        
+        $office['officeId']          = $office_id;
         $office['officeAbbr']        = $row->office_abbreviation;
         $office['officeDescription'] = $row->office_description;
         $office['officeLogo']        = $this->office->getOfficeThumbnail($office_id);

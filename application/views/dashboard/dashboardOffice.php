@@ -11,7 +11,7 @@
       <div class="form-group">
         <div class="picture-container">
           <div class="picture">
-            <img id="base-lvl-badge" src="<?php echo base_url('assets/images/emptyBadge.png'); ?>" class="picture-src" title>
+            <img id="office-logo" src="<?php echo base_url('assets/images/emptyBadge.png'); ?>" class="picture-src" title>
             <input name="office-pix" type="file" class="input-preview">
           </div>
         </div>
@@ -19,12 +19,12 @@
 
       <div class="form-group">
         <legend><h5><strong>Name</strong></h5></legend>
-        <input name="officeName" type="text" id="txtBadgeName" class="form-control" placeholder="Enter office name">
+        <input name="officeName" type="text" id="txt-office-name" class="form-control" placeholder="Enter office name">
       </div>
 
       <div class="form-group">
         <legend><h5><strong>Description</strong></h5></legend>
-        <textarea name="officeDescription" id="txtaDescription" class="form-control" placeholder="Enter office description"></textarea>
+        <textarea name="officeDescription" id="txt-office-description" class="form-control" placeholder="Enter office description"></textarea>
       </div>
       
       <div class="row">

@@ -262,30 +262,13 @@ $('#party-form').on('submit', function(e){
         contentType: false,
         processData: false,
         success: function(dataPass){
-            if(dataPass == "ok") {
-                BootstrapDialog.show({
-                   title: 'SUCCESS',
-                    message: 'Party Added!',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
-            else {
-                BootstrapDialog.show({
-                   title: 'OOPS...',
-                    message: 'Something is wrong',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
+            BootstrapDialog.show({
+                title: 'SUCCESS',
+                message: 'ADDED!'
+            });
+            $('input').val("");
+            $('textarea').val("");
+            $('#party-list').html(dataPass);
         }
     });
 });
@@ -469,34 +452,35 @@ $('#office-form').on('submit', function(e){
         contentType: false,
         processData: false,
         success: function(dataPass){
-            if(dataPass == "ok") {
-                BootstrapDialog.show({
-                   title: 'SUCCESS',
-                    message: 'Office Added!',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
-            else {
-                BootstrapDialog.show({
-                   title: 'OOPS...',
-                    message: 'Something is wrong',
-                    buttons: [{
-                        label: 'OK',
-                        action: function(dialog) {
-                            dialog.close();   
-                        }
-                    }]
-                });
-            }
+            BootstrapDialog.show({
+                title: 'SUCCESS',
+                message: 'ADDED!'
+            });
+            $('input').val("");
+            $('textarea').val("");
+            $('#office-logo').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+            $('#office-list').html(dataPass);
         }
     });
 });
 
+$('body').on('click', '.list-item-office', function(){
+  var officeId = $(this).data('officeid');
+  $.ajax({
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getOfficeDetails",
+    async: true,
+    type: "POST",
+    dataType: 'json',
+    data: { office_id:officeId},
+    success: function(jsonData) {
+      $('#office-logo').attr('src', jsonData.officeLogo);
+      $('#txt-office-name').val(jsonData.officeName);
+      $('#txt-office-description').val(jsonData.officeDescription);
+    }
+  });
+  $('#btn-save').show();
+  $('#btn-add').hide();
+});
 // endregion
 
 // region Serial
