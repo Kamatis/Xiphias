@@ -16,5 +16,6 @@
   <link href="<?php echo base_url('assets/bootstrap-slider/css/styles.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/css-flip/css/flip.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/font-awesome-4.3.0/css/font-awesome.min.css'); ?>" rel="stylesheet">
+  <link href="<?php echo base_url('assets/staircase/staircase.css'); ?>" rel="stylesheet">
 <!--  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'" rel="stylesheet">-->
 </head>

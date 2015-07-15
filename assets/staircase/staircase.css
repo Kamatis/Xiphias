@@ -1,0 +1,71 @@
+.staircase {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.stair-step {
+  width: 200px;
+  display: inline-block;
+  min-height: 100px;
+  top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  clear: both;
+}
+
+.header-name {
+  width: 100%;
+  min-width: 100px;
+  background-color: #cc6666;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 8px 3px;
+  font-family: sans-serif;
+  font-weight: 700;
+  color: floralwhite;
+}
+
+.header-lvl-house {
+  background-color: #e57272;
+  padding: 10px 3px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 300;
+  color: white;
+}
+
+.body-badge-award {
+  background-color: #eeeeee;
+  padding: 35px;
+  text-align: center;
+}
+
+.place-first {
+  width: 100px;
+  height: 100px;
+}
+
+.place-second {
+  width: 75px;
+  height: 75px;
+}
+
+.place-third {
+  width: 50px;
+  height: 50px;
+}
+
+.footer-place {
+  padding: 8px;
+  background-color: #e57272;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 14pt;
+  font-style: italic;
+  color: white;
+  content: '1st';
+}
+
