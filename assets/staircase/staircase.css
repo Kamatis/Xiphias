@@ -1,6 +1,7 @@
 .staircase {
   width: 100%;
   margin: 0 auto;
+  text-align: center;
 }
 
 .stair-step {
@@ -17,7 +18,6 @@
 .header-name {
   width: 100%;
   min-width: 100px;
-  background-color: #cc6666;
   text-align: center;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -28,7 +28,6 @@
 }
 
 .header-lvl-house {
-  background-color: #e57272;
   padding: 10px 3px;
   text-align: center;
   font-family: sans-serif;
@@ -59,7 +58,6 @@
 
 .footer-place {
   padding: 8px;
-  background-color: #e57272;
   text-align: center;
   font-family: sans-serif;
   font-weight: 900;
@@ -69,3 +67,35 @@
   content: '1st';
 }
 
+/* house colors */
+.header-name.house-1{
+  background-color: #66cc88;
+}
+
+.header-lvl-house.house-1,.footer-place.house-1{
+  background-color: #7fd99d;
+}
+
+.header-name.house-2{
+  background-color: #d9d96c;
+}
+
+.header-lvl-house.house-2,.footer-place.house-2{
+  background-color: #e1e188;
+}
+
+.header-name.house-3{
+  background-color: #cc6666;
+}
+
+.header-lvl-house.house-3,.footer-place.house-3{
+  background-color: #e57272;
+}
+
+.header-name.house-4{
+  background-color: #6688cc;
+}
+
+.header-lvl-house.house-4,.footer-place.house-4{
+  background-color: #7396db;
+}

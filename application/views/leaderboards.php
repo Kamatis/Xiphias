@@ -1,47 +1,45 @@
 <div class="wrapper" style="margin-left: 100px; margin-right: 100px;">
   
-  
-  
   <div class="staircase">
     
     <div class="stair-step">
-      <div class="header-name">Kamatis</div>
-      <div class="header-lvl-house">
+      <div class="header-name house-3">Kamatis</div>
+      <div class="header-lvl-house house-3">
         <p>Lvl 16</p>
         <img src="" style="width: 50px; height: 50px;">
       </div>
       <div class="body-badge-award">
         <img src="" class="place-second">
       </div>
-      <div class="footer-place">
+      <div class="footer-place house-3">
         2nd
       </div>
     </div>
     
     <div class="stair-step">
-      <div class="header-name">Kamatis</div>
-      <div class="header-lvl-house">
+      <div class="header-name house-2">Kamatis</div>
+      <div class="header-lvl-house house-2">
         <p>Lvl 16</p>
         <img src="" style="width: 50px; height: 50px;">
       </div>
       <div class="body-badge-award">
         <img src="" class="place-first">
       </div>
-      <div class="footer-place">
+      <div class="footer-place house-2">
         1st
       </div>
     </div>
     
     <div class="stair-step">
-      <div class="header-name">Kamatis</div>
-      <div class="header-lvl-house">
+      <div class="header-name house-4">Kamatis</div>
+      <div class="header-lvl-house house-4">
         <p>Lvl 16</p>
         <img src="" style="width: 50px; height: 50px;">
       </div>
       <div class="body-badge-award">
         <img src="" class="place-third">
       </div>
-      <div class="footer-place">
+      <div class="footer-place house-4">
         3rd
       </div>
     </div>
