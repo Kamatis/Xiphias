@@ -1,7 +1,7 @@
 <!-- <body> template -->
 <!-- Except for login and registration -->
 
-<body style="margin:0px; background-image: url(<?php echo base_url('assets/images/groovepaper.png'); ?>)">
+<body style="margin:0px; background-image: url(<?php echo base_url('assets/images/groovepaper.png'); ?>);">
   <?php echo $menu ?>
   <?php echo $content ?>
   
@@ -18,6 +18,7 @@
     <script src="<?php echo base_url('assets/js/controls.js'); ?>"></script>
     <script src="<?php echo base_url('assets/highcharts/highcharts.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/custom-knob.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.js'); ?>"></script>
     <script>
       $(function () {
       $('#timeline').highcharts({
