@@ -524,3 +524,22 @@ $('#verify-account').on('click', function() {
     }]
   });
 });
+
+//region leaderboards
+
+$('#sel-quest-type').on('change', function(){
+  var selectedVal = $('#sel-quest-type option:selected' ).val();
+  var geturl = ""
+  if(selectedVal == 1)
+    geturl = "https://api.github.com/users/Ocramius/repos";
+  else if(selectedVal == 2) 
+    geturl = "https://api.github.com/users/mralexgray/repos";
+  else if(selectedVal == 3)
+    geturl = "https://api.github.com/users/michalbe/repos";
+  
+  $('#rank-table').bootstrapTable('refresh', {
+    url: geturl
+  });
+});
+
+//endregion
