@@ -3,7 +3,7 @@
 
 <?php if($isPlayer) {?>
 
-I've picked a house for you already. You now belong to <?php echo $houseName; ?>! Your very own adventure in the university is about to unfold! You can now go back to log in. Let's go!
+I've picked a house for you already. You now belong to <?php echo $house['house_name'] ?>! Your very own adventure in the university is about to unfold! You can now go back to log in. Let's go!
 
 <?php } else {?>
 

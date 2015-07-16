@@ -354,39 +354,34 @@ class Pages extends CI_Controller {
         $this->party->changePassword($partyId, $data);
     }
   
-    public function account_registration() {
+    public function accountRegistration() {
         $data = array (
             'first_name'  => $this->input->post('first_name'),
             'middle_name' => $this->input->post('middle_name'),
             'last_name'   => $this->input->post('last_name'),
             'username'    => $this->input->post('username'),
             'password'    => md5($this->input->post('password')),
-            'email'       => $this->input->post('email'),
-            'serial'      => md5(uniqid())
+            'user_type'   => $this->input->post('user_type')
         );
-        
-        $config = array (
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.googlemail.com',
-            'smtp_port' => '465',
-            'smtp_user' => 'kellymilla18@gmail.com',
-            'smtp_pass' => '09164735962',  
-            'mailtype' => 'html'
-        );
-            
-        $message = "<p> Thank you for signing up! </p>";
-        $message .= "<p> <a href='" . base_url() . "user/validation/$serial'>Click Here</a> to confirm your account. </p>";
-
-        $this->load->library('email', $config);
-        $this->email->set_newline("\r\n");
-        $this->email->from('kellymilla18@gmail.com', 'Kelly Milla');
-        $this->email->to($this->input->post('email'));
-        $this->email->subject('Xiphias : Account Confirmation');
-        $this->email->message($message);
-        
-        if($this->user->add_user($data)){
-            $this->email->send();
+        $user_id = $this->user->addUser($data);
+        if($data['user_type'] == 1){
+            $player['player_level'] = 1;
+            $player['experience']   = 0;
+            $player['program_code'] = "BSIT";
+            $player['house_id']     = $this->user->assignHouse();
+            $player['user_id']      = $user_id;
+            $dataPass['house'] = $this->house->getHouseInfo($player['house_id']);
+            $this->user->addPlayer($player);
+        } else {
+            $npc['user_id']     = $user_id;
+            $npc['is_verified'] = 0;
+            $this->user->addNPC($npc);
         }
-        redirect(base_url() . 'index.php');
+        if($data['user_type'] == 1)
+            $dataPass['isPlayer'] = true;
+        else
+            $dataPass['isPlayer'] = false;
+        $nextPanel = $this->load->view('register/lastPanel', $dataPass, true);
+        echo $nextPanel;
     }
 }

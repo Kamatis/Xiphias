@@ -2,6 +2,24 @@
 
 class User extends CI_Model{
     
+    public function addUser($data){
+        $this->db->insert('user', $data);
+        return mysql_insert_id();
+    }
+    
+    public function addPlayer($data){
+        $this->db->insert('player', $data);
+    }
+    
+    public function addNPC($data){
+        $this->db->insert('npc', $data);
+    }
+    
+    public function assignHouse(){
+        $this->db->select('count(*) as counter');
+        return ($this->db->get('player')->row()->counter % 4) + 1;
+    }
+    
     public function getUsername($user_id){
         $this->db->where('user_id', $user_id);
         return $this->db->get('user')->row()->username;

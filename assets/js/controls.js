@@ -55,17 +55,17 @@ $('#btn-next').on('click', function(){
     var first = $('input[name="first_name"]').val();
     var middle = $('input[name="middle_name"]').val();
     var type = $('.btn.active').data('value');
-    var un = $('input[name="username]').val();
-    var pw = $('input[name="password]').val();
-    
+    var un = $('input[name="username"]').val();
+    var pw = $('input[name="password"]').val();
     $.ajax({
-      url: 'register',
-      data: { last_name : last, 
-              first_name : first,
-              middle_name : middle,
-              user_type : type,
-              username : un,
-              password : pw },
+      url: 'accountRegistration',
+      type: "POST",
+      data: { last_name:last, 
+              first_name:first,
+              middle_name:middle,
+              user_type:type,
+              username:un,
+              password:pw },
       success: function(dataPass){
         $('li.last-question').html(dataPass);
       }
