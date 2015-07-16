@@ -33,7 +33,7 @@ function checkRequired(){
 // check username and password
 function checkUser(un, pw, callback){
     return $.ajax({
-                url: "assets/php/checkUser.php",
+                url: "http://127.0.0.1/xiphias/assets/php/checkUser.php",
                 type: "get",
                 cache: false,
                 data: { username: un, password: pw}
@@ -102,7 +102,7 @@ $('input.validation').on('input', function(e) {
 				message: validRules[arr[i]]['message'],
                 success: function(response) {
                     if(response == "mayo pa")
-                        appendingTitle += "<span class=\"glyphicon glyphicon-ok color-green tip\" aria-hidden=\"true\"> " + this.placeholder + this.message + "</span><br>";
+                        appendingTitle += "<span class=\"glyphicon glyphicon-ok color-green tip\" aria-hidden=\"true\"> " + this.placeholder + this.message + "</span><br>";    
 					else{
                         appendingTitle += "<span class=\"glyphicon glyphicon-remove color-red tip\" aria-hidden=\"true\"> " + this.placeholder + this.message + "</span><br>";
 						errorCount++;
@@ -155,13 +155,15 @@ $('.submit-validation').on('click', function(e){
     }
     else{
     	checkUser($('#txtUsername').val(), $('#txtPassword').val(), function(userExist) {
-	    if(userExist!= "ok")
-	    {
-	    	console.log("not ok");
-	    	appendingTitle = "Invalid username or password.";
-	        popOver($('.submit-validation'));
-	        e.preventDefault();
-	    }
-	});
+            if(userExist!= "ok")
+            {
+                appendingTitle = "Invalid username or password.";
+                popOver($('.submit-validation'));
+                e.preventDefault();
+            }
+            else{
+                $('#porm').submit();
+            }
+        });
     }
 });
