@@ -100,4 +100,8 @@ class Quest extends CI_model{
         }
         return $quest;
     }
+    
+    public function register($data) {
+        $this->db->insert('quest_registration', $data);   
+    }
 }

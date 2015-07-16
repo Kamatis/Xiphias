@@ -97,17 +97,17 @@ class Pages extends CI_Controller {
     }
 
     public function settings() {
-    $user_profile = $this->user->getUserInfo($username);
+        $user_profile = $this->user->getUserInfo($username);
 
-    $data = $this->user->getSessionData();
-    $data['title']      = $username . "@Xiphias";
+        $data = $this->user->getSessionData();
+        $data['title']      = $username . "@Xiphias";
 
-    $body['menu'] = $this->load->view('menu', $data, true);
-    $body['content'] = $this->load->view('settings', '', true);
+        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['content'] = $this->load->view('settings', '', true);
 
-    // Main views inserted in <html>
-    $this->load->view('header');
-    $this->load->view('body', $body);
+        // Main views inserted in <html>
+        $this->load->view('header');
+        $this->load->view('body', $body);
     }
 
     public function questboard() {
@@ -383,5 +383,12 @@ class Pages extends CI_Controller {
             $dataPass['isPlayer'] = false;
         $nextPanel = $this->load->view('register/lastPanel', $dataPass, true);
         echo $nextPanel;
+    }
+    
+    public function questRegistration() {
+        $data['user_id']  = $this->session->userdata('user_id');
+        $data['quest_id'] = $this->input->post('quest_id');
+        $data['date_registered'] = date('Y-m-d');
+        $this->quest->register($data);
     }
 }
