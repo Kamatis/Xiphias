@@ -71,50 +71,50 @@ class Pages extends CI_Controller {
         redirect(base_url() . 'index.php');
     }
   
-  public function profile($username) {
+    public function profile($username) {
     // Data fields
     $user_profile = $this->user->getUserInfo($username);
-    
+
     $data = $this->user->getSessionData();
     $data['title']      = $username . "@Xiphias";
-    
+
     $description = $this->user->getDescription($user_profile['user_id']);
     $description['isOwner'] = ($data['username'] == $username);
-      
+
     $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
     $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
     $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
     $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
-    
+
     // views in <body>
     $body['menu'] = $this->load->view('menu', $data, true);
     $body['content'] = $this->load->view('profile', $views, true);
-    
+
     // Main views inserted in <html>
     $this->load->view('header');
     $this->load->view('body', $body);
-  }
-  
-  public function settings() {
+    }
+
+    public function settings() {
     $user_profile = $this->user->getUserInfo($username);
-    
+
     $data = $this->user->getSessionData();
     $data['title']      = $username . "@Xiphias";
-    
+
     $body['menu'] = $this->load->view('menu', $data, true);
     $body['content'] = $this->load->view('settings', '', true);
-    
+
     // Main views inserted in <html>
     $this->load->view('header');
     $this->load->view('body', $body);
-  }
-  
-  public function questboard() {
+    }
+
+    public function questboard() {
       $query = $this->db->get('user');
       $data = $this->user->getSessionData();
       $data['title'] = 'Quest Board';
-      
+
 
       $quests = $this->quest->getAllQuests();
 
@@ -128,11 +128,11 @@ class Pages extends CI_Controller {
 
       $this->load->view('header');
       $this->load->view('body', $body);
-  }
-  
-  public function leaderboards() {
+    }
+
+    public function leaderboards() {
       $query = $this->db->get('user');
-      
+
       $data = $this->user->getSessionData();
       $data['title'] =  'Quest Board';
 
@@ -141,44 +141,41 @@ class Pages extends CI_Controller {
 
       $this->load->view('header');
       $this->load->view('body', $body);
-  }
-  
-  public function dashboard() {
+    }
+
+    public function dashboard() {
     $query = $this->db->get('user');
-    
+
     $data = $this->user->getSessionData();  
     $data['title'] =  $this->session->userdata('username') . "@Xiphias";
-    
-    $data['offices'][0] = "Ateneo Coders' Circle";
-    $data['offices'][1] = "TACTICS";
-    
+
     $user_id = $this->session->userdata('user_id');
-    
+
     // Badges
     $myBadges = $this->badge->getMyBadges($user_id);
     for($x = 0; $x < count($myBadges); $x++)
       $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
-    
+
     // Quests
     $myQuests = $this->quest->getMyQuests($user_id);
     for($x = 0; $x < count($myQuests); $x++)
       $quest['myQuests'] .= $this->load->view('dashboard/myquests', $myQuests[$x], true);
-    
+
     $rarities = $this->quest->getRarityInfo();
     for($x = 0; $x < count($rarities); $x++)
       $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
     $quest['rare'] = count($rarities);
-      
+
     // Parties
     $myParties = $this->party->getMyParties($user_id);
     for($x = 0; $x < count($myParties); $x++)
       $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
-    
+
     // Offices
     $myOffices = $this->office->getMyOffices($user_id);
     for($x = 0; $x < count($myOffices); $x++)
         $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
-      
+
     $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
     $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
     $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
@@ -186,15 +183,15 @@ class Pages extends CI_Controller {
     $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
     $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
     $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
-      
+
     $body['menu'] = $this->load->view('menu', $data, true);
     $body['content'] = $this->load->view('dashboard', $views, true);
-    
+
     $this->load->view('header');
     $this->load->view('body', $body);
-  }
-  
-  public function getAwardingBadge() {
+    }
+
+    public function getAwardingBadge() {
     $activeBadge = $this->input->post('badge_id');
     $user_id = $this->session->userdata('user_id');
     $myBadges = $this->badge->getMyBadges($user_id);
@@ -203,11 +200,11 @@ class Pages extends CI_Controller {
       $myBadges[$x]['active'] = $activeBadge;
       $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
     }
-      
+
     echo $badges['mybadges'];
-  }
-  
-  public function getEmptyUpgrade() {
+    }
+
+    public function getEmptyUpgrade() {
     $badge_id = $this->input->post('badge_id');
     
     if($badge_id == 0)
@@ -216,16 +213,7 @@ class Pages extends CI_Controller {
     $this->load->view('dashboard/badgeUpgrade.php', $badge);
   }
     
-    public function getMyQuests() {
-
-    }
-    
     public function addBadge() {
-//      $_POST names
-//      txtBadgeName[]            = badge names (lvl 1 = [0])
-//      txtaBadgeDescription      = badge description
-//      txtRequirement[]          = badge requirements(lvl 2 = [0])
-//      badge-pix[]               = badge pictures (lvl 1 = [0])
         $badgeName        = $this->input->post('txtBadgeName');
         $badgeDescription = $this->input->post('txtaBadgeDescription');
         $badgeRequirement = $this->input->post('txtRequirement');
@@ -234,7 +222,6 @@ class Pages extends CI_Controller {
         $badge['badge_description'] = $badgeDescription;
         $badge['creator_id']        = $this->session->userdata('user_id');
         $badge['date_created']      = date('Y-m-d');
-        
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
@@ -267,14 +254,6 @@ class Pages extends CI_Controller {
     }
   
     public function addQuest() {
-//      $_POST names
-//      questName         
-//      questDescription
-//      rarity[]
-//      date-range
-//      questVenue
-//      questEXP
-//        echo $this->input->get('questName');
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
@@ -299,11 +278,6 @@ class Pages extends CI_Controller {
     }
   
     public function addParty() {
-//      $_POST names
-//      partyName        
-//      partyPasscode    
-//      partyDescription 
-//      partyMembers[]        = list of party members
         $party['creator_id']        = $this->session->userdata('user_id');
         $party['party_name']        = $this->input->post('partyName');
         $party['party_description'] = $this->input->post('partyDescription');
@@ -319,12 +293,6 @@ class Pages extends CI_Controller {
     }
   
     public function addOffice() {
-//      $_POST names
-//      officeLogo          = office logo
-//      txtOfficeName
-//      txtShortForm
-//      txtaOfficeDescription
-                
         $office['office_name']         = $this->input->post('officeName');
         $office['office_abbreviation'] = "HELLO"; // $this->input->post('txtShortForm');
         $office['office_description']  = $this->input->post('officeDescription');

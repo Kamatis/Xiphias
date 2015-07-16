@@ -51,7 +51,7 @@
             <?php if($isVerified) {?>
               <li class="dropdown-header">Use Xiphias as:</li>
               <?php foreach($offices as $office): ?>
-                <li><a href=""><?php echo $office; ?></a></li>
+                <li><a href=""><?php echo $office['officeName']; ?></a></li>
               <?php endforeach; ?>
             <?php }?>
             <?php if(!$isVerified) {?>
