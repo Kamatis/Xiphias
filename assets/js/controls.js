@@ -86,6 +86,36 @@ $('#btn-next').on('click', function(){
 
 //endregion
 
+//region QuestBoard
+$('.btn-join-quest').on('click', function(){
+  var qid = $(this).data("questid");
+  var btn = $(this);
+  if($(this).html() == "Join") {
+    alert(qid);
+    $.ajax({
+      url: 'questRegistration',
+      type: 'post',
+      data: { quest_id:qid },
+      success: function(){
+        alert(btn.html());
+        btn.html('Abort');
+      }
+    });
+  }
+  else {
+    $.ajax({
+      url: 'questAbort',
+      type: 'post',
+      data: { quest_id:qid },
+      success: function(){
+        btn.html('Join');
+      }
+    });
+  }
+  
+});
+//endregion
+
 //region Badges
 // dashboard menu button links
 // same as adding :D ahahahaha
@@ -610,6 +640,14 @@ $('#btn-edit-profile').on('click', function(){
   });
 });
 
+$('#btn-create-resume').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Edit Profile',
+    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/createResume'),
+    cssClass: 'edit-profile-dialog'
+  });
+});
+
 $('body').on('click', '#primary-add', function(){
   $('#select-primary').toggle();
   $('#input-primary').toggle();
@@ -640,5 +678,33 @@ $('body').on('click', '#secondary-list', function(){
   $('#secondary-add').toggle();
 });
 
-
+$('body').on('click', '#add-affil', function(){
+  BootstrapDialog.show({
+    title: 'Add Affiliation',
+    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/addAffiliation'),
+    buttons: [{
+                label: 'Add',
+                action: function(dialog) {
+                    var n = $('input-org-name').val();
+                    var p = $('input-position').val();
+                    var d = $('input-join-date').val();
+                    $.ajax({
+                      url: 'addAffiliation',
+                      type: 'post',
+                      data: { name:n,
+                              position: p, 
+                              date: d },
+                      success: function(){
+                        alert('yow!');
+                      }
+                    })
+                }
+            }, {
+                label: 'Cancel',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+  });
+})
 // endregion
