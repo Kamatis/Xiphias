@@ -152,7 +152,7 @@ class Pages extends CI_Controller {
 
 
         $quests = $this->quest->getAllQuests();
-
+        $quests['isNPC'] = $data['isNPC'];
         // this should be iterated to get the quest data to be pushed to the view
         $questCount = count($quests);
         for($x = 0; $x < $questCount; $x++)
