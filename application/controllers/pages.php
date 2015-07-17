@@ -87,22 +87,50 @@ class Pages extends CI_Controller {
       $data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
       foreach ($query->result() as $row) 
           $data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
-      $query1 = $this->school->getSchools(1);
-      $query2 = $this->school->getSchools(2);
-      
-      $data['primary'] = "<option value=\"0\" disabled selected>Select your primary school</option>\n";
-      foreach($query1->result() as $row)
-          $data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
-      
-      $data['secondary'] = "<option value=\"0\" disabled selected>Select your secondary school</option>\n";
-      foreach($query2->result() as $row)
-          $data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
         
       for($yr = 2015; $yr>=1900; $yr--)
         $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
           
       $view = $this->load->view('profile/editProfile', $data , true);
+      echo $view;
+    }
+  
+    public function createResume() {
+      $query1 = $this->school->getSchools(1);
+      $query2 = $this->school->getSchools(2);
+      
+      $data['primary'] = "<option></option>\n";
+      foreach($query1->result() as $row)
+          $data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+      
+      $data['secondary'] = "<option></option>\n";
+      foreach($query2->result() as $row)
+          $data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+      
+      for($yr = 2015; $yr>=1900; $yr--)
+        $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
+      
+      $view = $this->load->view('profile/createResume', $data , true);
+      echo $view;
+    }
+  
+    public function addAffiliation() {
+//      iterate all affiliations to be put to $data with format:
+//      $data['affiliations'] .= '<option value= [affil_id] >[affil_name]</option>';
+      
+      $data['affiliations'] .= '<option></option>'; // always include this as first in the <option> list
+      $data['affiliations'] .= '<option>TACTICS</option>';
+      
+      $data['affiliations'] .= '<option>GROUPIE</option>';
+      $view = $this->load->view('profile/affiliation', $data, true);
+      echo $view;
+    }
+  
+    public function addInvolvement() {
+//      iterate all quests completed
+//      put into json to be passed to $view as $data
+      $view = $this->load->view('profile/involvement', $data, true);
       echo $view;
     }
   
@@ -152,11 +180,15 @@ class Pages extends CI_Controller {
 
 
         $quests = $this->quest->getAllQuests();
-        $quests['isNPC'] = $data['isNPC'];
+        
         // this should be iterated to get the quest data to be pushed to the view
         $questCount = count($quests);
         for($x = 0; $x < $questCount; $x++)
-            $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
+        {
+          $quests[$x]['isNPC'] = $data['isNPC'];
+          $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
+        }
+            
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('questboard', $views, true);
