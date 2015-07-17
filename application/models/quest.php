@@ -131,4 +131,11 @@ class Quest extends CI_model{
         $this->db->where('user_id', $user_id);
         $this->db->delete('quest_registration');
     }
+    
+    public function completeQuest($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $data['date_completed'] = date('Y-m-d');
+        $this->db->update('quest_registration', $data);
+    }
 }

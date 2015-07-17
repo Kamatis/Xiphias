@@ -438,6 +438,7 @@ class Pages extends CI_Controller {
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
                 $this->user->awardBadge($data);
+                $this->quest->completeQuest($questId, $memberId[$x]);
             }
         }
     }
