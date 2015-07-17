@@ -18,5 +18,6 @@
   <link href="<?php echo base_url('assets/font-awesome-4.3.0/css/font-awesome.min.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/staircase/staircase.css'); ?>" rel="stylesheet">
   <link href="<?php echo base_url('assets/bootstrap-table/bootstrap-table.css') ?>" rel="stylesheet">
+  <link href="<?php echo base_url('assets/bootstrap-combobox/css/bootstrap-combobox.css') ?>" rel="stylesheet">
 <!--  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'" rel="stylesheet">-->
 </head>
