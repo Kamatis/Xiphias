@@ -41,6 +41,20 @@ class Badge extends CI_Model{
         return $badge;
     }
     
+    public function getEarnedBadges($user_id) {
+        $this->db->distinct();
+        $this->db->select('badge_id');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('earned_badge');
+        $x = 0;
+        foreach($query->result() as $row){
+            $badge[$x]['badgeId'] = $row->badge_id;  
+            $badge[$x]['imageSource'] = $this->getBadgeThumbnail($row->badge_id, 1);
+            $x++;
+        }
+        return $badge;
+    }
+    
     public function addBadge($data){
         $this->db->insert('badge', $data);
         return mysql_insert_id();

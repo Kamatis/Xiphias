@@ -114,7 +114,7 @@ class User extends CI_Model{
             $data['lastname']   = $query->row()->last_name;
             $data['name']       = $data['firstname'] . " " . $data['middlename'][0] . ". " . $data['lastname'];
             $data['isOwner']    = ($this->session->userdata('username') == $username); 
-            $data['isNPC']      = ($query->row()->user_type == 2);
+            $data['isNPC']      = ($query->row()->user_type != 1);
             if(!$data['isNPC']){
                 $playerData = $this->user->getPlayerInfo($query->row()->user_id);
                 $data['experience']   = $playerData->row()->experience;

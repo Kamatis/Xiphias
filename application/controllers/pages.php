@@ -142,8 +142,12 @@ class Pages extends CI_Controller {
 
     $description = $this->user->getDescription($user_profile['user_id']);
     $description['isOwner'] = ($data['username'] == $username);
-
-    $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
+    
+    if($user_profile['isNPC'])
+        $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
+    else
+        $badges['badge'] = $this->badge->getEarnedBadges($user_profile['user_id']);
+    
     $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
     $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
     $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
