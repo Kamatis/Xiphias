@@ -30,6 +30,62 @@ $(".knob").hover(
   }
 );
 
+//region Registration
+
+$('.btn.toggleable').on('click', function(){
+  $('.btn.toggleable').removeClass('active');
+  $(this).addClass('active');
+});
+
+$('#btn-next').on('click', function(){
+  var nextItem = $('li.current').next();
+  $('li.current').fadeOut(1000);
+  nextItem.fadeIn(1000);
+  if(nextItem.hasClass('last-question'))
+  {
+    $(this).fadeOut(1000);
+    
+    // @kelly:
+    // So yah this is the ajax part
+    // tiglaag ko na mga data.. haven't tested but probably works
+    // ang irereturn/echo mo na dataPass e2ng view na lastPanel.php sa views/register
+    // check mo lastPanel.php for the data needed duman
+    
+    var last = $('input[name="last_name"]').val();
+    var first = $('input[name="first_name"]').val();
+    var middle = $('input[name="middle_name"]').val();
+    var type = $('.btn.active').data('value');
+    var un = $('input[name="username]').val();
+    var pw = $('input[name="password]').val();
+    
+    $.ajax({
+      url: 'register',
+      data: { last_name : last, 
+              first_name : first,
+              middle_name : middle,
+              user_type : type,
+              username : un,
+              password : pw },
+      success: function(dataPass){
+        $('li.last-question').html(dataPass);
+      }
+    });
+  }
+    
+  $('li.current').removeClass('current');
+  nextItem.addClass('current');
+  
+//  $('li.current').fadeOut('slow', function(){
+//    nextItem.fadeIn('slow', function(){
+//      $('li.current').removeClass('current');
+//      nextItem.addClass('current');
+//    });
+//  });
+  
+});
+
+//endregion
+
 //region Badges
 // dashboard menu button links
 // same as adding :D ahahahaha
