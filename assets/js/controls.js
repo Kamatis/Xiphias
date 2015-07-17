@@ -112,7 +112,6 @@ $('.btn-join-quest').on('click', function(){
       }
     });
   }
-  
 });
 //endregion
 
@@ -642,7 +641,7 @@ $('#btn-edit-profile').on('click', function(){
 
 $('#btn-create-resume').on('click', function(){
   BootstrapDialog.show({
-    title: 'Edit Profile',
+    title: 'Create Resume',
     message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/createResume'),
     cssClass: 'edit-profile-dialog'
   });
@@ -681,7 +680,7 @@ $('body').on('click', '#secondary-list', function(){
 $('body').on('click', '#add-affil', function(){
   BootstrapDialog.show({
     title: 'Add Affiliation',
-    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/addAffiliation'),
+    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddAffiliation'),
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
@@ -695,7 +694,37 @@ $('body').on('click', '#add-affil', function(){
                               position: p, 
                               date: d },
                       success: function(){
-                        alert('yow!');
+                        alert('Affiliation Added');
+                      }
+                    })
+                }
+            }, {
+                label: 'Cancel',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+  });
+})
+
+$('body').on('click', '#add-involve', function(){
+  BootstrapDialog.show({
+    title: 'Add Involvement',
+    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddInvolvement'),
+    buttons: [{
+                label: 'Add',
+                action: function(dialog) {
+                    var n = $('input-inv-name').val();
+                    var p = $('input-inv-venue').val();
+                    var d = $('input-inv-date').val();
+                    $.ajax({
+                      url: 'addInvolvement',
+                      type: 'post',
+                      data: { name:n,
+                              position: p, 
+                              date: d },
+                      success: function(){
+                        alert('Involvement Added!');
                       }
                     })
                 }
