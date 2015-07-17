@@ -42,6 +42,17 @@ class Pages extends CI_Controller {
 		$this->load->view('register', $data);
 	}
     
+    public function checkUser() {
+        $data = array(
+            'username' => $this->db->escape_str($this->input->post('username')),
+            'password' => $this->input->post('password')
+        );
+        if($this->user->valid_login($data))
+            echo "ok";
+        else
+            echo $data['password'];
+    }
+    
     public function login_attempt() {
         $data = array(
             'username' => $this->db->escape_str($this->input->post('txtUsername')),
