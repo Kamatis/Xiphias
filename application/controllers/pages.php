@@ -50,7 +50,7 @@ class Pages extends CI_Controller {
         if($this->user->valid_login($data))
             echo "ok";
         else
-            echo $data['password'];
+            echo "no";
     }
     
     public function login_attempt() {
@@ -83,14 +83,25 @@ class Pages extends CI_Controller {
     }
   
     public function editProfile() {
-      $query = $this->db->get('program');
+      $query = $this->course->getCourses();
       $data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
       foreach ($query->result() as $row) 
           $data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
+      $query1 = $this->school->getSchools(1);
+      $query2 = $this->school->getSchools(2);
       
+      $data['primary'] = "<option value=\"0\" disabled selected>Select your primary school</option>\n";
+      foreach($query1->result() as $row)
+          $data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+      
+      $data['secondary'] = "<option value=\"0\" disabled selected>Select your secondary school</option>\n";
+      foreach($query2->result() as $row)
+          $data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+        
       for($yr = 2015; $yr>=1900; $yr--)
         $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
+          
       $view = $this->load->view('profile/editProfile', $data , true);
       echo $view;
     }
@@ -135,107 +146,105 @@ class Pages extends CI_Controller {
     }
 
     public function questboard() {
-      $query = $this->db->get('user');
-      $data = $this->user->getSessionData();
-      $data['title'] = 'Quest Board';
+        $query = $this->db->get('user');
+        $data = $this->user->getSessionData();
+        $data['title'] = 'Quest Board';
 
 
-      $quests = $this->quest->getAllQuests();
+        $quests = $this->quest->getAllQuests();
 
-      // this should be iterated to get the quest data to be pushed to the view
-      $questCount = count($quests);
-      for($x = 0; $x < $questCount; $x++)
-          $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
+        // this should be iterated to get the quest data to be pushed to the view
+        $questCount = count($quests);
+        for($x = 0; $x < $questCount; $x++)
+            $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
 
-      $body['menu'] = $this->load->view('menu', $data, true);
-      $body['content'] = $this->load->view('questboard', $views, true);
+        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['content'] = $this->load->view('questboard', $views, true);
 
-      $this->load->view('header');
-      $this->load->view('body', $body);
+        $this->load->view('header');
+        $this->load->view('body', $body);
     }
 
     public function leaderboards() {
-      $query = $this->db->get('user');
+        $query = $this->db->get('user');
 
-      $data = $this->user->getSessionData();
-      $data['title'] =  'Quest Board';
+        $data = $this->user->getSessionData();
+        $data['title'] =  'Quest Board';
 
-      $body['menu'] = $this->load->view('menu', $data, true);
-      $body['content'] = $this->load->view('leaderboards', $views, true);
+        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['content'] = $this->load->view('leaderboards', $views, true);
 
-      $this->load->view('header');
-      $this->load->view('body', $body);
+        $this->load->view('header');
+        $this->load->view('body', $body);
     }
 
     public function dashboard() {
-    $query = $this->db->get('user');
+        $query = $this->db->get('user');
 
-    $data = $this->user->getSessionData();  
-    $data['title'] =  $this->session->userdata('username') . "@Xiphias";
+        $data = $this->user->getSessionData();  
+        $data['title'] =  $this->session->userdata('username') . "@Xiphias";
 
-    $user_id = $this->session->userdata('user_id');
+        $user_id = $this->session->userdata('user_id');
 
-    // Badges
-    $myBadges = $this->badge->getMyBadges($user_id);
-    for($x = 0; $x < count($myBadges); $x++)
-      $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+        // Badges
+        $myBadges = $this->badge->getMyBadges($user_id);
+        for($x = 0; $x < count($myBadges); $x++)
+          $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
 
-    // Quests
-    $myQuests = $this->quest->getMyQuests($user_id);
-    for($x = 0; $x < count($myQuests); $x++)
-      $quest['myQuests'] .= $this->load->view('dashboard/myquests', $myQuests[$x], true);
+        // Quests
+        $myQuests = $this->quest->getMyQuests($user_id);
+        for($x = 0; $x < count($myQuests); $x++)
+          $quest['myQuests'] .= $this->load->view('dashboard/myquests', $myQuests[$x], true);
 
-    $rarities = $this->quest->getRarityInfo();
-    for($x = 0; $x < count($rarities); $x++)
-      $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
-    $quest['rare'] = count($rarities);
+        $rarities = $this->quest->getRarityInfo();
+        for($x = 0; $x < count($rarities); $x++)
+          $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
+        $quest['rare'] = count($rarities);
 
-    // Parties
-    $myParties = $this->party->getMyParties($user_id);
-    for($x = 0; $x < count($myParties); $x++)
-      $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
+        // Parties
+        $myParties = $this->party->getMyParties($user_id);
+        for($x = 0; $x < count($myParties); $x++)
+          $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
 
-    // Offices
-    $myOffices = $this->office->getMyOffices($user_id);
-    for($x = 0; $x < count($myOffices); $x++)
-        $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
+        // Offices
+        $myOffices = $this->office->getMyOffices($user_id);
+        for($x = 0; $x < count($myOffices); $x++)
+            $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
 
-    $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
-    $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
-    $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
-    $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
-    $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
-    $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
-    $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
+        $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
+        $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
+        $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
+        $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
+        $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
+        $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
 
-    $body['menu'] = $this->load->view('menu', $data, true);
-    $body['content'] = $this->load->view('dashboard', $views, true);
+        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['content'] = $this->load->view('dashboard', $views, true);
 
-    $this->load->view('header');
-    $this->load->view('body', $body);
+        $this->load->view('header');
+        $this->load->view('body', $body);
     }
 
     public function getAwardingBadge() {
-    $activeBadge = $this->input->post('badge_id');
-    $user_id = $this->session->userdata('user_id');
-    $myBadges = $this->badge->getMyBadges($user_id);
-    for($x = 0; $x < count($myBadges); $x++)
-    {
-      $myBadges[$x]['active'] = $activeBadge;
-      $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
-    }
-
-    echo $badges['mybadges'];
+        $activeBadge = $this->input->post('badge_id');
+        $user_id = $this->session->userdata('user_id');
+        $myBadges = $this->badge->getMyBadges($user_id);
+        for($x = 0; $x < count($myBadges); $x++) {
+            $myBadges[$x]['active'] = $activeBadge;
+            $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+        }
+        echo $badges['mybadges'];
     }
 
     public function getEmptyUpgrade() {
-    $badge_id = $this->input->post('badge_id');
-    
-    if($badge_id == 0)
-        $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
-    
-    $this->load->view('dashboard/badgeUpgrade.php', $badge);
-  }
+        $badge_id = $this->input->post('badge_id');
+
+        if($badge_id == 0)
+            $badge['imageSource'] = base_url('assets/images/emptyBadge.png');
+
+        $this->load->view('dashboard/badgeUpgrade.php', $badge);
+    }
     
     public function addBadge() {
         $badgeName        = $this->input->post('txtBadgeName');
@@ -391,7 +400,6 @@ class Pages extends CI_Controller {
         if($data['user_type'] == 1){
             $player['player_level'] = 1;
             $player['experience']   = 0;
-            $player['program_code'] = "BSIT";
             $player['house_id']     = $this->user->assignHouse();
             $player['user_id']      = $user_id;
             $dataPass['house'] = $this->house->getHouseInfo($player['house_id']);
@@ -417,7 +425,7 @@ class Pages extends CI_Controller {
     }
   
     public function getAllPrograms() {
-      $query = $this->db->get('program');
+      $query = $this->course->getCourses();
       $options = "<option value=\"0\" disabled selected>Select your course</option>\n";
       foreach ($query->result() as $row) 
           $options .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
