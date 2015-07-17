@@ -74,10 +74,19 @@ class Quest extends CI_model{
         return $rarities;
     }
     
+    public function isRegistered($user_id, $quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('quest_registration');
+        if($query->num_rows() == 1)
+            return true;
+        return false;
+    }
+    
     public function getAllQuests(){
         $query = $this->db->get('quest');
         $x = 0;
-        
+        $user_id = $this->session->userdata('user_id');
         foreach($query->result() as $row){
             $quest[$x]['quest_id']     = $row->quest_id;
             $quest[$x]['title']        = $row->quest_title;
@@ -92,6 +101,7 @@ class Quest extends CI_model{
             $quest[$x]['badge_id']     = $row->badge_id;
             $quest[$x]['badge_name']   = $this->badge->getBadgeName($row->badge_id, 1);
             $quest[$x]['badge_image']  = $this->badge->getBadgeThumbnail($row->badge_id, 1);
+            $quest[$x]['joined']       = $this->quest->isRegistered($user_id, $row->quest_id);
             if($row->start_date == $row->end_date)
                 $quest[$x]['quest_date'] = $row->start_date;
             else
