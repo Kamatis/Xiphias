@@ -271,19 +271,7 @@ $('body').on('click', '#btn-save-profile', function(){
     data: formData,
     contentType: false,
     processData: false,
-    success: function(dataPass){
-        alert(dataPass);
-      BootstrapDialog.show({
-            title: 'SUCCESS',
-            message: 'ADDED!'
-        });
-        $('input').val("");
-        $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
-        $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
-        $('#my-badges').html(dataPass);
-    }
+    async:false
   })
 });
 

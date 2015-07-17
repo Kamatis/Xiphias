@@ -216,8 +216,8 @@ class Pages extends CI_Controller {
     public function updateProfile() {
         $user_id = $this->session->userdata('user_id');
         $program['program_code'] = $this->input->post('program_code');
-        $this->user->updateProgramCode($user_id, $program);
         $data['description'] = $this->input->post('description');
+        $this->user->updateProgramCode($user_id, $program);
         $this->user->updateDescription($user_id, $data);
     }
     
