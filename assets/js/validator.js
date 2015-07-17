@@ -33,15 +33,15 @@ function checkRequired(){
 // check username and password
 function checkUser(un, pw, callback){
     return $.ajax({
-                url: "http://127.0.0.1/xiphias/assets/php/checkUser.php",
-                type: "get",
-                cache: false,
-                data: { username: un, password: pw}
-            })
-            .done(callback)
-	    .fail(function(jqXHR, textStatus, errorThrown) {
-	        alert("An error occured!\n" + xhr);
-	    });
+        url: "http://127.0.0.1/xiphias/index.php/pages/checkUser",
+        type: "post",
+        cache: false,
+        data: { username: un, password: pw }
+    })
+    .done(callback)
+    .fail(function(jqXHR, textStatus, errorThrown) {
+        alert("An error occured!\n" + xhr);
+    });
 }
 
 
