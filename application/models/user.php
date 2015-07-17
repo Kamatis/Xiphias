@@ -102,10 +102,31 @@ class User extends CI_Model{
         return $this->db->get('player')->row()->house_id;
     }
     
+    public function levelUp($user_id) {
+        $this->db->set('player_level', 'player_level + 1', false);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player');
+    }
+    
+    public function getExpNeeded($level) {
+        $this->db->where('lvl', $level);
+        return $this->db->get('avatar')->row()->experience_needed;
+    }
+    
     public function awardExperience($user_id, $exp) {
         $this->db->set('experience', 'experience + ' . $exp, false);
         $this->db->where('user_id', $user_id);
         $this->db->update('player');
+        while(true) {
+            $this->db->where('user_id', $user_id);
+            $query = $this->db->get('player')->row();
+            $curr_exp = $query->experience;
+            $next_exp = $this->user->getExpNeeded($query->player_level + 1);
+            if($curr_exp >= $next_exp)
+                $this->user->levelUp($user_id);
+            else
+                break;
+        }
     }
     
     public function getUserInfo($username){
