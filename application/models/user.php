@@ -178,6 +178,7 @@ class User extends CI_Model{
         $data['isNPC']      = $this->session->userdata('isNPC');
         $data['isAdmin']    = $this->session->userdata('isAdmin');
         $data['isVerified'] = $this->session->userdata('isVerified');
+        $data['offices']    = $this->office->getMyOffices($this->session->userdata('user_id'));
         return $data;    
     }
 }

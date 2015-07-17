@@ -31,22 +31,22 @@
                     <h1 style="color: white; text-align: left">Log In</h1>
                     <hr>
                     <div class="form-group has-feedback">
-                        <input id="txtUsername" name="txtUsername" type="text" class="form-control required" placeholder="Username">
+                        <input tabindex="1" id="txtUsername" name="txtUsername" type="text" class="form-control required" placeholder="Username">
                         <span class="glyphicon glyphicon-remove color-red form-control-feedback x-mark" style="display: none"></span>
                         <p class="error"></p>
                     </div>
                     <div class="form-group has-feedback">
-                        <input type="password" id="txtPassword" name="txtPassword" class="form-control required" placeholder="Password">
+                        <input tabindex="2" type="password" id="txtPassword" name="txtPassword" class="form-control required" placeholder="Password">
                         <span class="glyphicon glyphicon-remove color-red form-control-feedback x-mark" style="display: none"></span>
                         <p class="error"></p>
                     </div>
                     <div class="form-group">
-                        <button data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
+                        <input tabindex="3" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
                                 data-title=""
-                                class="form-control btn btn-success submit-validation" type="submit" style="background: #d9853c;">Log In</button>
+                                class="form-control btn btn-success submit-validation" type=button style="background: #d9853c;" value="Log In">
                     </div>
                     <div class="form-group">
-                        <p class="color-white left-align">No account yet? Register <a href="<?php echo base_url('index.php/pages/register'); ?>" style="color: #568d8a;">here</a>!</p>
+                        <p class="color-white left-align">No account yet? Register <a tabindex="" href="<?php echo base_url('index.php/pages/register'); ?>" style="color: #568d8a;">here</a>!</p>
                     </div>
                 </form>
             </div>
