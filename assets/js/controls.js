@@ -263,6 +263,30 @@ $('body').on('click', '.list-item-party', function(){
   
 });
 
+$('body').on('click', '#btn-save-profile', function(){
+  var formData = new FormData(document.getElementById('edit-profile'));
+  $.ajax({
+    url: "http://127.0.0.1/xiphias/index.php/pages/updateProfile",
+    type: "post",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(dataPass){
+        alert(dataPass);
+      BootstrapDialog.show({
+            title: 'SUCCESS',
+            message: 'ADDED!'
+        });
+        $('input').val("");
+        $('textarea').val("");
+        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+        $('.badge-level').remove();
+        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+        $('#my-badges').html(dataPass);
+    }
+  })
+});
+
 $('body').on('click', '#btn-award-ok', function(){
   var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');

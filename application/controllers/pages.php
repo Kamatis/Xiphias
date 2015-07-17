@@ -134,39 +134,39 @@ class Pages extends CI_Controller {
     }
   
     public function profile($username) {
-    // Data fields
-    $user_profile = $this->user->getUserInfo($username);
+        // Data fields
+        $user_profile = $this->user->getUserInfo($username);
 
-    $data = $this->user->getSessionData();
-    $data['title']      = $username . "@Xiphias";
+        $data = $this->user->getSessionData();
+        $data['title'] = "Xiphias | ".$username;
 
-    $description = $this->user->getDescription($user_profile['user_id']);
-    $description['isOwner'] = ($data['username'] == $username);
-    
-    if($user_profile['isNPC'])
-        $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
-    else
-        $badges['badge'] = $this->badge->getEarnedBadges($user_profile['user_id']);
-    
-    $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
-    $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
-    $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
-    $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
+        $description = $this->user->getDescription($user_profile['user_id']);
+        $description['isOwner'] = ($data['username'] == $username);
 
-    // views in <body>
-    $body['menu'] = $this->load->view('menu', $data, true);
-    $body['content'] = $this->load->view('profile', $views, true);
+        if($user_profile['isNPC'])
+            $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
+        else
+            $badges['badge'] = $this->badge->getEarnedBadges($user_profile['user_id']);
 
-    // Main views inserted in <html>
-    $this->load->view('header');
-    $this->load->view('body', $body);
+        $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
+        $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
+        $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
+        $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
+
+        // views in <body>
+        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['content'] = $this->load->view('profile', $views, true);
+
+        // Main views inserted in <html>
+        $this->load->view('header');
+        $this->load->view('body', $body);
     }
 
     public function settings() {
         $user_profile = $this->user->getUserInfo($username);
 
         $data = $this->user->getSessionData();
-        $data['title']      = $username . "@Xiphias";
+        $data['title']      = "Xiphias | Settings";
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('settings', '', true);
@@ -179,7 +179,7 @@ class Pages extends CI_Controller {
     public function questboard() {
         $query = $this->db->get('user');
         $data = $this->user->getSessionData();
-        $data['title'] = 'Quest Board';
+        $data['title'] = 'Xiphias | Quest Board';
 
 
         $quests = $this->quest->getAllQuests();
@@ -204,7 +204,7 @@ class Pages extends CI_Controller {
         $query = $this->db->get('user');
 
         $data = $this->user->getSessionData();
-        $data['title'] =  'Quest Board';
+        $data['title'] =  'Xiphias | Leaderboards';
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('leaderboards', $views, true);
@@ -212,12 +212,20 @@ class Pages extends CI_Controller {
         $this->load->view('header');
         $this->load->view('body', $body);
     }
-
+    
+    public function updateProfile() {
+        $user_id = $this->session->userdata('user_id');
+        $program['program_code'] = $this->input->post('program_code');
+        $this->user->updateProgramCode($user_id, $program);
+        $data['description'] = $this->input->post('description');
+        $this->user->updateDescription($user_id, $data);
+    }
+    
     public function dashboard() {
         $query = $this->db->get('user');
 
         $data = $this->user->getSessionData();  
-        $data['title'] =  $this->session->userdata('username') . "@Xiphias";
+        $data['title'] =  "Xiphias | Dashboard";
 
         $user_id = $this->session->userdata('user_id');
 

@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Register</title>
+    <title>Xiphias | Log In</title>
     <link href="<?php echo base_url('assets/bootstrap-3.3.4-dist/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/minimit.css'); ?>">
     <!--<link rel="stylesheet" href="<?php echo base_url('assets/css/registerstyles.css'); ?>">-->

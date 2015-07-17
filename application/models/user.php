@@ -78,6 +78,11 @@ class User extends CI_Model{
         $this->db->update('user', $data);
     }
     
+    public function updateProgramCode($user_id, $data){
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player', $data);
+    }
+    
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
         $data['description'] = $this->db->get('user')->row()->description;
