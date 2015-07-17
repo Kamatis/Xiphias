@@ -77,6 +77,10 @@ class Pages extends CI_Controller {
             redirect(base_url() . 'index.php/pages/login');
     }
     
+    public function getRankings($type) {
+        echo json_encode($this->user->getRankings($type));
+    }
+    
     public function logout(){
         $this->session->sess_destroy();
         redirect(base_url() . 'index.php');

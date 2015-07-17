@@ -70,13 +70,13 @@
     <!-- https://api.github.com/users/mralexgray/repos -->
     <div class="col-sm-12" style="margin-top: 35px;">
       <div class="" style="margin-left: 100px; margin-right: 100px;">
-        <table id="rank-table" data-toggle="table" data-url="https://api.github.com/users/Ocramius/repos" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]" data-search="true" data-show-refresh="true">
+        <table id="rank-table" data-toggle="table" data-url="http://127.0.0.1/xiphias/index.php/pages/getRankings/1" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]" data-search="true" data-show-refresh="true">
           <thead>
             <tr>
-              <th data-field="id" data-sortable="true" class="col-sm-1">#</th>
-              <th data-field="name" data-sortable="true" class="col-sm-12">USERNAME</th>
-              <th data-field="price" data-sortable="true" data-align="center" class="col-sm-1">HOUSE</th>
-              <th data-field="points" data-sortable="true" class="col-sm-1">POINTS</th>
+              <th data-field="id" data-sortable="true" class="col-lg-1 col-sm-1">#</th>
+              <th data-field="name" data-sortable="true" class="col-lg-8 col-sm-8">USERNAME</th>
+              <th data-field="price" data-sortable="true" data-align="center" class="col-lg-2 col-sm-2">HOUSE</th>
+              <th data-field="points" data-sortable="true" class="col-lg-1 col-sm-1">POINTS</th>
             </tr>
           </thead>
         </table>

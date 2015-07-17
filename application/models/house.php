@@ -14,4 +14,9 @@ class House extends CI_Model {
         $this->db->where('house_id', $houseId);
         $this->db->update('house');
     }
+    
+    public function getHouseName($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_name;
+    }
 }

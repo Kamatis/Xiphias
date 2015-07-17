@@ -627,11 +627,11 @@ $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
   var geturl = ""
   if(selectedVal == 1)
-    geturl = "https://api.github.com/users/Ocramius/repos";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/1";
   else if(selectedVal == 2) 
-    geturl = "https://api.github.com/users/mralexgray/repos";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/2";
   else if(selectedVal == 3)
-    geturl = "https://api.github.com/users/michalbe/repos";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/3";
   
   $('#rank-table').bootstrapTable('refresh', {
     url: geturl

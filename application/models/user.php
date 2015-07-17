@@ -155,6 +155,27 @@ class User extends CI_Model{
         }
     }
     
+    public function getPlayerExp($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->experience;
+    }
+    
+    public function getRankings($type) {
+        $this->db->order_by('experience', 'desc');
+        $players = $this->db->get('player');
+        $x = 0;
+        foreach($players->result() as $player) {
+            $data[$x]['id']     = $x+1;
+            $data[$x]['name']   = $this->user->getUsername($player->user_id);
+            $data[$x]['price']  = $this->house->getHouseName($player->house_id);
+            $data[$x]['points'] = $player->experience;
+            if($x != 0 && $data[$x]['points'] == $data[$x-1]['points'])
+                $data[$x]['id'] = $data[$x-1]['id'];
+            $x++;
+        }
+        return $data;
+    }
+    
     public function awardBadge($data){
         $this->db->insert('earned_badge', $data);
     }
