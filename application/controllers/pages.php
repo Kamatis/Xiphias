@@ -424,6 +424,12 @@ class Pages extends CI_Controller {
         $this->quest->register($data);
     }
   
+    public function questAbort() {
+        $quest_id = $this->input->post('quest_id');
+        $user_id  = $this->session->userdata('user_id');
+        $this->quest->abortQuest($quest_id, $user_id);  
+    }
+    
     public function getAllPrograms() {
       $query = $this->course->getCourses();
       $options = "<option value=\"0\" disabled selected>Select your course</option>\n";

@@ -104,4 +104,10 @@ class Quest extends CI_model{
     public function register($data) {
         $this->db->insert('quest_registration', $data);   
     }
+    
+    public function abortQuest($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->delete('quest_registration');
+    }
 }
