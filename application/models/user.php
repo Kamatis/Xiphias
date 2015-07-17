@@ -70,7 +70,7 @@ class User extends CI_Model{
     
     public function getLvlImage($level){
         $this->db->where('lvl', $level);
-        return $this->db->get('avatar')->row()->image;
+        return base_url($this->db->get('avatar')->row()->image);
     }
     
     public function updateDescription($user_id, $data){
@@ -91,7 +91,7 @@ class User extends CI_Model{
     
     public function getUserPhoto($user_id) {
         if($this->user->isNPC($user_id))
-            return "assets/images/new_logo.png";
+            return base_url('assets/images/new_logo.png');
         $this->db->where('user_id', $user_id);
         $query = $this->db->get('player');
         return $this->user->getLvlImage($query->row()->player_level);

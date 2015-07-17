@@ -112,6 +112,7 @@ class Quest extends CI_model{
             $quest[$x]['badge_name']   = $this->badge->getBadgeName($row->badge_id, 1);
             $quest[$x]['badge_image']  = $this->badge->getBadgeThumbnail($row->badge_id, 1);
             $quest[$x]['joined']       = $this->quest->isRegistered($user_id, $row->quest_id);
+            $quest[$x]['creator_logo'] = $this->user->getUserPhoto($row->creator_id);
             if($row->start_date == $row->end_date)
                 $quest[$x]['quest_date'] = $row->start_date;
             else
