@@ -91,13 +91,13 @@ $('.btn-join-quest').on('click', function(){
   var qid = $(this).data("questid");
   var btn = $(this);
   if($(this).html() == "Join") {
-    alert(qid);
+//    alert(qid);
     $.ajax({
       url: 'questRegistration',
       type: 'post',
       data: { quest_id:qid },
       success: function(){
-        alert(btn.html());
+//        alert(btn.html());
         btn.html('Abort');
       }
     });
