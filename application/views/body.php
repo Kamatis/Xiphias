@@ -21,6 +21,7 @@
     <script src="<?php echo base_url('assets/js/controls.js'); ?>"></script>
     <script src="<?php echo base_url('assets/highcharts/highcharts.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/custom-knob.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/charts.js'); ?>"></script>
     
     <script>
       $(function () {
