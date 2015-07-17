@@ -72,9 +72,11 @@
             <text style="font-size: 12px;"><?php echo $house_points; ?> HP</text>
           </div>
         </div>
+        <?php if(!$isNPC) { ?>
         <div class="questpin-control">
           <a href="#" class="btn btn-success form-control btn-join-quest" data-questId="<?php echo $quest_id; ?>" style="background-color: #740AB8;"><?php if(!$joined) {?>Join<?php } else { ?>Abort<?php } ?></a>
         </div>
+        <?php } ?>
       </div>
     </div>
   </div>
