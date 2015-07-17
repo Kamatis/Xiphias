@@ -83,6 +83,16 @@ class Quest extends CI_model{
         return false;
     }
     
+    public function doneAwarding($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->where('date_completed', null);
+        $query = $this->db->get('quest_registration');
+        if($query->num_rows() == 1)
+            return false;
+        return true;
+    }
+    
     public function getAllQuests(){
         $query = $this->db->get('quest');
         $x = 0;

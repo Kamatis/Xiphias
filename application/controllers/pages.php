@@ -401,14 +401,28 @@ class Pages extends CI_Controller {
     }
     
     public function awardBadge() {
-        $badgeId  = $this->input->post('badge_id');
-        $memberId = $this->input->post('memberId');
-        $memberCount = count($menberId);
+        $questId    = 1; //$this->input->post('quest_id');
+        $badgeId    = $this->input->post('badge_id');
+        $memberId   = $this->input->post('qRegID');
+        $housePoint = 1; //$this->input->post('house_point');
+        $experience = 2; // $this->input->post('experience');
+        
+        $memberCount = count($memberId);
         for($x = 0; $x < $memberCount; $x++){
-            $data['user_id'] = $memberId[$x];
-            $data['badge_id'] = $badgeId;
-            $data['date_earned'] = date('Y-m-d');
-            $this->user->awardBadge($data);
+            // update house point
+            $houseId = $this->user->getHouseId($memberId[$x]);
+            $this->house->awardHousePoint($houseId, $housePoint);
+            
+            // update player experience
+            $this->user->awardExperience($memberId[$x], $experience);
+            
+            // award badge
+            if(!$this->quest->doneAwarding($questId, $memberId[$x])){
+                $data['user_id'] = $memberId[$x];
+                $data['badge_id'] = $badgeId;
+                $data['date_earned'] = date('Y-m-d');
+                $this->user->awardBadge($data);
+            }
         }
     }
     

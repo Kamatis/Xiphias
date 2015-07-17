@@ -91,6 +91,17 @@ class User extends CI_Model{
         $query = $this->db->get('player');
         return $this->user->getLvlImage($query->row()->player_level);
     }
+
+    public function getHouseId($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->house_id;
+    }
+    
+    public function awardExperience($user_id, $exp) {
+        $this->db->set('experience', 'experience + ' . $exp, false);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player');
+    }
     
     public function getUserInfo($username){
         $this->db->where('username like binary \''.$username. '\'');

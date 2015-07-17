@@ -264,9 +264,9 @@ $('body').on('click', '.list-item-party', function(){
 });
 
 $('body').on('click', '#btn-award-ok', function(){
-  var formData = new FormData($('#party-form'));
+  var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');
-  formdata.append('badge_id', badgeid);
+  formData.append('badge_id', badgeid);
   $.ajax({
     url: "awardBadge",
     type: "post",
@@ -278,7 +278,6 @@ $('body').on('click', '#btn-award-ok', function(){
             title: 'SUCCESS',
             message: 'ADDED!'
         });
-//        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
         $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");

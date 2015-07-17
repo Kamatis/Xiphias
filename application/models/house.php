@@ -8,4 +8,10 @@ class House extends CI_Model {
         $data['house_name'] = $house->house_name;
         return $data;
     }
+    
+    public function awardHousePoint($houseId, $housePoint) {
+        $this->db->set('house_points', 'house_points + ' . $housePoint ,false);
+        $this->db->where('house_id', $houseId);
+        $this->db->update('house');
+    }
 }

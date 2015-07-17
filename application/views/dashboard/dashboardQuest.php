@@ -85,12 +85,12 @@
         <button type="button" class="btn btn-success btn-xs m-right pull-right" id="btn-qreg-refresh"><i class="glyphicon glyphicon-refresh"></i></button>
 
       </div>
-      <div class="panel-body">
-        <input type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">
+      <form action="#" id="quest-registrants" method="post" class="panel-body">
+        <input name="reg-search" type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">
         <ul id="quest-members" class="nav nav-stacked scrollable-menu">
           
         </ul>
-      </div>
+      </form>
     </div>
   </div>
 </div>
