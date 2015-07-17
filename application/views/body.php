@@ -11,6 +11,8 @@
     <script src="<?php echo base_url('assets/bootstrap-dialog/js/bootstrap-dialog.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-date-range/js/moment.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-date-range/js/daterangepicker.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/bootstrap-typeahead/bootstrap3-typeahead.js'); ?>"></script>
     <script src="<?php echo base_url('assets/knob/jquery.knob.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-slider/js/plugin.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-slider/js/main.js'); ?>"></script>
@@ -18,7 +20,7 @@
     <script src="<?php echo base_url('assets/js/controls.js'); ?>"></script>
     <script src="<?php echo base_url('assets/highcharts/highcharts.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/custom-knob.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/bootstrap-table/bootstrap-table.js'); ?>"></script>
+    
     <script>
       $(function () {
       $('#timeline').highcharts({

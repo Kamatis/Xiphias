@@ -599,3 +599,46 @@ $('#sel-quest-type').on('change', function(){
 });
 
 //endregion
+
+// region profile
+
+$('#btn-edit-profile').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Edit Profile',
+    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/editProfile'),
+    cssClass: 'edit-profile-dialog'
+  });
+});
+
+$('body').on('click', '#primary-add', function(){
+  $('#select-primary').toggle();
+  $('#input-primary').toggle();
+  $(this).toggle();
+  $('#primary-list').toggle();
+});
+
+$('body').on('click', '#primary-list', function(){
+  $('#input-primary').val('');
+  $('#input-primary').toggle();
+  $('#select-primary').toggle();
+  $(this).toggle();
+  $('#primary-add').toggle();
+});
+
+$('body').on('click', '#secondary-add', function(){
+  $('#select-secondary').toggle();
+  $('#input-secondary').toggle();
+  $(this).toggle();
+  $('#secondary-list').toggle();
+});
+
+$('body').on('click', '#secondary-list', function(){
+  $('#input-secondary').val('');
+  $('#input-secondary').toggle();
+  $('#select-secondary').toggle();
+  $(this).toggle();
+  $('#secondary-add').toggle();
+});
+
+
+// endregion

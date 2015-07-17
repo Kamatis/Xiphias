@@ -462,7 +462,7 @@ select[readonly] {
 }
 
 .description-content {
-  margin: 0;     padding: 10px 50px;     position: relative;     font-family: Georgia, serif;     color: #666;     font-style: italic;     
+  margin: 0;     padding: 10px 50px;     position: relative;     font-family: Georgia, serif;     color: #666;     font-style: italic;    min-height: 100px;   
 }
 
 .description-content:before, .description-content:after {     content: "\201C";     position: absolute;     font-size: 80px;     line-height: 1;     color: #999;     font-style: normal; } .description-content:before {     top: 0;     left: 10px; } .description-content:after {     content: "\201D";     right: 10px;     bottom: -0.5em; } - See more at: http://www.siteart.co.uk/pretty-css-testimonials#sthash.1dLcOoTl.dpuf
@@ -514,13 +514,14 @@ textarea {
 }
 
 .txtaDescription {
-  border: none;               !important;
-  overflow: auto;             !important;
-  outline: none;              !important;
+  border: none;                 !important;
+  overflow: auto;               !important;
+  outline: none;                !important;
+  background-color: transparent !important;
 
-  -webkit-box-shadow: none;   !important;
-  -moz-box-shadow: none;      !important;
-  box-shadow: none;           !important;
+  -webkit-box-shadow: none;     !important;
+  -moz-box-shadow: none;        !important;
+  box-shadow: none;             !important;
 }
 
 .input-no-border {
@@ -1031,4 +1032,25 @@ ol {
   text-decoration: none;
   border: 2px dashed #568d8a;
   padding: 5px;
+}
+
+/* profile styles */
+.modal {
+  padding-right: 0px !important;
+}
+
+.edit-profile-dialog .modal-dialog {
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.edit-profile-dialog .modal-header {
+  background-color: white !important;
+}
+
+.edit-profile-dialog .modal-content {
+  height: 100vh;
+  border-radius: 0px;
 }

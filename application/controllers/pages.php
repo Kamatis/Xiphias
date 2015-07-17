@@ -71,6 +71,19 @@ class Pages extends CI_Controller {
         redirect(base_url() . 'index.php');
     }
   
+    public function editProfile() {
+      $query = $this->db->get('program');
+      $data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
+      foreach ($query->result() as $row) 
+          $data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
+      
+      for($yr = 2015; $yr>=1900; $yr--)
+        $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
+      
+      $view = $this->load->view('profile/editProfile', $data , true);
+      echo $view;
+    }
+  
     public function profile($username) {
     // Data fields
     $user_profile = $this->user->getUserInfo($username);
@@ -390,5 +403,13 @@ class Pages extends CI_Controller {
         $data['quest_id'] = $this->input->post('quest_id');
         $data['date_registered'] = date('Y-m-d');
         $this->quest->register($data);
+    }
+  
+    public function getAllPrograms() {
+      $query = $this->db->get('program');
+      $options = "<option value=\"0\" disabled selected>Select your course</option>\n";
+      foreach ($query->result() as $row) 
+          $options .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
+      return $options;
     }
 }
