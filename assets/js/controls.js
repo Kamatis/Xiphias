@@ -102,7 +102,7 @@ $('.btn-join-quest').on('click', function(){
       }
     });
   }
-  else {
+  else if($(this).html() == "Abort") {
     $.ajax({
       url: 'questAbort',
       type: 'post',
@@ -279,7 +279,7 @@ $('body').on('click', '#btn-award-ok', function(){
   var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');
   var questid = $('.list-item-quest.active').data('questid');
-  alert(questid);
+//  alert(questid);
   formData.append('badge_id', badgeid);
   formData.append('quest_id', questid);
   $.ajax({
@@ -291,9 +291,9 @@ $('body').on('click', '#btn-award-ok', function(){
     success: function(dataPass){
       BootstrapDialog.show({
             title: 'SUCCESS',
-            message: 'ADDED!' + dataPass
+            message: 'ADDED!'
         });
-      alert(dataPass);
+//      alert(dataPass);
         $('input').val("");
         $('textarea').val("");
         $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
@@ -310,13 +310,14 @@ $('body').on('click', '.badge-thumb', function(){
 });
 
 $('#btn-award-badge').on('click', function(){
+//  <ul class="grid columns-3 nav scrollable-menu" id="my-badges">' + dataPass + '</ul>
   $.ajax({
     url: 'getAwardingBadge',
     type: 'post',
     success: function(dataPass) {
       BootstrapDialog.show({
-        title: 'Award a Badge',
-        message: '<ul class="grid columns-3 nav scrollable-menu" id="my-badges">' + dataPass + '</ul>',
+        title: 'Award Rewards',
+        message: 'Are you sure you want to award the rewards?',
         buttons: [{
           id: 'btn-award-ok',
           label: 'Award',
