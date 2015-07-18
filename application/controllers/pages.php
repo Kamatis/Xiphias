@@ -442,8 +442,9 @@ class Pages extends CI_Controller {
                 $data['date_earned'] = date('Y-m-d');
                 $this->user->awardBadge($data);
             }
-          $this->quest->completeQuest($questId, $memberId[$x]);
-      echo isset($badgeId);
+            $this->quest->completeQuest($questId, $memberId[$x]);
+            echo isset($badgeId);
+          }
     }
     
     public function changePartyPassword(){
