@@ -280,7 +280,7 @@ $('body').on('click', '#btn-award-ok', function(){
   var badgeid = $('.bordered').data('badgeid');
   formData.append('badge_id', badgeid);
   $.ajax({
-    url: "awardBadge",
+    url: "awardRewards",
     type: "post",
     data: formData,
     contentType: false,
@@ -411,6 +411,7 @@ $('input[name="date-range"]').daterangepicker({
 
 $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
+    var activeli = $(this);
     $.ajax({
         url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
@@ -434,6 +435,8 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
             $('#badge-reward-img').attr('src', (dataPass['badge_image']));
             $('#quest-members').html(dataPass['questRegistrant']);
+            $('.list-item-quest').removeClass('active');
+            activeli.addClass('active');
         }
     });
 });
