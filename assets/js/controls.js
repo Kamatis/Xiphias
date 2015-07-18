@@ -627,11 +627,11 @@ $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
   var geturl = ""
   if(selectedVal == 1)
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/1";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Academic";
   else if(selectedVal == 2) 
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/2";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Co-Curricular";
   else if(selectedVal == 3)
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/3";
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Extra-Curricular";
   
   $('#rank-table').bootstrapTable('refresh', {
     url: geturl

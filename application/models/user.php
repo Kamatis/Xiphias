@@ -164,18 +164,36 @@ class User extends CI_Model{
         return "<a href=\"".base_url('index.php/pages/profile/'.$username)."\">".$username."</a>";
     }
     
+    public function getPlayerPoints($user_id, $type) {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('`date_completed` IS NOT NULL', null, false);
+        $quests = $this->db->get('quest_registration');
+        $points = 0;
+        foreach($quests->result() as $quest) {
+            if($this->quest->getQuestType($quest->quest_id) == $type)
+                $points += $this->quest->getHousePoints($quest->quest_id);
+        }
+        return $points;
+    }
+    
     public function getRankings($type) {
         $this->db->order_by('experience', 'desc');
         $players = $this->db->get('player');
         $x = 0;
         foreach($players->result() as $player) {
-            $data[$x]['id']     = $x+1;
             $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
             $data[$x]['price']  = $this->house->getHouseName($player->house_id);
-            $data[$x]['points'] = $player->experience;
-            if($x != 0 && $data[$x]['points'] == $data[$x-1]['points'])
-                $data[$x]['id'] = $data[$x-1]['id'];
+            $data[$x]['points'] = $this->user->getPlayerPoints($player->user_id, $type);
             $x++;
+        }
+        usort($data, function($a, $b) {
+            return $b['points'] - $a['points'];
+        });
+        
+        for($y = 0; $y < $x; $y++) {
+            $data[$y]['id'] = $y + 1;
+            if($y != 0 && $data[$y]['points'] == $data[$y-1]['points'])
+                $data[$y]['id'] = $data[$y-1]['id'];
         }
         return $data;
     }

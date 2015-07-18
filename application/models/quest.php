@@ -138,4 +138,14 @@ class Quest extends CI_model{
         $data['date_completed'] = date('Y-m-d');
         $this->db->update('quest_registration', $data);
     }
+    
+    public function getQuestType($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->quest_type;
+    }
+    
+    public function getHousePoints($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->house_points;
+    }
 }
