@@ -278,9 +278,11 @@ $('body').on('click', '#btn-save-profile', function(){
 $('body').on('click', '#btn-award-ok', function(){
   var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');
+  var questid = $('.list-item-quest.active').data('questid');
   formData.append('badge_id', badgeid);
+  formData.append('quest_id', questid);
   $.ajax({
-    url: "awardRewards",
+    url: "awardReward",
     type: "post",
     data: formData,
     contentType: false,
