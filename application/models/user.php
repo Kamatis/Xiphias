@@ -278,4 +278,10 @@ class User extends CI_Model{
         $data['offices']    = $this->office->getMyOffices($this->session->userdata('user_id'));
         return $data;    
     }
+  
+    public function getCourse($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->program_code;
+    }
+
 }
