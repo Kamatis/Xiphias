@@ -418,12 +418,14 @@ class Pages extends CI_Controller {
         echo $this->user->getSerial($username);
     }
     
-    public function awardBadge() {
-        $questId    = 1; //$this->input->post('quest_id');
+    public function awardReward() {
+      
+        $questId    = $this->input->post('quest_id');
+        
         $badgeId    = $this->input->post('badge_id');
         $memberId   = $this->input->post('qRegID');
         $housePoint = 1; //$this->input->post('house_point');
-        $experience = 2; // $this->input->post('experience');
+        $experience = $this->quest->getEXP($questId);
         
         $memberCount = count($memberId);
         for($x = 0; $x < $memberCount; $x++){
@@ -443,6 +445,7 @@ class Pages extends CI_Controller {
                 $this->quest->completeQuest($questId, $memberId[$x]);
             }
         }
+      echo $questId;
     }
     
     public function changePartyPassword(){

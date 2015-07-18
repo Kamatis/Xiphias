@@ -279,6 +279,7 @@ $('body').on('click', '#btn-award-ok', function(){
   var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');
   var questid = $('.list-item-quest.active').data('questid');
+  alert(questid);
   formData.append('badge_id', badgeid);
   formData.append('quest_id', questid);
   $.ajax({
@@ -290,8 +291,9 @@ $('body').on('click', '#btn-award-ok', function(){
     success: function(dataPass){
       BootstrapDialog.show({
             title: 'SUCCESS',
-            message: 'ADDED!'
+            message: 'ADDED!' + dataPass
         });
+      alert(dataPass);
         $('input').val("");
         $('textarea').val("");
         $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
