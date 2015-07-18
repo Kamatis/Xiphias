@@ -74,7 +74,7 @@
         </div>
         <?php if(!$isNPC) { ?>
         <div class="questpin-control">
-          <a href="#" class="btn btn-success form-control btn-join-quest" data-questId="<?php echo $quest_id; ?>" style="background-color: #740AB8;" <?php if($awarded) echo "disabled"; ?>><?php if(!$joined) echo "Join"; else if($awarded) echo "Awarded"; else echo "Abort";?></a>
+          <a href="#" class="btn btn-success form-control btn-join-quest" data-questId="<?php echo $quest_id; ?>" style="background-color: #740AB8;" ><?php if(!$joined) echo "Join"; else if($awarded) echo "Awarded"; else echo "Abort";?></a>
         </div>
         <?php } ?>
       </div>
