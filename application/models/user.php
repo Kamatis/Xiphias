@@ -85,8 +85,7 @@ class User extends CI_Model{
     
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
-        $data['description'] = $this->db->get('user')->row()->description;
-        return $data;
+        return $this->db->get('user')->row()->description;
     }
     
     public function getUserPhoto($user_id) {

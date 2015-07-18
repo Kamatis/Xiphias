@@ -144,7 +144,7 @@ class Pages extends CI_Controller {
         $data = $this->user->getSessionData();
         $data['title'] = "Xiphias | ".$username;
 
-        $description = $this->user->getDescription($user_profile['user_id']);
+        $description['description'] = $this->user->getDescription($user_profile['user_id']);
         $description['isOwner'] = ($data['username'] == $username);
 
         if($user_profile['isNPC'])
