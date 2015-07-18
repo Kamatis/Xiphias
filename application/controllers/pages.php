@@ -435,7 +435,7 @@ class Pages extends CI_Controller {
             $this->user->awardExperience($memberId[$x], $experience);
             
             // award badge
-            if($badgeid != 0 || !$this->quest->doneAwarding($questId, $memberId[$x])){
+            if($badgeid != 0 && !$this->quest->doneAwarding($questId, $memberId[$x])){
                 $data['user_id'] = $memberId[$x];
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
