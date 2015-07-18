@@ -347,7 +347,7 @@ class Pages extends CI_Controller {
         $quest['quest_type']        = "Academic";
         $quest['house_points']      = 1;
         $badge_id = $this->input->post('badge_id');
-        if($badge_id != 0)
+        if(isset($badge_id))
             $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
@@ -420,9 +420,7 @@ class Pages extends CI_Controller {
     }
     
     public function awardReward() {
-      
         $questId    = $this->input->post('quest_id');
-        
         $badgeId    = $this->input->post('badge_id');
         $memberId   = $this->input->post('qRegID');
         $housePoint = 1; //$this->input->post('house_point');
@@ -437,17 +435,15 @@ class Pages extends CI_Controller {
             // update player experience
             $this->user->awardExperience($memberId[$x], $experience);
             
-            // award badge
-            if($badgeid != 0 && !$this->quest->doneAwarding($questId, $memberId[$x])){
+//             award badge
+            if(isset($badgeId) && !$this->quest->doneAwarding($questId, $memberId[$x])){
                 $data['user_id'] = $memberId[$x];
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
                 $this->user->awardBadge($data);
-                $this->quest->completeQuest($questId, $memberId[$x]);
             }
           $this->quest->completeQuest($questId, $memberId[$x]);
-        }
-      echo $questId;
+      echo isset($badgeId);
     }
     
     public function changePartyPassword(){
