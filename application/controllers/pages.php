@@ -345,7 +345,9 @@ class Pages extends CI_Controller {
         $quest['venue']             = $this->input->post('questVenue');
         $quest['quest_type']        = "Academic";
         $quest['house_points']      = 1;
-        $quest['badge_id']          = $this->input->post('badge_id');
+        $badge_id = $this->input->post('badge_id');
+        if($badge_id != 0)
+            $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
         $this->quest->addQuest($quest);
         
@@ -433,7 +435,7 @@ class Pages extends CI_Controller {
             $this->user->awardExperience($memberId[$x], $experience);
             
             // award badge
-            if(!$this->quest->doneAwarding($questId, $memberId[$x])){
+            if($badgeid != 0 || !$this->quest->doneAwarding($questId, $memberId[$x])){
                 $data['user_id'] = $memberId[$x];
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
@@ -445,7 +447,7 @@ class Pages extends CI_Controller {
     
     public function changePartyPassword(){
         $partyId = $this->input->post('party_id');
-        $data['party_password'] = $this->input->post('new_password');
+        $data['party_password'] = md5($this->input->post('new_password'));
         $this->party->changePassword($partyId, $data);
     }
   

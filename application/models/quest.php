@@ -32,7 +32,12 @@ class Quest extends CI_model{
             
         return $quest;
     }
-  
+    
+    public function getQuestExp($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->experience;
+    }
+    
     public function getQuestRegistrants($quest_id){
         $this->db->where('quest_id', $quest_id);
         $query = $this->db->get('quest_registration');
@@ -137,5 +142,15 @@ class Quest extends CI_model{
         $this->db->where('user_id', $user_id);
         $data['date_completed'] = date('Y-m-d');
         $this->db->update('quest_registration', $data);
+    }
+    
+    public function getQuestType($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->quest_type;
+    }
+    
+    public function getHousePoints($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->house_points;
     }
 }
