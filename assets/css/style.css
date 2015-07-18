@@ -462,7 +462,7 @@ select[readonly] {
 }
 
 .description-content {
-  margin: 0;     padding: 10px 50px;     position: relative;     font-family: Georgia, serif;     color: #666;     font-style: italic;     
+  margin: 0;     padding: 10px 50px;     position: relative;     font-family: Georgia, serif;     color: #666;     font-style: italic;    min-height: 100px;   
 }
 
 .description-content:before, .description-content:after {     content: "\201C";     position: absolute;     font-size: 80px;     line-height: 1;     color: #999;     font-style: normal; } .description-content:before {     top: 0;     left: 10px; } .description-content:after {     content: "\201D";     right: 10px;     bottom: -0.5em; } - See more at: http://www.siteart.co.uk/pretty-css-testimonials#sthash.1dLcOoTl.dpuf
@@ -514,13 +514,14 @@ textarea {
 }
 
 .txtaDescription {
-  border: none;               !important;
-  overflow: auto;             !important;
-  outline: none;              !important;
+  border: none;                 !important;
+  overflow: auto;               !important;
+  outline: none;                !important;
+  background-color: transparent !important;
 
-  -webkit-box-shadow: none;   !important;
-  -moz-box-shadow: none;      !important;
-  box-shadow: none;           !important;
+  -webkit-box-shadow: none;     !important;
+  -moz-box-shadow: none;        !important;
+  box-shadow: none;             !important;
 }
 
 .input-no-border {
@@ -732,6 +733,24 @@ ul.grid.columns-3 li {
    transition: all 0.2s;
    -webkit-transition: all 0.2s;
 }
+
+.icon-1{
+   text-align: center;
+   vertical-align: middle;
+   height: 100px;
+   width: 100px;
+   border-radius: 50%;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -o-border-radius:50%;
+   background-color: #999999;
+   color: #FFFFFF;
+   margin: 0 auto 20px;
+   border: 4px solid #CCCCCC;
+   transition: all 0.2s;
+   -webkit-transition: all 0.2s;
+}
+
 .choice i{
     font-size: 30px;
     line-height: 111px;
@@ -781,6 +800,12 @@ ul.scrollable-menu {
 .verticalContainer {
   height: 30px; 
   line-height: 30px;
+}
+
+.vertically-center {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .disabled-list-item {
@@ -843,4 +868,197 @@ a.nav-home {
 [contenteditable="true"].single-line * {
     display:inline;
     white-space:nowrap;
+}
+.dashed-bottom:before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 0;
+  border-width: 2px;
+  border-color: aqua;
+  border-style: dashed;
+}
+
+.register-wizard {
+  position: relative;
+  margin: 2em auto;
+  width: 100%;
+  text-align: left;
+  font-size: 2.5em;
+}
+
+.register-wizard .input-group {
+  width: 100%;
+}
+
+.register-wizard .form-control {
+  min-height: 60px;
+  font-size: 20px;
+  outline: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.register-wizard .form-control:focus {
+  border: 1px solid #ccc;
+  border-bottom: 3px solid #d9853c;
+}
+
+.register-wizard .choice {
+  text-align: center;
+}
+
+.register-wizard .choice .icon {
+  margin-bottom: 0px;
+}
+
+.register-wizard .choice-label {
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.register-wizard .choice-description {
+  text-align: center;
+  font-size: 16px;
+  font-style: italic;
+  color: #585858;
+  padding-top: 20px;
+}
+
+.register-wizard .btn.toggleable {
+  width: 50%;
+  min-height: 60px;
+  font-size: 20px;
+  color: #555;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+.register-wizard .btn.toggleable:hover {
+  background-color: white;
+  border-bottom: 3px dashed #d9853c;
+}
+
+.register-wizard .btn.toggleable.focus {
+  
+}
+
+.register-wizard .btn.toggleable.active {
+  border-bottom: 3px solid #d9853c;
+  background-color: white;
+}
+
+.register-wizard .btn.btn-orange {
+  background-color: #d9853c;
+  font-size: 18px;
+  color: white;
+}
+
+.register-wizard .submit {
+  display: none;
+  
+}
+
+/*
+.register-wizard .controls {
+  display: none;
+}
+*/
+
+ol {
+  list-style: none;
+  padding: 0px
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: block;
+  padding: 0;
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: none;
+  color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+/*  opacity: 0;*/
+  z-index: 100;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
+  -webkit-transform: translateX(-20%);
+  transform: translateX(-20%);
+  pointer-events: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.convo li {
+  z-index: 100;
+  position: relative;
+  display: none;
+  height: 0;
+  -webkit-transition: visibility 0s 0.4s, height 0s 0.4s;
+  transition: visibility 0s 0.4s, height 0s 0.4s;
+}
+
+.convo li.current {
+  display: list-item;
+  visibility: visible;
+  
+  height: auto;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.simplebox {
+  outline: none;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+}
+
+#back-to-login {
+  color: #568d8a;
+  padding: 5px;
+  text-decoration: none;
+}
+
+#back-to-login:hover {
+  text-decoration: none;
+  border: 2px dashed #568d8a;
+  padding: 5px;
+}
+
+/* profile styles */
+.modal {
+  padding-right: 0px !important;
+}
+
+.edit-profile-dialog .modal-dialog {
+  width: 100%;
+  min-height: 100vh;
+  height: auto;
+  padding: 0;
+  margin: 0;
+}
+
+.edit-profile-dialog .modal-header {
+  background-color: white !important;
+  color: #73afad !important;
+}
+
+.edit-profile-dialog .bootstrap-dialog-title {
+  background-color: white !important;
+  color: #73afad !important;
+}
+
+.edit-profile-dialog .modal-content {
+  min-height: 100vh;
+  height: auto;
+  border-radius: 0px;
 }

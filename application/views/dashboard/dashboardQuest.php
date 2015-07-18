@@ -47,6 +47,13 @@
           <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
           <output id="rangeSuccess">--</output>
         </div>
+<!--
+        <div class="range range-success">
+          <output id="hp-label">HP</output>
+          <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
+          <output id="hprangeSuccess">--</output>
+        </div>
+-->
         <div id="quest-badge-reward" class="choice" data-badgeid="0" data-toggle="popover" data-trigger="focus" data-placement="top" title="Badge Reward" data-html="true" data-content="">
           <img class="icon" id="badge-reward-img" src="" alt="Badge">
         </div>
@@ -85,12 +92,12 @@
         <button type="button" class="btn btn-success btn-xs m-right pull-right" id="btn-qreg-refresh"><i class="glyphicon glyphicon-refresh"></i></button>
 
       </div>
-      <div class="panel-body">
-        <input type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">
+      <form action="#" id="quest-registrants" method="post" class="panel-body">
+        <input name="reg-search" type="text" id="txt-search" data-where="quest-member" class="form-control" placeholder="Search registrants">
         <ul id="quest-members" class="nav nav-stacked scrollable-menu">
           
         </ul>
-      </div>
+      </form>
     </div>
   </div>
 </div>

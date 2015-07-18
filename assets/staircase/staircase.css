@@ -1,0 +1,150 @@
+.stair-container {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.stair-container:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+
+.vertical-align-wrap {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+.vertical-align {
+  display: table-cell;
+}
+
+.vertical-align--middle {
+  vertical-align: middle;
+}
+
+.staircase {
+  width: 80%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.stair-step {
+  width: 200px;
+  display: inline-block;
+  min-height: 100px;
+  top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  clear: both;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.header-name {
+  width: 100%;
+  min-width: 100px;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 8px 3px;
+  font-family: sans-serif;
+  font-weight: 700;
+  color: floralwhite;
+}
+
+.header-lvl-house {
+  padding: 10px 3px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 300;
+  color: white;
+}
+
+.body-badge-award {
+  background-color: white;
+  padding: 35px;
+  text-align: center;
+}
+
+.place-first {
+  width: 100px;
+  height: 100px;
+}
+
+.place-second {
+  width: 75px;
+  height: 75px;
+}
+
+.place-third {
+  width: 50px;
+  height: 50px;
+}
+
+.footer-place {
+  padding: 8px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: 900;
+  font-size: 14pt;
+  font-style: italic;
+  color: white;
+  content: '1st';
+}
+
+/* house colors */
+.header-name.house-1{
+  background-color: #66cc88;
+}
+
+.header-lvl-house.house-1,.footer-place.house-1{
+  background-color: #7fd99d;
+}
+
+.stair-step.house-1{
+  border-left: 1px solid #66cc88;
+  border-right: 1px solid #66cc88;
+}
+
+.header-name.house-2{
+  background-color: #d9d96c;
+}
+
+.header-lvl-house.house-2,.footer-place.house-2{
+  background-color: #e1e188;
+}
+
+.stair-step.house-2{
+  border-left: 1px solid #d9d96c;
+  border-right: 1px solid #d9d96c;
+}
+
+.header-name.house-3{
+  background-color: #cc6666;
+}
+
+.header-lvl-house.house-3,.footer-place.house-3{
+  background-color: #e57272;
+}
+
+.stair-step.house-3{
+  border-left: 1px solid #cc6666;
+  border-right: 1px solid #cc6666;
+}
+
+.header-name.house-4{
+  background-color: #6688cc;
+}
+
+.header-lvl-house.house-4,.footer-place.house-4{
+  background-color: #7396db;
+}
+
+.stair-step.house-4{
+  border-left: 1px solid #6688cc;
+  border-right: 1px solid #6688cc;
+}

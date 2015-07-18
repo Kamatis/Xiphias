@@ -32,7 +32,12 @@ class Quest extends CI_model{
             
         return $quest;
     }
-  
+    
+    public function getQuestExp($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->experience;
+    }
+    
     public function getQuestRegistrants($quest_id){
         $this->db->where('quest_id', $quest_id);
         $query = $this->db->get('quest_registration');
@@ -72,5 +77,85 @@ class Quest extends CI_model{
           $x++;
         }
         return $rarities;
+    }
+    
+    public function isRegistered($user_id, $quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('quest_registration');
+        if($query->num_rows() == 1)
+            return true;
+        return false;
+    }
+    
+    public function doneAwarding($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->where('date_completed is null', null, false);
+        $query = $this->db->get('quest_registration');
+        if($query->num_rows() == 1)
+            return false;
+        return true;
+    }
+    
+    public function getAllQuests(){
+        $query = $this->db->get('quest');
+        $x = 0;
+        $user_id = $this->session->userdata('user_id');
+        foreach($query->result() as $row){
+            $quest[$x]['quest_id']     = $row->quest_id;
+            $quest[$x]['title']        = $row->quest_title;
+            $quest[$x]['description']  = $row->quest_description;
+            $quest[$x]['rarity']       = $row->quest_rarity;
+            $quest[$x]['date_created'] = $row->date_created;
+            $quest[$x]['venue']        = $row->venue;
+            $quest[$x]['experience']   = $row->experience;
+            $quest[$x]['house_points'] = $row->house_points;
+            $quest[$x]['quest_type']   = $row->quest_type;
+            $quest[$x]['creator_id']   = $row->creator_id;
+            $quest[$x]['badge_id']     = $row->badge_id;
+            $quest[$x]['badge_name']   = $this->badge->getBadgeName($row->badge_id, 1);
+            $quest[$x]['badge_image']  = $this->badge->getBadgeThumbnail($row->badge_id, 1);
+            $quest[$x]['joined']       = $this->quest->isRegistered($user_id, $row->quest_id);
+            $quest[$x]['creator_logo'] = $this->user->getUserPhoto($row->creator_id);
+            if($row->start_date == $row->end_date)
+                $quest[$x]['quest_date'] = $row->start_date;
+            else
+                $quest[$x]['quest_date'] = $row->start_date . ' - ' . $row->end_date;
+            $x++;
+        }
+        return $quest;
+    }
+    
+    public function register($data) {
+        $this->db->insert('quest_registration', $data);   
+    }
+    
+    public function abortQuest($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $this->db->delete('quest_registration');
+    }
+    
+    public function completeQuest($quest_id, $user_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('user_id', $user_id);
+        $data['date_completed'] = date('Y-m-d');
+        $this->db->update('quest_registration', $data);
+    }
+    
+    public function getQuestType($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->quest_type;
+    }
+    
+    public function getHousePoints($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->house_points;
+    }
+    
+    public function getBadgeReward($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->badge_id;       
     }
 }

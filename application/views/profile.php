@@ -1,5 +1,11 @@
 <!-- Main Layout of profile content -->
-<div class="container" style="margin-top: 100px">
+<div class="container">
+  <?php if($isOwner) { ?>
+  <div class="row" style="font-size: 20px;">
+    <a href="javascript:void(0)" class="btn btn-default" id="btn-edit-profile" style="float: right"><i class="glyphicon glyphicon-cog"></i>Edit profile </a>
+    <a href="javascript:void(0)" class="btn btn-default" id="btn-create-resume" style="float: right"><i class="glyphicon glyphicon-file"></i> Create Resume</a>
+  </div>
+  <?php } ?>
   <div class="col-sm-3">
     <?php echo $profileInfo ?>
   </div>

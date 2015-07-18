@@ -3,7 +3,8 @@
 .flip-container {
 	perspective: 1000;
 	transform-style: preserve-3d;
-  display: inline-block;
+    display: inline-block;
+    margin: 5px;
 }
 	/*  UPDATED! flip the pane when hovered */
 	.flip-container:hover .back {
@@ -68,34 +69,90 @@
 
 .stitched {
   margin: 10px;
+  padding: 5px;
   height: 330px;
   border: 3px dashed #ebebeb;
   border-radius: 10px;
 }
 
-/* Rarity Colors */
-/* Common:      #b0c3d9 */
-/* Uncommon:    #879eb8 */
-/* Rare:        #4b69ff */
-/* Legendary:   #8847ff */
-/* Blue Moon:   #d32ce6 */
-
 .rarity-card-common {
-  background-color: #b0c3d9;
+  background: #9ee6d2;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzllZTZkMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxOWIxNWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #9ee6d2 0%, #19b15c 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#9ee6d2), color-stop(100%,#19b15c));
+  background: -webkit-linear-gradient(top,  #9ee6d2 0%,#19b15c 100%);
+  background: -o-linear-gradient(top,  #9ee6d2 0%,#19b15c 100%);
+  background: -ms-linear-gradient(top,  #9ee6d2 0%,#19b15c 100%);
+  background: linear-gradient(to bottom,  #9ee6d2 0%,#19b15c 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9ee6d2', endColorstr='#19b15c',GradientType=0 );
+  border: 3px solid #157c43;
 }
 
 .rarity-card-uncommon {
-  background-color: #879eb8;
+  background: #79c1e9;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzc5YzFlOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZjc0YzQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #79c1e9 0%, #1f74c4 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#79c1e9), color-stop(100%,#1f74c4));
+  background: -webkit-linear-gradient(top,  #79c1e9 0%,#1f74c4 100%);
+  background: -o-linear-gradient(top,  #79c1e9 0%,#1f74c4 100%);
+  background: -ms-linear-gradient(top,  #79c1e9 0%,#1f74c4 100%);
+  background: linear-gradient(to bottom,  #79c1e9 0%,#1f74c4 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#79c1e9', endColorstr='#1f74c4',GradientType=0 );
+  border: 3px solid #174671;
 }
 
 .rarity-card-rare {
-  background-color: #4b69ff;
+  background: #a39fdc;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2EzOWZkYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM2MzNjYTYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #a39fdc 0%, #633ca6 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a39fdc), color-stop(100%,#633ca6));
+  background: -webkit-linear-gradient(top,  #a39fdc 0%,#633ca6 100%);
+  background: -o-linear-gradient(top,  #a39fdc 0%,#633ca6 100%);
+  background: -ms-linear-gradient(top,  #a39fdc 0%,#633ca6 100%);
+  background: linear-gradient(to bottom,  #a39fdc 0%,#633ca6 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a39fdc', endColorstr='#633ca6',GradientType=0 );
+  border: 3px solid #452974;
 }
 
 .rarity-card-legendary {
-  background-color: #8847ff;
+  background: #fcb738;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZjYjczOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkMDVjMWYiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #fcb738 0%, #d05c1f 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcb738), color-stop(100%,#d05c1f));
+  background: -webkit-linear-gradient(top,  #fcb738 0%,#d05c1f 100%);
+  background: -o-linear-gradient(top,  #fcb738 0%,#d05c1f 100%);
+  background: -ms-linear-gradient(top,  #fcb738 0%,#d05c1f 100%);
+  background: linear-gradient(to bottom,  #fcb738 0%,#a84e1e 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcb738', endColorstr='#d05c1f',GradientType=0 );
+  border: 3px solid #9b481b;
 }
 
 .rarity-card-bluemoon {
-  background-color: #d32ce6;
+  background: #fd876d;
+  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZkODc2ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYjJkMjEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+  background: -moz-linear-gradient(top,  #fd876d 0%, #eb2d21 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fd876d), color-stop(100%,#eb2d21));
+  background: -webkit-linear-gradient(top,  #fd876d 0%,#eb2d21 100%);
+  background: -o-linear-gradient(top,  #fd876d 0%,#eb2d21 100%);
+  background: -ms-linear-gradient(top,  #fd876d 0%,#eb2d21 100%);
+  background: linear-gradient(to bottom,  #fd876d 0%,#eb2d21 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fd876d', endColorstr='#eb2d21',GradientType=0 );
+  border: 3px solid #af231a;
+}
+
+.questpin-info {
+  height: 280px;
+  overflow: auto;
+}
+
+.questpin-info::-webkit-scrollbar {
+    width: 5px;
+}
+ 
+.questpin-info::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.questpin-info::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }

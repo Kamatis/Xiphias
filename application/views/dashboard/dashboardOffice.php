@@ -7,24 +7,24 @@
   <hr>
 
   <div class="col-md-7">
-    <form method="post" action="" class="form-horizontal">
+    <form id="office-form" method="post" action="" class="form-horizontal">
       <div class="form-group">
         <div class="picture-container">
           <div class="picture">
-            <img id="base-lvl-badge" src="<?php echo base_url('assets/images/emptyBadge.png'); ?>" class="picture-src" title>
-            <input type="file" class="input-preview">
+            <img id="office-logo" src="<?php echo base_url('assets/images/emptyBadge.png'); ?>" class="picture-src" title>
+            <input name="office-pix" type="file" class="input-preview">
           </div>
         </div>
       </div>
 
       <div class="form-group">
         <legend><h5><strong>Name</strong></h5></legend>
-        <input type="text" id="txtBadgeName" class="form-control" placeholder="Enter office name">
+        <input name="officeName" type="text" id="txt-office-name" class="form-control" placeholder="Enter office name">
       </div>
 
       <div class="form-group">
         <legend><h5><strong>Description</strong></h5></legend>
-        <textarea id="txtaDescription" class="form-control" placeholder="Enter office description"></textarea>
+        <textarea name="officeDescription" id="txt-office-description" class="form-control" placeholder="Enter office description"></textarea>
       </div>
       
       <div class="row">
@@ -45,8 +45,8 @@
       </div>
       <div class="panel-body">
         <input type="text" id="txt-search" class="form-control" placeholder="Search office">
-        <ul class="grid columns-3">
-          <?php echo $mybadges ?>
+        <ul id="office-list" class="nav nav-stacked scrollable-menu">
+          <?php echo $myOffices; ?>
         </ul>
       </div>
     </div>

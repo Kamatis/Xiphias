@@ -2,6 +2,24 @@
 
 class User extends CI_Model{
     
+    public function addUser($data){
+        $this->db->insert('user', $data);
+        return mysql_insert_id();
+    }
+    
+    public function addPlayer($data){
+        $this->db->insert('player', $data);
+    }
+    
+    public function addNPC($data){
+        $this->db->insert('npc', $data);
+    }
+    
+    public function assignHouse(){
+        $this->db->select('count(*) as counter');
+        return ($this->db->get('player')->row()->counter % 4) + 1;
+    }
+    
     public function getUsername($user_id){
         $this->db->where('user_id', $user_id);
         return $this->db->get('user')->row()->username;
@@ -52,7 +70,7 @@ class User extends CI_Model{
     
     public function getLvlImage($level){
         $this->db->where('lvl', $level);
-        return $this->db->get('avatar')->row()->image;
+        return base_url($this->db->get('avatar')->row()->image);
     }
     
     public function updateDescription($user_id, $data){
@@ -60,18 +78,54 @@ class User extends CI_Model{
         $this->db->update('user', $data);
     }
     
+    public function updateProgramCode($user_id, $data){
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player', $data);
+    }
+    
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
-        $data['description'] = $this->db->get('user')->row()->description;
-        return $data;
+        return $this->db->get('user')->row()->description;
     }
     
     public function getUserPhoto($user_id) {
         if($this->user->isNPC($user_id))
-            return "assets/images/new_logo.png";
+            return base_url('assets/images/new_logo.png');
         $this->db->where('user_id', $user_id);
         $query = $this->db->get('player');
         return $this->user->getLvlImage($query->row()->player_level);
+    }
+
+    public function getHouseId($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->house_id;
+    }
+    
+    public function levelUp($user_id) {
+        $this->db->set('player_level', 'player_level + 1', false);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player');
+    }
+    
+    public function getExpNeeded($level) {
+        $this->db->where('lvl', $level);
+        return $this->db->get('avatar')->row()->experience_needed;
+    }
+    
+    public function awardExperience($user_id, $exp) {
+        $this->db->set('experience', 'experience + ' . $exp, false);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('player');
+        while(true) {
+            $this->db->where('user_id', $user_id);
+            $query = $this->db->get('player')->row();
+            $curr_exp = $query->experience;
+            $next_exp = $this->user->getExpNeeded($query->player_level + 1);
+            if($curr_exp >= $next_exp)
+                $this->user->levelUp($user_id);
+            else
+                break;
+        }
     }
     
     public function getUserInfo($username){
@@ -85,7 +139,7 @@ class User extends CI_Model{
             $data['lastname']   = $query->row()->last_name;
             $data['name']       = $data['firstname'] . " " . $data['middlename'][0] . ". " . $data['lastname'];
             $data['isOwner']    = ($this->session->userdata('username') == $username); 
-            $data['isNPC']      = ($query->row()->user_type == 2);
+            $data['isNPC']      = ($query->row()->user_type != 1);
             if(!$data['isNPC']){
                 $playerData = $this->user->getPlayerInfo($query->row()->user_id);
                 $data['experience']   = $playerData->row()->experience;
@@ -98,6 +152,49 @@ class User extends CI_Model{
             }
             return $data;
         }
+    }
+    
+    public function getPlayerExp($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->experience;
+    }
+    
+    public function getProfileLink($username) {
+        return "<a href=\"".base_url('index.php/pages/profile/'.$username)."\">".$username."</a>";
+    }
+    
+    public function getPlayerPoints($user_id, $type) {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('`date_completed` IS NOT NULL', null, false);
+        $quests = $this->db->get('quest_registration');
+        $points = 0;
+        foreach($quests->result() as $quest) {
+            if($this->quest->getQuestType($quest->quest_id) == $type)
+                $points += $this->quest->getHousePoints($quest->quest_id);
+        }
+        return $points;
+    }
+    
+    public function getRankings($type) {
+        $this->db->order_by('experience', 'desc');
+        $players = $this->db->get('player');
+        $x = 0;
+        foreach($players->result() as $player) {
+            $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+            $data[$x]['price']  = $this->house->getHouseName($player->house_id);
+            $data[$x]['points'] = $this->user->getPlayerPoints($player->user_id, $type);
+            $x++;
+        }
+        usort($data, function($a, $b) {
+            return $b['points'] - $a['points'];
+        });
+        
+        for($y = 0; $y < $x; $y++) {
+            $data[$y]['id'] = $y + 1;
+            if($y != 0 && $data[$y]['points'] == $data[$y-1]['points'])
+                $data[$y]['id'] = $data[$y-1]['id'];
+        }
+        return $data;
     }
     
     public function awardBadge($data){
@@ -170,6 +267,21 @@ class User extends CI_Model{
             else
                 return "Invalid user!";
         }
+    }
+    
+    public function getSessionData(){
+        $data['user_image'] = $this->session->userdata('image');
+        $data['username']   = $this->session->userdata('username');
+        $data['isNPC']      = $this->session->userdata('isNPC');
+        $data['isAdmin']    = $this->session->userdata('isAdmin');
+        $data['isVerified'] = $this->session->userdata('isVerified');
+        $data['offices']    = $this->office->getMyOffices($this->session->userdata('user_id'));
+        return $data;    
+    }
+  
+    public function getCourse($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('player')->row()->program_code;
     }
 
 }

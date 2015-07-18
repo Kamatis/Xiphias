@@ -30,6 +30,91 @@ $(".knob").hover(
   }
 );
 
+//region Registration
+
+$('.btn.toggleable').on('click', function(){
+  $('.btn.toggleable').removeClass('active');
+  $(this).addClass('active');
+});
+
+$('#btn-next').on('click', function(){
+  var nextItem = $('li.current').next();
+  $('li.current').fadeOut(1000);
+  nextItem.fadeIn(1000);
+  if(nextItem.hasClass('last-question'))
+  {
+    $(this).fadeOut(1000);
+    
+    // @kelly:
+    // So yah this is the ajax part
+    // tiglaag ko na mga data.. haven't tested but probably works
+    // ang irereturn/echo mo na dataPass e2ng view na lastPanel.php sa views/register
+    // check mo lastPanel.php for the data needed duman
+    
+    var last = $('input[name="last_name"]').val();
+    var first = $('input[name="first_name"]').val();
+    var middle = $('input[name="middle_name"]').val();
+    var type = $('.btn.active').data('value');
+    var un = $('input[name="username"]').val();
+    var pw = $('input[name="password"]').val();
+    $.ajax({
+      url: 'accountRegistration',
+      type: "POST",
+      data: { last_name:last, 
+              first_name:first,
+              middle_name:middle,
+              user_type:type,
+              username:un,
+              password:pw },
+      success: function(dataPass){
+        $('li.last-question').html(dataPass);
+      }
+    });
+  }
+    
+  $('li.current').removeClass('current');
+  nextItem.addClass('current');
+  
+//  $('li.current').fadeOut('slow', function(){
+//    nextItem.fadeIn('slow', function(){
+//      $('li.current').removeClass('current');
+//      nextItem.addClass('current');
+//    });
+//  });
+  
+});
+
+//endregion
+
+//region QuestBoard
+$('.btn-join-quest').on('click', function(){
+  var qid = $(this).data("questid");
+  var btn = $(this);
+  if($(this).html() == "Join") {
+//    alert(qid);
+    $.ajax({
+      url: 'questRegistration',
+      type: 'post',
+      data: { quest_id:qid },
+      success: function(){
+//        alert(btn.html());
+        btn.html('Abort');
+      }
+    });
+  }
+  else if($(this).html() == "Abort") {
+    $.ajax({
+      url: 'questAbort',
+      type: 'post',
+      data: { quest_id:qid },
+      success: function(){
+        btn.html('Join');
+      }
+    });
+  }
+});
+//endregion
+
 //region Badges
 // dashboard menu button links
 // same as adding :D ahahahaha
@@ -178,12 +263,26 @@ $('body').on('click', '.list-item-party', function(){
   
 });
 
-$('body').on('click', '#btn-award-ok', function(){
-  var formData = new FormData($('#party-form'));
-  var badgeid = $('.bordered').data('badgeid');
-  formdata.append('badge_id', badgeid);
+$('body').on('click', '#btn-save-profile', function(){
+  var formData = new FormData(document.getElementById('edit-profile'));
   $.ajax({
-    url: "awardBadge",
+    url: "http://127.0.0.1/xiphias/index.php/pages/updateProfile",
+    type: "post",
+    data: formData,
+    contentType: false,
+    processData: false,
+    async:false
+  })
+});
+
+$('body').on('click', '#btn-award-ok', function(){
+  var formData = new FormData(document.getElementById('quest-registrants'));
+  var badgeid = $('.bordered').data('badgeid');
+  var questid = $('.list-item-quest.active').data('questid');
+  formData.append('badge_id', badgeid);
+  formData.append('quest_id', questid);
+  $.ajax({
+    url: "awardReward",
     type: "post",
     data: formData,
     contentType: false,
@@ -193,13 +292,6 @@ $('body').on('click', '#btn-award-ok', function(){
             title: 'SUCCESS',
             message: 'ADDED!'
         });
-//        alert(dataPass);
-        $('input').val("");
-        $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
-        $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
-        $('#my-badges').html(dataPass);
     }
   })
 });
@@ -210,13 +302,14 @@ $('body').on('click', '.badge-thumb', function(){
 });
 
 $('#btn-award-badge').on('click', function(){
+//  <ul class="grid columns-3 nav scrollable-menu" id="my-badges">' + dataPass + '</ul>
   $.ajax({
     url: 'getAwardingBadge',
     type: 'post',
     success: function(dataPass) {
       BootstrapDialog.show({
-        title: 'Award a Badge',
-        message: '<ul class="grid columns-3 nav scrollable-menu" id="my-badges">' + dataPass + '</ul>',
+        title: 'Award Rewards',
+        message: 'Are you sure you want to award the rewards?',
         buttons: [{
           id: 'btn-award-ok',
           label: 'Award',
@@ -245,6 +338,34 @@ $('#btn-change-passcode').on('click', function(){
     }
   })
 });
+
+$('#btn-party-add').on('click', function(e){
+    e.preventDefault();
+    $('#party-form').submit();         
+})
+
+$('#party-form').on('submit', function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    
+    $.ajax({
+        url: "addParty",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(dataPass){
+            BootstrapDialog.show({
+                title: 'SUCCESS',
+                message: 'ADDED!'
+            });
+            $('input').val("");
+            $('textarea').val("");
+            $('#party-list').html(dataPass);
+        }
+    });
+});
+
 // endregion
 
 // region Quests
@@ -287,6 +408,7 @@ $('input[name="date-range"]').daterangepicker({
 
 $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
+    var activeli = $(this);
     $.ajax({
         url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
@@ -310,6 +432,8 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
             $('#badge-reward-img').attr('src', (dataPass['badge_image']));
             $('#quest-members').html(dataPass['questRegistrant']);
+            $('.list-item-quest').removeClass('active');
+            activeli.addClass('active');
         }
     });
 });
@@ -357,11 +481,11 @@ $('#quest-badge-reward').on('click', function(){
   });
   
 });
-
+                    
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
-  var formData = new FormData(this);
-  var badgeid = $('#quest-badge-reward').data('badgeid');
+   var formData = new FormData(this);
+   var badgeid = $('#quest-badge-reward').data('badgeid');
   formData.append('badge_id', badgeid);
 //  alert(JSON.stringify(formData));
   $.ajax({
@@ -371,31 +495,13 @@ $('#form-quest').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
-//        alert(dataPass);
-        if(dataPass == "ok") {
-            BootstrapDialog.show({
-               title: 'SUCCESS',
-                message: 'Quest Added!',
-                buttons: [{
-                    label: 'OK',
-                    action: function(dialog) {
-                        dialog.close();   
-                    }
-                }]
-            });
-        }
-        else {
-            BootstrapDialog.show({
-               title: 'OOPS...',
-                message: 'Something is wrong',
-                buttons: [{
-                    label: 'OK',
-                    action: function(dialog) {
-                        dialog.close();   
-                    }
-                }]
-            });
-        }
+        BootstrapDialog.show({
+            title: 'SUCCESS',
+            message: 'ADDED!'
+        });
+        $('input').val("");
+        $('textarea').val("");
+        $('#quest-list').html(dataPass);
     }
   });
   
@@ -404,6 +510,54 @@ $('#form-quest').on('submit', function(e){
 $('#btn-quest-add').on('click', function(e) {
 //  e.preventDefault();
    $('#form-quest').submit(); 
+});
+// endregion
+
+// region Office
+
+$('#btn-office-add').on('click', function(e){
+    e.preventDefault();
+    $('#office-form').submit();         
+})
+
+$('#office-form').on('submit', function(e){
+    e.preventDefault();
+    var formData = new FormData(this);
+    $.ajax({
+        url: "addOffice",
+        type: "post",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(dataPass){
+            BootstrapDialog.show({
+                title: 'SUCCESS',
+                message: 'ADDED!'
+            });
+            $('input').val("");
+            $('textarea').val("");
+            $('#office-logo').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+            $('#office-list').html(dataPass);
+        }
+    });
+});
+
+$('body').on('click', '.list-item-office', function(){
+  var officeId = $(this).data('officeid');
+  $.ajax({
+    url: "http://127.0.0.1/xiphias/index.php/ajax/getOfficeDetails",
+    async: true,
+    type: "POST",
+    dataType: 'json',
+    data: { office_id:officeId},
+    success: function(jsonData) {
+      $('#office-logo').attr('src', jsonData.officeLogo);
+      $('#txt-office-name').val(jsonData.officeName);
+      $('#txt-office-description').val(jsonData.officeDescription);
+    }
+  });
+  $('#btn-save').show();
+  $('#btn-add').hide();
 });
 // endregion
 
@@ -466,3 +620,131 @@ $('#verify-account').on('click', function() {
     }]
   });
 });
+
+//region leaderboards
+
+$('#sel-quest-type').on('change', function(){
+  var selectedVal = $('#sel-quest-type option:selected' ).val();
+  var geturl = ""
+  if(selectedVal == 1)
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Academic";
+  else if(selectedVal == 2) 
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Co-Curricular";
+  else if(selectedVal == 3)
+    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Extra-Curricular";
+  
+  $('#rank-table').bootstrapTable('refresh', {
+    url: geturl
+  });
+});
+
+//endregion
+
+// region profile
+
+$('#btn-edit-profile').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Edit Profile',
+    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/editProfile'),
+    cssClass: 'edit-profile-dialog'
+  });
+});
+
+$('#btn-create-resume').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Create Resume',
+    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/createResume'),
+    cssClass: 'edit-profile-dialog'
+  });
+});
+
+$('body').on('click', '#primary-add', function(){
+  $('#select-primary').toggle();
+  $('#input-primary').toggle();
+  $(this).toggle();
+  $('#primary-list').toggle();
+});
+
+$('body').on('click', '#primary-list', function(){
+  $('#input-primary').val('');
+  $('#input-primary').toggle();
+  $('#select-primary').toggle();
+  $(this).toggle();
+  $('#primary-add').toggle();
+});
+
+$('body').on('click', '#secondary-add', function(){
+  $('#select-secondary').toggle();
+  $('#input-secondary').toggle();
+  $(this).toggle();
+  $('#secondary-list').toggle();
+});
+
+$('body').on('click', '#secondary-list', function(){
+  $('#input-secondary').val('');
+  $('#input-secondary').toggle();
+  $('#select-secondary').toggle();
+  $(this).toggle();
+  $('#secondary-add').toggle();
+});
+
+$('body').on('click', '#add-affil', function(){
+  BootstrapDialog.show({
+    title: 'Add Affiliation',
+    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddAffiliation'),
+    buttons: [{
+                label: 'Add',
+                action: function(dialog) {
+                    var n = $('input-org-name').val();
+                    var p = $('input-position').val();
+                    var d = $('input-join-date').val();
+                    $.ajax({
+                      url: 'addAffiliation',
+                      type: 'post',
+                      data: { name:n,
+                              position: p, 
+                              date: d },
+                      success: function(){
+                        alert('Affiliation Added');
+                      }
+                    })
+                }
+            }, {
+                label: 'Cancel',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+  });
+})
+
+$('body').on('click', '#add-involve', function(){
+  BootstrapDialog.show({
+    title: 'Add Involvement',
+    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddInvolvement'),
+    buttons: [{
+                label: 'Add',
+                action: function(dialog) {
+                    var n = $('input-inv-name').val();
+                    var p = $('input-inv-venue').val();
+                    var d = $('input-inv-date').val();
+                    $.ajax({
+                      url: 'addInvolvement',
+                      type: 'post',
+                      data: { name:n,
+                              position: p, 
+                              date: d },
+                      success: function(){
+                        alert('Involvement Added!');
+                      }
+                    })
+                }
+            }, {
+                label: 'Cancel',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            }]
+  });
+})
+// endregion

@@ -15,6 +15,7 @@
       <button id="btn-generate-serial" class="btn btn-success" style="margin-top: 10px">Generate Serial Code</button>
     </form>
   </div>
+<!--
   <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-heading">
@@ -25,4 +26,5 @@
       </div>
     </div>
   </div>
+-->
 </div>

@@ -3,7 +3,7 @@
 <!-- data-max: exp-to-go of lvl+1 -->
 <?php if(!$isNPC){ ?>
 
-<img id="profile-pic" style="display:none" src="<?php echo base_url($lvl_image); ?>">
+<img id="profile-pic" style="display:none" src="<?php echo $lvl_image; ?>">
 <input class="knob" data-fgcolor="#c33131" data-thickness=".25" readonly="readonly" data-width="200" value="<?php echo $experience; ?>" data-min="<?php echo $min_exp; ?>" data-max="<?php echo $max_exp; ?>">
 <?php } ?>
 
