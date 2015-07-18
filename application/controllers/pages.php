@@ -2,12 +2,12 @@
 
 // just to make some things work while views@php are at work
 // comment when working on this php file
-error_reporting(0);
+//error_reporting(0);
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pages extends CI_Controller {
-
+    
     public function index() {
         if($this->session->userdata('is_logged_in')){
             $data = $this->user->getSessionData();
@@ -199,8 +199,8 @@ class Pages extends CI_Controller {
         $questCount = count($quests);
         for($x = 0; $x < $questCount; $x++)
         {
-          $quests[$x]['isNPC'] = $data['isNPC'];
-          $quests[$x]['awarded'] = $this->quest->doneAwarding($quest[$x]['quest_id'], $user_id);
+          $quests[$x]['isNPC']   = $data['isNPC'];
+          $quests[$x]['awarded'] = $this->quest->doneAwarding($quests[$x]['quest_id'], $user_id);
           $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
         }
             
