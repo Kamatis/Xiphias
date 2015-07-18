@@ -184,7 +184,7 @@ class Pages extends CI_Controller {
         $query = $this->db->get('user');
         $data = $this->user->getSessionData();
         $data['title'] = 'Xiphias | Quest Board';
-
+        $user_id = $this->session->userdata('user_id');
 
         $quests = $this->quest->getAllQuests();
         
@@ -193,6 +193,7 @@ class Pages extends CI_Controller {
         for($x = 0; $x < $questCount; $x++)
         {
           $quests[$x]['isNPC'] = $data['isNPC'];
+          $quests[$x]['awarded'] = $this->quest->doneAwarding($quest[$x]['quest_id'], $user_id);
           $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
         }
             
@@ -444,6 +445,7 @@ class Pages extends CI_Controller {
                 $this->user->awardBadge($data);
                 $this->quest->completeQuest($questId, $memberId[$x]);
             }
+          $this->quest->completeQuest($questId, $memberId[$x]);
         }
       echo $questId;
     }
