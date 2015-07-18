@@ -153,4 +153,9 @@ class Quest extends CI_model{
         $this->db->where('quest_id', $quest_id);
         return $this->db->get('quest')->row()->house_points;
     }
+    
+    public function getBadgeReward($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->badge_id;       
+    }
 }

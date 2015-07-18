@@ -428,11 +428,11 @@ class Pages extends CI_Controller {
     
     public function awardReward() {
         $questId    = $this->input->post('quest_id');
-        $badgeId    = $this->input->post('badge_id');
+        $badgeId    = $this->quest->getBadgeReward($questId);
         $memberId   = $this->input->post('qRegID');
         $housePoint = $this->quest->getHousePoints($questId);
         $experience = $this->quest->getQuestExp($questId);
-        
+        echo $badgeId;
         $memberCount = count($memberId);
         for($x = 0; $x < $memberCount; $x++){
             // update house point
