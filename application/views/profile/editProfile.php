@@ -5,7 +5,7 @@
   <div class="form-group">
     <label class="control-label col-sm-2" for="email">Description:</label>
     <div class="col-sm-10">
-      <textarea name="description" class="form-control" id="user-description" placeholder="What's up?" value="<?php echo $description; ?>"></textarea>
+      <textarea name="description" class="form-control" id="user-description" placeholder="What's up?" value="<?php echo $description; ?>"><?php echo $description; ?></textarea>
     </div>
   </div>
   <div class="form-group">

@@ -88,9 +88,16 @@ class Pages extends CI_Controller {
   
     public function editProfile() {
       $query = $this->course->getCourses();
+      $user_id = $this->session->userdata('user_id');
+      $data['description'] = $this->user->getDescription($user_id);
       $data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
-      foreach ($query->result() as $row) 
+      foreach ($query->result() as $row) {
+        if($this->user->getCourse($user_id) == $row->program_code)
+          $data['programs'] .= "<option value = \"$row->program_code\" selected>$row->program_name</option>\n";
+        else
           $data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
+      }
+          
         
       for($yr = 2015; $yr>=1900; $yr--)
         $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
@@ -436,7 +443,8 @@ class Pages extends CI_Controller {
             $this->user->awardExperience($memberId[$x], $experience);
             
 //             award badge
-            if($badgeId != undefined && !$this->quest->doneAwarding($questId, $memberId[$x])){
+            if($badgeId != false && !$this->quest->doneAwarding($questId, $memberId[$x])){
+                echo $badgeId;
                 $data['user_id'] = $memberId[$x];
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
