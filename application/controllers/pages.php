@@ -423,7 +423,7 @@ class Pages extends CI_Controller {
         $questId    = $this->input->post('quest_id');
         $badgeId    = $this->input->post('badge_id');
         $memberId   = $this->input->post('qRegID');
-        $housePoint = 1; //$this->input->post('house_point');
+        $housePoint = $this->quest->getHousePoints($questId);
         $experience = $this->quest->getQuestExp($questId);
         
         $memberCount = count($memberId);
