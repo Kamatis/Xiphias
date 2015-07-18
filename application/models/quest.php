@@ -32,7 +32,12 @@ class Quest extends CI_model{
             
         return $quest;
     }
-  
+    
+    public function getQuestExp($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        return $this->db->get('quest')->row()->experience;
+    }
+    
     public function getQuestRegistrants($quest_id){
         $this->db->where('quest_id', $quest_id);
         $query = $this->db->get('quest_registration');
