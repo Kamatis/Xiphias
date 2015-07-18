@@ -278,9 +278,12 @@ $('body').on('click', '#btn-save-profile', function(){
 $('body').on('click', '#btn-award-ok', function(){
   var formData = new FormData(document.getElementById('quest-registrants'));
   var badgeid = $('.bordered').data('badgeid');
+  var questid = $('.list-item-quest.active').data('questid');
+  alert(questid);
   formData.append('badge_id', badgeid);
+  formData.append('quest_id', questid);
   $.ajax({
-    url: "awardBadge",
+    url: "awardReward",
     type: "post",
     data: formData,
     contentType: false,
@@ -288,8 +291,9 @@ $('body').on('click', '#btn-award-ok', function(){
     success: function(dataPass){
       BootstrapDialog.show({
             title: 'SUCCESS',
-            message: 'ADDED!'
+            message: 'ADDED!' + dataPass
         });
+      alert(dataPass);
         $('input').val("");
         $('textarea').val("");
         $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
@@ -411,6 +415,7 @@ $('input[name="date-range"]').daterangepicker({
 
 $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
+    var activeli = $(this);
     $.ajax({
         url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
@@ -434,6 +439,8 @@ $('body').on('click', '.list-item-quest', function() {
             $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
             $('#badge-reward-img').attr('src', (dataPass['badge_image']));
             $('#quest-members').html(dataPass['questRegistrant']);
+            $('.list-item-quest').removeClass('active');
+            activeli.addClass('active');
         }
     });
 });
