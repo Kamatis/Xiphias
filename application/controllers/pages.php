@@ -313,12 +313,12 @@ class Pages extends CI_Controller {
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
-        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges'))
-             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges', 0777, true);
+        if(!file_exists('c:/Apache24/htdocs/xiphias/assets/images/badges'))
+             mkdir('c:/Apache24/htdocs/xiphias/assets/images/badges', 0777, true);
         for($x = 1; $x <= $upgradesCount; $x++){
             $ext = pathinfo($badgePictures['name'][$x-1], PATHINFO_EXTENSION);
             $newfilename = "badge".$badgeId."_".$x.".".$ext;
-            $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/badges/" . $newfilename;
+            $filePath = "c:/Apache24/htdocs/xiphias/assets/images/badges/" . $newfilename;
             
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
@@ -391,12 +391,12 @@ class Pages extends CI_Controller {
          
         $officeLogo = $_FILES['office-pix'];
         
-        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices'))
-             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices', 0777, true);
+        if(!file_exists('c:/Apache24/htdocs/xiphias/assets/images/offices'))
+             mkdir('c:/Apache24/htdocs/xiphias/assets/images/offices', 0777, true);
         
         $ext = pathinfo($officeLogo['name'], PATHINFO_EXTENSION);
         $newfilename = "office".$officeId.".".$ext;
-        $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/offices/" . $newfilename;
+        $filePath = "c:/Apache24/htdocs/xiphias/assets/images/offices/" . $newfilename;
         move_uploaded_file($officeLogo['tmp_name'], $filePath);
         $logo['office_logo'] = "assets/images/offices/" . $newfilename;
         $this->office->updateLogo($officeId, $logo);
