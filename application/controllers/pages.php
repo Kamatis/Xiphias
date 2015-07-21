@@ -228,6 +228,14 @@ class Pages extends CI_Controller {
         $this->load->view('header');
         $this->load->view('body', $body);
     }
+  
+    public function changeTopThree() {
+        $type = $this->input->post('quest_type');
+        $viewdata = $this->user->getTopThree();
+        $view = $this->load->view('leaderboards/steps', $viewdata, true);
+      
+        echo $view;
+    }
     
     public function updateProfile() {
         $user_id = $this->session->userdata('user_id');
