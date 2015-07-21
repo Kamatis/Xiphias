@@ -624,16 +624,28 @@ $('#verify-account').on('click', function() {
 
 //region leaderboards
 
+function changeTopThree(questType) {
+  $.ajax({
+    url: 'changeTopThree',
+    type: 'post',
+    data: { quest_type : questType },
+    success: function(dataPass) {
+      $('.staircase').html(dataPass);
+    }
+  });
+}
+
 $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
-  var geturl = ""
+  var geturl = "";
   if(selectedVal == 1)
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Academic";
-  else if(selectedVal == 2) 
+  else if(selectedVal == 2)
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Co-Curricular";
   else if(selectedVal == 3)
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
   
+  changeTopThree(selectedVal);
   $('#rank-table').bootstrapTable('refresh', {
     url: geturl
   });
