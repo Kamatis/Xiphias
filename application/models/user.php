@@ -174,6 +174,22 @@ class User extends CI_Model{
         }
         return $points;
     }
+  
+    public function getTopThree($type) {
+        $this->db->order_by('experience', 'desc');
+        $this->db->limit(3);
+        $players = $this->db->get('player');
+        $x = 0;
+      
+        foreach($players->result() as $player) {
+            $data['name' . $x]   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+            $data['houseid' . $x]  = $player->house_id;
+            $data['playerLevel' . $x] = $player->player_level;
+            $data['points' . $x] = $this->user->getPlayerPoints($player->user_id, $type);
+            $x++;
+        }
+        return $data;
+    }
     
     public function getRankings($type) {
         $this->db->order_by('experience', 'desc');

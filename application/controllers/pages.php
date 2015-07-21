@@ -217,7 +217,11 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
-
+        
+        $viewdata = $this->user->getTopThree();
+        
+        $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
+        
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('leaderboards', $views, true);
 
