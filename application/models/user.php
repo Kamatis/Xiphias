@@ -182,10 +182,11 @@ class User extends CI_Model{
         $x = 0;
       
         foreach($players->result() as $player) {
-            $data['name' . $x]   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
-            $data['houseid' . $x]  = $player->house_id;
+            $data['name' . $x]        = $this->user->getUsername($player->user_id);
+            $data['namelink' . $x]    = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+            $data['houseid' . $x]     = $player->house_id;
             $data['playerLevel' . $x] = $player->player_level;
-            $data['points' . $x] = $this->user->getPlayerPoints($player->user_id, $type);
+            $data['points' . $x]      = $this->user->getPlayerPoints($player->user_id, $type);
             $x++;
         }
         return $data;
