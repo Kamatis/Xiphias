@@ -148,3 +148,10 @@
   border-left: 1px solid #6688cc;
   border-right: 1px solid #6688cc;
 }
+.white-link {
+  color: white;
+}
+
+.white-link:hover {
+  color: white;
+}
