@@ -624,6 +624,11 @@ $('#verify-account').on('click', function() {
 
 //region leaderboards
 
+function namelink(value, row) {
+  var username = value.split("/");
+  return '<a href="' + value + '">' + username[username.length-1] + '</a>';
+}
+
 function changeTopThree(questType) {
   $.ajax({
     url: 'changeTopThree',

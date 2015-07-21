@@ -33,7 +33,7 @@
           <thead>
             <tr>
               <th data-field="id" data-sortable="true" class="col-lg-1 col-sm-1">#</th>
-              <th data-field="name" data-sortable="true" class="col-lg-8 col-sm-8">USERNAME</th>
+              <th data-field="name" data-sortable="true" data-formatter="namelink" class="col-lg-8 col-sm-8">USERNAME</th>
               <th data-field="price" data-sortable="true" data-align="center" class="col-lg-2 col-sm-2">HOUSE</th>
               <th data-field="points" data-sortable="true" class="col-lg-1 col-sm-1">POINTS</th>
             </tr>
