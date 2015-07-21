@@ -1,5 +1,5 @@
 <div class="stair-step house-<?php echo $houseid1; ?>">
-  <div class="header-name house-<?php echo $houseid1; ?>"><a href="<?php echo $namelink1; ?>"><?php echo $name1; ?></a></div>
+  <div class="header-name house-<?php echo $houseid1; ?>"><a href="<?php echo $namelink1; ?>" class="white-link"><?php echo $name1; ?></a></div>
   <div class="header-lvl-house house-<?php echo $houseid1; ?>">
     <p>Lvl <?php echo $playerLevel1; ?></p>
     <img src="<?php echo $houseLogo; ?>" style="width: 50px; height: 50px;">
@@ -13,7 +13,7 @@
 </div>
 
 <div class="stair-step house-<?php echo $houseid0; ?>">
-  <div class="header-name house-<?php echo $houseid0; ?>"><a href="<?php echo $namelink0; ?>"><?php echo $name0; ?></a></div>
+  <div class="header-name house-<?php echo $houseid0; ?>"><a href="<?php echo $namelink0; ?>" class="white-link"><?php echo $name0; ?></a></div>
   <div class="header-lvl-house house-<?php echo $houseid0; ?>">
     <p>Lvl <?php echo $playerLevel0; ?></p>
     <img src="<?php echo $houseLogo; ?>" style="width: 50px; height: 50px;">
@@ -27,7 +27,7 @@
 </div>
 
 <div class="stair-step house-<?php echo $houseid2; ?>">
-  <div class="header-name house-<?php echo $houseid2; ?>"><a href="<?php echo $namelink2; ?>"><?php echo $name2; ?></a>></div>
+  <div class="header-name house-<?php echo $houseid2; ?>"><a href="<?php echo $namelink2; ?>" class="white-link"><?php echo $name2; ?></a></div>
   <div class="header-lvl-house house-<?php echo $houseid2; ?>">
     <p>Lvl <?php echo $playerLevel2; ?></p>
     <img src="<?php echo $houseLogo; ?>" style="width: 50px; height: 50px;">
