@@ -160,7 +160,7 @@ class User extends CI_Model{
     }
     
     public function getProfileLink($username) {
-        return "<a href=\"".base_url('index.php/pages/profile/'.$username)."\">".$username."</a>";
+        return base_url('index.php/pages/profile/'.$username);
     }
     
     public function getPlayerPoints($user_id, $type) {
