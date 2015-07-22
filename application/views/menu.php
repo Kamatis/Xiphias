@@ -7,7 +7,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url('index.php/pages/index'); ?>">Xiphias</a>
+    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">Xiphias</a>
   </div>
   
   <div class="collapse navbar-collapse">
