@@ -224,6 +224,22 @@ class User extends CI_Model{
         return $this->db->get('user')->row()->user_id;
     }
     
+    public function getUserActivity($user_id) {
+        $quests = $this->quest->getCompletedQuests($user_id);
+        $x = 0;
+        foreach($quests->result() as $quest) {
+            if($x != 0 && $data[$x]['date'] == $quest->date_completed) {
+                $data[$x]['quest'] .= '|';
+                $x--;
+            }
+            $data[$x]['date']  = $quest->date_completed;
+            $data[$x]['exp']   += $this->quest->getQuestExp($quest->quest_id);
+            $data[$x]['quest'] .= $this->quest->getQuestTitle($quest->quest_id);
+            $x++;
+        }
+        return $data;
+    }
+    
     public function getUserType($username){
         $this->db->where('username', $username);
         return $this->db->get('user')->row()->user_type;
