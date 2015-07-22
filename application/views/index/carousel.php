@@ -8,21 +8,23 @@
   </ol>
 
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox" style="height: 350px;">
+  <div class="carousel-inner" role="listbox">
     <div class="item active">
       <div id="house-ranks-chart"></div>
     </div>
 
     <div class="item">
-      <img class="carousel-img" src="http://stylonica.com/wp-content/uploads/2014/02/cute-colorful-backgrounds-background-wallpapers-colour-images-colorful-backgrounds.jpg" alt="Chania">
+      <div>
+        asdasd
+      </div>
     </div>
 
     <div class="item">
-      <img class="carousel-img" src="http://stylonica.com/wp-content/uploads/2014/02/cute-colorful-backgrounds-background-wallpapers-colour-images-colorful-backgrounds.jpg" alt="Flower">
+      <img class="carousel-img" src="" alt="Flower">
     </div>
 
     <div class="item">
-      <img class="carousel-img" src="http://stylonica.com/wp-content/uploads/2014/02/cute-colorful-backgrounds-background-wallpapers-colour-images-colorful-backgrounds.jpg" alt="Flower">
+      <img class="carousel-img" src="" alt="Flower">
     </div>
   </div>
 

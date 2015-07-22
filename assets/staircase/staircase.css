@@ -97,6 +97,14 @@
 }
 
 /* house colors */
+/*
+dark - light
+house 1 convex hulk         #66cc88   #7fd99d
+house 2 segment thor-ee     #d9d96c   #e1e188
+house 3 travelling ironman  #cc6666   #e57272
+house 4 captain josephus    #6688cc   #7396db
+*/
+
 .header-name.house-1{
   background-color: #66cc88;
 }
