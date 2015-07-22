@@ -81,6 +81,10 @@ class Pages extends CI_Controller {
         echo json_encode($this->user->getRankings($type));
     }
     
+    public function getHousePoints() {
+        echo json_encode($this->house->getHousePoints());
+    }
+    
     public function logout(){
         $this->session->sess_destroy();
         redirect(base_url() . 'index.php');
