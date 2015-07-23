@@ -2,6 +2,26 @@
 
 class User extends CI_Model{
     
+    public function getUserId($username){
+        $this->db->where('username', $username);
+        return $this->db->get('user')->row()->user_id;
+    }
+    
+    public function getUsername($user_id){
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->username;
+    }
+    
+    public function getDescription($user_id){
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->description;
+    }
+    
+    public function getUserType($username){
+        $this->db->where('username', $username);
+        return $this->db->get('user')->row()->user_type;
+    }
+    
     public function addUser($data){
         $this->db->insert('user', $data);
         return mysql_insert_id();
@@ -18,11 +38,6 @@ class User extends CI_Model{
     public function assignHouse(){
         $this->db->select('count(*) as counter');
         return ($this->db->get('player')->row()->counter % 4) + 1;
-    }
-    
-    public function getUsername($user_id){
-        $this->db->where('user_id', $user_id);
-        return $this->db->get('user')->row()->username;
     }
     
     public function valid_login($data){
@@ -81,11 +96,6 @@ class User extends CI_Model{
     public function updateProgramCode($user_id, $data){
         $this->db->where('user_id', $user_id);
         $this->db->update('player', $data);
-    }
-    
-    public function getDescription($user_id){
-        $this->db->where('user_id', $user_id);
-        return $this->db->get('user')->row()->description;
     }
     
     public function getUserPhoto($user_id) {
@@ -219,11 +229,6 @@ class User extends CI_Model{
         $this->db->insert('earned_badge', $data);
     }
     
-    public function getUserId($username){
-        $this->db->where('username', $username);
-        return $this->db->get('user')->row()->user_id;
-    }
-    
     public function getUserActivity($user_id) {
         $quests = $this->quest->getCompletedQuests($user_id);
         $x = 0;
@@ -238,11 +243,6 @@ class User extends CI_Model{
             $x++;
         }
         return $data;
-    }
-    
-    public function getUserType($username){
-        $this->db->where('username', $username);
-        return $this->db->get('user')->row()->user_type;
     }
     
     public function isNPC($userId) {
