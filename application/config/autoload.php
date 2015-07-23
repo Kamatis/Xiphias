@@ -109,7 +109,8 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('user','course','badge','quest','office','party', 'house', 'school');
+$autoload['model'] = array('user','course','badge','quest','office',
+                           'party', 'house', 'school', 'player', 'npc');
 
 
 /* End of file autoload.php */
