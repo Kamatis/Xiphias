@@ -1,6 +1,22 @@
 <?php
 
 class Office extends CI_Model{
+    
+    public function getOfficeName($office_id) {
+        $this->db->where('office_id', $office_id);
+        return $this->db->get('office')->row()->office_name;
+    }
+    
+    public function getOfficeAbbreviation($office_id) {
+        $this->db->where('office_id', $office_id);
+        return $this->db->get('office')->row()->office_abbreviation;
+    }
+    
+    public function getOfficeDescription($office_id) {
+        $this->db->where('office_id', $office_id);
+        return $this->db->get('office')->row()->office_description;
+    }
+    
     public function getOfficeThumbnail($office_id){
         $this->db->where('office_id', $office_id);
         return base_url($this->db->get('office')->row()->office_logo);
