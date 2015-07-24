@@ -131,8 +131,13 @@ class User extends CI_Model{
             $query = $this->db->get('player')->row();
             $curr_exp = $query->experience;
             $next_exp = $this->user->getExpNeeded($query->player_level + 1);
-            if($curr_exp >= $next_exp)
+            if($curr_exp >= $next_exp){
                 $this->user->levelUp($user_id);
+                $event['username']    = $this->user->getUsername($user_id);
+                $event['description'] = 'is now level ' . $this->player->getPlayerLevel($user_id);
+                $event['date_time']   = date('Y-m-d');
+                $this->event->addEvent($event);
+            }
             else
                 break;
         }
