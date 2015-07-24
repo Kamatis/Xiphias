@@ -548,6 +548,6 @@ class Pages extends CI_Controller {
     }
     
     public function getLiveEvents() {
-        $data = $this->event->getLiveEvents();
+        echo json_encode($this->event->getLiveEvents());
     }
 }
