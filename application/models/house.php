@@ -1,6 +1,22 @@
 <?php
 
 class House extends CI_Model {
+    
+    public function getHouseName($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_name;
+    }
+    
+    public function getHouseDescription($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_description;
+    }
+    
+    public function getHousePoint($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_points;    
+    }
+    
     public function getHouseInfo($house_id){
         $this->db->where('house_id', $house_id);
         $house = $this->db->get('house')->row();
@@ -15,11 +31,6 @@ class House extends CI_Model {
         $this->db->update('house');
     }
     
-    public function getHouseName($house_id) {
-        $this->db->where('house_id', $house_id);
-        return $this->db->get('house')->row()->house_name;
-    }
-    
     public function getHousePoints() {
         $houses = $this->db->get('house');
         $x = 0;
@@ -27,16 +38,8 @@ class House extends CI_Model {
             $house_id = $house->house_id;
             $map[$house_id] = $x;
             $data[$x]['name'] = $house->house_name;
-            $data[$x]['y']    = 0;
+            $data[$x]['y']    = 0 + $this->house->getHousePoint($house_id);
             $x++;
-        }
-        
-        $this->db->where('`date_completed` IS NOT NULL', null, false);
-        $completed = $this->db->get('quest_registration');
-        
-        foreach($completed->result() as $quest) {
-            $house_id = $this->user->getHouseId($quest->user_id);
-            $data[$map[$house_id]]['y'] += $this->quest->getHousePoints($quest->quest_id);
         }
         return $data;
     }

@@ -1,6 +1,17 @@
 <?php
 
 class Badge extends CI_Model{
+    
+    public function getBadgeDescription($badge_id) {
+        $this->db->where('badge_id', $badge_id);
+        return $this->db->get('badge')->row()->badge_description;
+    }
+    
+    public function getBadgeCreator($badge_id) {
+        $this->db->where('badge_id', $badge_id);
+        return $this->db->get('badge')->row()->creator_id;
+    }
+    
     public function getBadgeThumbnail($badge_id, $level){
         $this->db->where('badge_ups_id', $badge_id);
         $this->db->where('badge_ups_lvl', $level);

@@ -452,27 +452,32 @@ class Pages extends CI_Controller {
         $memberId   = $this->input->post('qRegID');
         $housePoint = $this->quest->getHousePoints($questId);
         $experience = $this->quest->getQuestExp($questId);
-        echo $badgeId;
         $memberCount = count($memberId);
         for($x = 0; $x < $memberCount; $x++){
-            // update house point
+            $doneAwarding = $this->quest->doneAwarding($questId, $memberId[$x]);
+            
             $houseId = $this->user->getHouseId($memberId[$x]);
             $this->house->awardHousePoint($houseId, $housePoint);
             
-            // update player experience
-            $this->user->awardExperience($memberId[$x], $experience);
+            $this->quest->completeQuest($questId, $memberId[$x]);
+            $event['username']    = $this->user->getUsername($memberId[$x]);
+            $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
+            $event['date_time']   = date('Y-m-d');
+            $this->event->addEvent($event);
             
-//             award badge
-            if($badgeId != false && !$this->quest->doneAwarding($questId, $memberId[$x])){
-                echo $badgeId;
+            if($badgeId != false && !doneAwarding){
                 $data['user_id'] = $memberId[$x];
                 $data['badge_id'] = $badgeId;
                 $data['date_earned'] = date('Y-m-d');
                 $this->user->awardBadge($data);
-              echo 'yow';
+                
+                $event['username']    = $this->user->getUsername($memberId[$x]);
+                $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
+                $event['date_time']   = date('Y-m-d');
+                $this->event->addEvent($event);
             }
-            $this->quest->completeQuest($questId, $memberId[$x]);
-          }
+            $this->user->awardExperience($memberId[$x], $experience);
+        }
     }
     
     public function changePartyPassword(){
@@ -516,12 +521,22 @@ class Pages extends CI_Controller {
         $data['quest_id'] = $this->input->post('quest_id');
         $data['date_registered'] = date('Y-m-d');
         $this->quest->register($data);
+        
+        $event['username']    = $this->user->getUsername($data['user_id']);
+        $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
+        $event['date_time']   = date('Y-m-d');
+        $this->event->addEvent($event);
     }
   
     public function questAbort() {
         $quest_id = $this->input->post('quest_id');
         $user_id  = $this->session->userdata('user_id');
-        $this->quest->abortQuest($quest_id, $user_id);  
+        $this->quest->abortQuest($quest_id, $user_id);
+        
+        $event['username']    = $this->user->getUsername($user_id);
+        $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
+        $event['date_time']   = date('Y-m-d');
+        $this->event->addEvent($event);
     }
     
     public function getAllPrograms() {
@@ -530,5 +545,9 @@ class Pages extends CI_Controller {
       foreach ($query->result() as $row) 
           $options .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
       return $options;
+    }
+    
+    public function getLiveEvents() {
+        echo json_encode($this->event->getLiveEvents());
     }
 }

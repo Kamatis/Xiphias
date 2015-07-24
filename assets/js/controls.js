@@ -288,6 +288,7 @@ $('body').on('click', '#btn-award-ok', function(){
     contentType: false,
     processData: false,
     success: function(dataPass){
+        alert(dataPass);
       BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
