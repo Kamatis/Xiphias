@@ -220,6 +220,13 @@ create table if not exists involvement(
     primary key(involvement_id),
     foreign key(user_id) references user(user_id)
 );
+
+create table if not exists event(
+    username varchar(75),
+    description varchar(150),
+    date_time timestamp
+);
+
 /*# Extra Tables
 create table if not exists settings(
     user_id int not null,
