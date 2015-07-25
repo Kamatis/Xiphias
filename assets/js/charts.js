@@ -62,7 +62,7 @@ $(function () {
     }]
   };
   
-  $.getJSON('index.php/pages/getHousePoints', function(data){
+  $.getJSON('http://'+  window.location.hostname + '/xiphias/index.php/pages/getHousePoints', function(data){
     options.series[0].data = data;
     console.log(options);
     $('#house-ranks-chart').highcharts(options);
