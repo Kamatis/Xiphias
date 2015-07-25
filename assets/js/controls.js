@@ -282,13 +282,13 @@ $('body').on('click', '#btn-award-ok', function(){
   formData.append('badge_id', badgeid);
   formData.append('quest_id', questid);
   $.ajax({
-    url: "awardReward",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/pages/awardReward",
     type: "post",
     data: formData,
     contentType: false,
     processData: false,
+    aync: false,
     success: function(dataPass){
-        alert(dataPass);
       BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
