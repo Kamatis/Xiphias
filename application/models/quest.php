@@ -34,7 +34,11 @@ class Quest extends CI_model{
     
     public function getBadgeReward($quest_id) {
         $this->db->where('quest_id', $quest_id);
-        return $this->db->get('quest')->row()->badge_id;       
+        $this->db->where('`badge_id` is not null', null, false);
+        $query = $this->db->get('quest');
+        if($query->num_rows() == 0)
+            return false;
+        return $query->row()->badge_id;       
     }
     
     public function getCreatorId($quest_id) {
