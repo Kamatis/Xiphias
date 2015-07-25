@@ -454,29 +454,27 @@ class Pages extends CI_Controller {
         $experience = $this->quest->getQuestExp($questId);
         $memberCount = count($memberId);
         for($x = 0; $x < $memberCount; $x++){
-            $doneAwarding = $this->quest->doneAwarding($questId, $memberId[$x]);
-            
-            $houseId = $this->user->getHouseId($memberId[$x]);
-            $this->house->awardHousePoint($houseId, $housePoint);
-            
-            $this->quest->completeQuest($questId, $memberId[$x]);
-            $event['username']    = $this->user->getUsername($memberId[$x]);
-            $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
-            $event['date_time']   = date('Y-m-d');
-            $this->event->addEvent($event);
-            
-            if($badgeId != false && !doneAwarding){
-                $data['user_id'] = $memberId[$x];
-                $data['badge_id'] = $badgeId;
-                $data['date_earned'] = date('Y-m-d');
-                $this->user->awardBadge($data);
+            if(!$this->quest->doneAwarding($questId, $memberId[$x])) {
+                $houseId = $this->user->getHouseId($memberId[$x]);
+                $this->house->awardHousePoint($houseId, $housePoint);
+                $this->quest->completeQuest($questId, $memberId[$x]);
                 
                 $event['username']    = $this->user->getUsername($memberId[$x]);
-                $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
-                $event['date_time']   = date('Y-m-d');
+                $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
                 $this->event->addEvent($event);
+
+                if($badgeId != false){
+                    $data['user_id'] = $memberId[$x];
+                    $data['badge_id'] = $badgeId;
+                    $data['date_earned'] = date('Y-m-d');
+                    $this->user->awardBadge($data);
+
+                    $event['username']    = $this->user->getUsername($memberId[$x]);
+                    $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
+                    $this->event->addEvent($event);
+                }
+                $this->user->awardExperience($memberId[$x], $experience);
             }
-            $this->user->awardExperience($memberId[$x], $experience);
         }
     }
     
@@ -524,7 +522,6 @@ class Pages extends CI_Controller {
         
         $event['username']    = $this->user->getUsername($data['user_id']);
         $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
-        $event['date_time']   = date('Y-m-d');
         $this->event->addEvent($event);
     }
   
@@ -535,7 +532,6 @@ class Pages extends CI_Controller {
         
         $event['username']    = $this->user->getUsername($user_id);
         $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
-        $event['date_time']   = date('Y-m-d');
         $this->event->addEvent($event);
     }
     
