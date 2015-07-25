@@ -135,7 +135,6 @@ class User extends CI_Model{
                 $this->user->levelUp($user_id);
                 $event['username']    = $this->user->getUsername($user_id);
                 $event['description'] = 'is now level ' . $this->player->getPlayerLevel($user_id);
-                $event['date_time']   = date('Y-m-d');
                 $this->event->addEvent($event);
             }
             else
