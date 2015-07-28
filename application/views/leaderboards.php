@@ -3,7 +3,6 @@
     <div class="stair-container" style="overflow-x: auto;">
       <div class="staircase">
         <?php echo $steps; ?>
-
       </div>
     </div>
     
