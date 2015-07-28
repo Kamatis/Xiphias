@@ -126,6 +126,7 @@ class User extends CI_Model{
         $this->db->set('experience', 'experience + ' . $exp, false);
         $this->db->where('user_id', $user_id);
         $this->db->update('player');
+        $success = "";
         while(true) {
             $this->db->where('user_id', $user_id);
             $query = $this->db->get('player')->row();
@@ -136,10 +137,12 @@ class User extends CI_Model{
                 $event['username']    = $this->user->getUsername($user_id);
                 $event['description'] = 'is now level ' . $this->player->getPlayerLevel($user_id);
                 $this->event->addEvent($event);
+                $success = $this->load->view('index/streamItem', $event, true) . $success;
             }
             else
                 break;
         }
+        return $success;
     }
     
     public function getUserInfo($username){
