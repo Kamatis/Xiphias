@@ -2,6 +2,7 @@
 
 class Event extends CI_Model {
     public function getLiveEvents() {
+        $this->db->order_by('date_time', 'desc');
         $events = $this->db->get('event');
         $x = 0;
         foreach($events->result() as $event) {
