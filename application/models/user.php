@@ -191,6 +191,7 @@ class User extends CI_Model{
   
     public function getTopThree($type) {
         $this->db->order_by('experience', 'desc');
+        $this->db->where('experience >', 0);
         $this->db->limit(3);
         $players = $this->db->get('player');
         $x = 0;
