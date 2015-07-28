@@ -483,11 +483,9 @@ class Pages extends CI_Controller {
                     $this->event->addEvent($event);
                     $success = $this->load->view('index/streamItem', $event, true) . $success;
                 }
-                $success = $this->user->awardExperience($memberId[$x], $experience) . $sucess;
+                $success = $this->user->awardExperience($memberId[$x], $experience) . $success;
             }
-        }
-      
-        
+        } 
         echo $success;
     }
     
