@@ -471,7 +471,7 @@ class Pages extends CI_Controller {
                 $event['username']    = $this->user->getUsername($memberId[$x]);
                 $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
                 $this->event->addEvent($event);
-                $success .= $this->load->view('index/streamItem', $event, true);
+                $success = $this->load->view('index/streamItem', $event, true) . $success;
                 if($badgeId != false){
                     $data['user_id'] = $memberId[$x];
                     $data['badge_id'] = $badgeId;
@@ -481,8 +481,9 @@ class Pages extends CI_Controller {
                     $event['username']    = $this->user->getUsername($memberId[$x]);
                     $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
                     $this->event->addEvent($event);
+                    $success = $this->load->view('index/streamItem', $event, true) . $success;
                 }
-                $this->user->awardExperience($memberId[$x], $experience);
+                $success = $this->user->awardExperience($memberId[$x], $experience) . $sucess;
             }
         }
       
@@ -535,6 +536,7 @@ class Pages extends CI_Controller {
         $event['username']    = $this->user->getUsername($data['user_id']);
         $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
         $this->event->addEvent($event);
+        echo $this->load->view('index/streamItem', $event, true);
     }
   
     public function questAbort() {
@@ -545,6 +547,7 @@ class Pages extends CI_Controller {
         $event['username']    = $this->user->getUsername($user_id);
         $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
         $this->event->addEvent($event);
+        echo $this->load->view('index/streamItem', $event, true);
     }
     
     public function getAllPrograms() {
