@@ -14,16 +14,16 @@ io.sockets.on('connection', function(client) {
   console.log("New client!");
   
   client.on('feed', function(data){
-    console.log('message received ' + data.name + ": " + data.message);
-    io.sockets.emit('feed', { name: data.name, message: data.message });
+    console.log('message received: ' + data.streamItem );
+    io.sockets.emit('feed', { streamItem : data.streamItem });
   });
 });
 
-//server.listen(8080);
+server.listen(8080);
 
-server.listen(8080, function() {
-  console.log('listening on *:8080');
-});
+//server.listen(8080, function() {
+//  console.log('listening on *:8080');
+//});
 //
 //http.listen(3000, function() {
 //  console.log('listening on *:3000');

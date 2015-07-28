@@ -95,6 +95,8 @@
 <script src="<?php echo base_url('assets/x_wizard/js/wizard.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/xiphias.js'); ?>"></script>
 <script src="<?php echo base_url('assets/js/validator.js'); ?>"></script>
+  <script src="<?php echo base_url('sockets/node_modules/socket.io/node_modules/socket.io-client/socket.io.js');?>"></script>
+  <script src="<?php echo base_url('assets/socket/socket.js');?>"></script>
   <script src="<?php echo base_url('assets/js/controls.js'); ?>"></script>
 
 </html>

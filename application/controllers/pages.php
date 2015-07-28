@@ -13,7 +13,14 @@ class Pages extends CI_Controller {
             $data = $this->user->getSessionData();
             $data['title']      = 'Xiphias | Home';
             
-            $views['carousel'] = $this->load->view('index/carousel', '', true);
+            $events = $this->event->getLiveEvents();
+          
+            for($x = 0; $x < count($events); $x++) {
+              $views['stream'] .= $this->load->view('index/streamItem', $events[$x], true); 
+            }
+          
+//            $views['stream']    = $this->load->view('index/streamItem', '', true); 
+            $views['carousel']  = $this->load->view('index/carousel', '', true);
           
             $body['menu']    = $this->load->view('menu', $data, true);
             $body['content'] = $this->load->view('index', $views, true);
@@ -365,7 +372,7 @@ class Pages extends CI_Controller {
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
-        $quest['quest_rarity']      = $this->input->post('rarity');
+        $quest['quest_rarity']      = 5;
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
@@ -382,6 +389,7 @@ class Pages extends CI_Controller {
         $user_id = $this->session->userdata('user_id');
         $myQuests = $this->quest->getMyQuests($user_id);
       
+        
         for($x = 0; $x < count($myQuests); $x++)
             $questRefresh .= $this->load->view('dashboard/myquests', $myQuests[$x], TRUE);
         echo $questRefresh;
@@ -453,6 +461,7 @@ class Pages extends CI_Controller {
         $housePoint = $this->quest->getHousePoints($questId);
         $experience = $this->quest->getQuestExp($questId);
         $memberCount = count($memberId);
+        $success = "";
         for($x = 0; $x < $memberCount; $x++){
             if(!$this->quest->doneAwarding($questId, $memberId[$x])) {
                 $houseId = $this->user->getHouseId($memberId[$x]);
@@ -462,7 +471,7 @@ class Pages extends CI_Controller {
                 $event['username']    = $this->user->getUsername($memberId[$x]);
                 $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
                 $this->event->addEvent($event);
-
+                $success .= $this->load->view('index/streamItem', $event, true);
                 if($badgeId != false){
                     $data['user_id'] = $memberId[$x];
                     $data['badge_id'] = $badgeId;
@@ -476,6 +485,9 @@ class Pages extends CI_Controller {
                 $this->user->awardExperience($memberId[$x], $experience);
             }
         }
+      
+        
+        echo $success;
     }
     
     public function changePartyPassword(){
