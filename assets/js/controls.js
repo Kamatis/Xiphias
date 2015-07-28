@@ -2,6 +2,8 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover(); 
 });
 
+var socket = io.connect('http://localhost:8080');
+
 $("#txtaDescription").focus(function(){
   $(this).siblings(".edit-controls").show();
   $(this).removeClass("txtaDescription");
@@ -289,6 +291,7 @@ $('body').on('click', '#btn-award-ok', function(){
     processData: false,
     aync: false,
     success: function(dataPass){
+      socket.emit('feed', { streamItem : dataPass });
       BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
@@ -488,6 +491,7 @@ $('#form-quest').on('submit', function(e){
    var formData = new FormData(this);
    var badgeid = $('#quest-badge-reward').data('badgeid');
   formData.append('badge_id', badgeid);
+  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
@@ -496,10 +500,12 @@ $('#form-quest').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
+//        socket.emit('feed', { name: questid, message: questid });
         BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
         });
+      
         $('input').val("");
         $('textarea').val("");
         $('#quest-list').html(dataPass);
@@ -767,3 +773,16 @@ $('body').on('click', '#add-involve', function(){
   });
 })
 // endregion
+
+//region Sockets
+
+
+$('#')
+
+socket.on('message', function(data){
+  var actualContent = $("#feeder").html();
+  var msgContent = '<li>' + data.name + '</li>';
+  var concatCOntent = msgContent + actualContent;
+  $('#feeder').html(concatCOntent);
+});
+//endregion
