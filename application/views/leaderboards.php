@@ -8,9 +8,9 @@
     
     <div id="leaderboard-controls">
         <select id="sel-quest-type" class="form-control">
-          <option value="1">Academic</option>
-          <option value="2">Co-Curricular</option>
-          <option value="3">Extra Curricular</option>
+          <option value="Academic">Academic</option>
+          <option value="Co-Curricular">Co-Curricular</option>
+          <option value="Extra Curricular">Extra Curricular</option>
         </select>
     </div>
     <!-- https://api.github.com/users/Ocramius/repos -->
