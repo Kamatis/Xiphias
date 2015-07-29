@@ -193,12 +193,24 @@ class User extends CI_Model{
     }
   
     public function getTopThree($type) {
-        $this->db->order_by('experience', 'desc');
-        $this->db->where('experience >', 0);
+//      select QR.user_id, P.house_id, P.player_level from quest_registration QR, quest Q, player P
+//      where QR.quest_id = Q.quest_id and QR.user_id = P.user_id and Q.quest_type = $type and P.experience > 0
+//      group by QR.user_id order by P.experience desc limit 3
+        $this->db->select('QR.user_id');
+        $this->db->select('P.house_id');
+        $this->db->select('P.player_level');
+        $this->db->from('quest_registration QR');
+        $this->db->join('quest Q', 'QR.quest_id=Q.quest_id', 'left');
+        $this->db->join('player P', 'P.user_id = QR.user_id', 'left');
+        $this->db->where('Q.quest_type', $type);
+        $this->db->where('P.experience >', 0);
+        $this->db->group_by('QR.user_id');
+        $this->db->order_by('P.experience', 'desc');
         $this->db->limit(3);
-        $players = $this->db->get('player');
-        $x = 0;
       
+        $players = $this->db->get();
+        $x = 0;
+        
         foreach($players->result() as $player) {
             $data['name' . $x]        = $this->user->getUsername($player->user_id);
             $data['namelink' . $x]    = $this->user->getProfileLink($this->user->getUsername($player->user_id));
