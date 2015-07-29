@@ -233,7 +233,7 @@ class Pages extends CI_Controller {
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
         
-        $viewdata = $this->user->getTopThree();
+        $viewdata = $this->user->getTopThree('CoCurricular');
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
         
@@ -246,7 +246,7 @@ class Pages extends CI_Controller {
   
     public function changeTopThree() {
         $type = $this->input->post('quest_type');
-        $viewdata = $this->user->getTopThree();
+        $viewdata = $this->user->getTopThree($type);
         $view = $this->load->view('leaderboards/steps', $viewdata, true);
       
         echo $view;
