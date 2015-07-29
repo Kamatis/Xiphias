@@ -14,14 +14,26 @@
     float: left;
 }
 
+@media (max-width: 768px) {
+  .table-container {
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
 @media (min-width: 768px) {
-    .col-sm-5ths {
+  .col-sm-5ths {
         width: 20%;
         float: left;
-    }
+  }
   #feeder-container {
     position: fixed;
     margin-right: 15px;
+  }
+  
+  .table-container {
+    margin-left: 50px;
+    margin-right: 50px;
   }
 }
 
@@ -1083,16 +1095,16 @@ ol {
   overflow-y: auto;
 }
 
-#stream-container::-webkit-scrollbar {
+#stream-container::-webkit-scrollbar, .fixed-table-body::-webkit-scrollbar {
     width: 5px;
 }
  
-#stream-container::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+#stream-container::-webkit-scrollbar-track, .fixed-table-body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3) !important;
 }
  
-#stream-container::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+#stream-container::-webkit-scrollbar-thumb, .fixed-table-body::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5) !important; 
 }
 .banner {
   background-color: #73afad;
