@@ -233,7 +233,7 @@ class Pages extends CI_Controller {
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
         
-        $viewdata = $this->user->getTopThree('CoCurricular');
+        $viewdata = $this->user->getTopThree('Academic');
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
         
