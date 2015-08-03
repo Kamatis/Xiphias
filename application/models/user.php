@@ -136,6 +136,7 @@ class User extends CI_Model{
                 $this->user->levelUp($user_id);
                 $event['username']    = $this->user->getUsername($user_id);
                 $event['description'] = 'is now level ' . $this->player->getPlayerLevel($user_id);
+                $event['date']        = date("F j, Y, g:i a");
                 $this->event->addEvent($event);
                 $success = $this->load->view('index/streamItem', $event, true) . $success;
             }

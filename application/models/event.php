@@ -8,13 +8,15 @@ class Event extends CI_Model {
         foreach($events->result() as $event) {
             $data[$x]['username']    = $event->username;
             $data[$x]['description'] = $event->description;
-            $data[$x]['date']        = $event->date_time;
+            $data[$x]['date']        = date("F j, Y, g:i a", strtotime($event->date_time));
             $x++;
         }
         return $data;
     }
     
     public function addEvent($data) {
-        $this->db->insert('event', $data);
+        $event['username']    = $data['username'];
+        $event['description'] = $data['description'];
+        $this->db->insert('event', $event);
     }
 }

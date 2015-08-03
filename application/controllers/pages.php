@@ -470,6 +470,7 @@ class Pages extends CI_Controller {
                 
                 $event['username']    = $this->user->getUsername($memberId[$x]);
                 $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
+                $event['date']        = date("F j, Y, g:i a");
                 $this->event->addEvent($event);
                 $success = $this->load->view('index/streamItem', $event, true) . $success;
                 if($badgeId != false){
@@ -480,6 +481,7 @@ class Pages extends CI_Controller {
 
                     $event['username']    = $this->user->getUsername($memberId[$x]);
                     $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
+                    $event['date']        = date("F j, Y, g:i a");
                     $this->event->addEvent($event);
                     $success = $this->load->view('index/streamItem', $event, true) . $success;
                 }
@@ -533,6 +535,7 @@ class Pages extends CI_Controller {
         
         $event['username']    = $this->user->getUsername($data['user_id']);
         $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
+        $event['date']        = date("F j, Y, g:i a");
         $this->event->addEvent($event);
         echo $this->load->view('index/streamItem', $event, true);
     }
@@ -544,6 +547,7 @@ class Pages extends CI_Controller {
         
         $event['username']    = $this->user->getUsername($user_id);
         $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
+        $event['date']        = date("F j, Y, g:i a");
         $this->event->addEvent($event);
         echo $this->load->view('index/streamItem', $event, true);
     }
