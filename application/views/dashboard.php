@@ -14,6 +14,7 @@
           echo $dashboardOffice;
           if($isAdmin){
             echo $dashboardSerial;
+            echo $dashboardNotification;
           }
         }
         else {
