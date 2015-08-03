@@ -18,14 +18,6 @@
         <legend><h5><strong>Description</strong></h5></legend>
         <textarea name="questDescription" class="form-control" placeholder="Enter quest description" id="quest-description"></textarea>
       </div>
-
-      <!-- rarity of quests -->
-      <div class="form-group">
-        <legend><h5><strong>Quest Rarity</strong></h5></legend>
-        <div id="questRarities">
-          <?php echo $questRarities; ?>
-        </div>
-      </div>
       
       <!-- Date -->
       <div class="form-group">
@@ -42,11 +34,13 @@
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Rewards</strong></h5></legend>
+<!--
         <div class="range range-success">
           <output id="exp-label">EXP</output>
           <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
           <output id="rangeSuccess">--</output>
         </div>
+-->
 <!--
         <div class="range range-success">
           <output id="hp-label">HP</output>
