@@ -89,7 +89,8 @@ $('#btn-next').on('click', function(){
 //endregion
 
 //region QuestBoard
-$('.btn-join-quest').on('click', function(){
+$('.btn-join-quest').on('click', function(e){
+  e.preventDefault();
   var qid = $(this).data("questid");
   var btn = $(this);
   if($(this).html() == "Join") {
@@ -491,7 +492,7 @@ $('#form-quest').on('submit', function(e){
    var formData = new FormData(this);
    var badgeid = $('#quest-badge-reward').data('badgeid');
   formData.append('badge_id', badgeid);
-  socket.emit('feed', { streamItem: badgeid });
+//  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
