@@ -147,6 +147,7 @@ $('input.validation').on('input', function(e) {
 });
 
 $('.submit-validation').on('click', function(e){
+    e.preventDefault();
     appendingTitle = "";
     if(!checkRequired()){
         appendingTitle = "All fields are required.";

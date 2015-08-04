@@ -41,9 +41,10 @@
                         <p class="error"></p>
                     </div>
                     <div class="form-group">
-                        <input tabindex="3" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
+                        
+                        <button tabindex="3" data-toggle="popover" data-placement="left" data-trigger="focus" data-html="true"
                                 data-title=""
-                                class="form-control btn btn-success submit-validation" type=button style="background: #d9853c;" value="Log In">
+                           class="form-control btn btn-success submit-validation" style="background: #d9853c;">Log In</button>
                     </div>
                     <div class="form-group">
                         <p class="color-white left-align">No account yet? Register <a tabindex="" href="<?php echo base_url('index.php/pages/register'); ?>" style="color: #568d8a;">here</a>!</p>
