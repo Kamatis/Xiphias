@@ -471,20 +471,15 @@ class Pages extends CI_Controller {
                 $event['username']    = $this->user->getUsername($memberId[$x]);
                 $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
                 $event['date']        = date("F j, Y, g:i a");
-                $this->event->addEvent($event);
-                $success = $this->load->view('index/streamItem', $event, true) . $success;
                 if($badgeId != false){
                     $data['user_id'] = $memberId[$x];
                     $data['badge_id'] = $badgeId;
                     $data['date_earned'] = date('Y-m-d');
                     $this->user->awardBadge($data);
-
-                    $event['username']    = $this->user->getUsername($memberId[$x]);
-                    $event['description'] = 'earned ' . $this->badge->getBadgeName($badgeId, 1);
-                    $event['date']        = date("F j, Y, g:i a");
-                    $this->event->addEvent($event);
-                    $success = $this->load->view('index/streamItem', $event, true) . $success;
+                    $event['description'] .= ' and earned a ' . $this->badge->getBadgeName($badgeId, 1);
                 }
+                $this->event->addEvent($event);
+                $success = $this->load->view('index/streamItem', $event, true) . $success;
                 $success = $this->user->awardExperience($memberId[$x], $experience) . $success;
             }
         } 
