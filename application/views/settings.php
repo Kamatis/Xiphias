@@ -5,7 +5,9 @@
     <div class="row">
       <div class="col-sm-11">
         <h5><strong>Change Password</strong></h5>
-        <input type="password" name="pw-change" class="form-control">
+        <input type="password" name="pw-change" class="form-control" placeholder="Old Password" style="margin-bottom:5px;">
+        <input type="password" name="pw-change" class="form-control" placeholder="New Password" style="margin-bottom:5px;">
+        <input type="password" name="pw-change" class="form-control" placeholder="Confirm New Password" style="margin-bottom:5px;">
         <a href="#" class="btn btn-success btn-sm" style="margin-top: 5px;">Change Password</a>
       </div>
     </div>
@@ -13,7 +15,7 @@
     <div class="row">
       <div class="col-sm-6">
         <h5><strong>Integrations</strong></h5>
-        <a href="#" class="btn btn-default form-control" style="text-align: left; background-color: #3a5795; border: 1px solid #133783; color: white;"><span style="border-right: 1px solid #133783; padding: 8px 10px 8px 0px;"><i class="fa fa-facebook" style="font-size: 13pt;"></i></span> Connect to Facebook </a>
+        <a id="fb-link" href="#" class="btn btn-default form-control" style="text-align: left; background-color: #3a5795; border: 1px solid #133783; color: white;"><span style="border-right: 1px solid #133783; padding: 8px 10px 8px 0px;"><i class="fa fa-facebook" style="font-size: 13pt;"></i></span> Connect to Facebook </a>
         
       </div>
     </div>
