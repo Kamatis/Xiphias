@@ -26,5 +26,6 @@
     <script src="<?php echo base_url('assets/highcharts/highcharts.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/custom-knob.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/charts.js'); ?>"></script>
+    <script src="<?php echo base_url('assets/js/integration.js'); ?>"></script>
     
 </body>
