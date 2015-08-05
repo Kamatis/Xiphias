@@ -300,6 +300,7 @@ class Pages extends CI_Controller {
         $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
         $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
         $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['dashboardNoti']   = $this->load->view('dashboard/dashboardNoti', '', true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('dashboard', $views, true);
