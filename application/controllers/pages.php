@@ -244,6 +244,19 @@ class Pages extends CI_Controller {
         $this->load->view('body', $body);
     }
   
+    public function famehall() {
+      $query = $this->db->get('user');
+      
+      $data = $this->user->getSessionData();
+      $data['title'] = 'Xiphias | Hall of Fame';
+      
+      $body['menu'] = $this->load->view('menu', $data, true);
+      $body['content'] = $this->load->view('famehall', '', true);
+      
+      $this->load->view('header');
+      $this->load->view('body', $body);
+    }
+  
     public function changeTopThree() {
         $type = $this->input->post('quest_type');
         $viewdata = $this->user->getTopThree($type);
