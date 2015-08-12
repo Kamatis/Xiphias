@@ -572,4 +572,14 @@ class Pages extends CI_Controller {
     public function getLiveEvents() {
         echo json_encode($this->event->getLiveEvents());
     }
+    
+    public function changePassword() {
+        $user_id     = $this->session->userdata('user_id');
+        $old_pass    = $this->input->post('old-pass');
+        $new_pass    = $this->input->post('new-pass');
+        $re_new_pass = $this->input->post('re-new-pass');
+        if($this->user->passwordMatched($user_id ,$old_pass) && $new_pass == $re_new_pass)
+            $this->user->changePassword($user_id, $new_pass);
+        redirect(base_url('index.php/pages/settings'));
+    }
 }
