@@ -4,11 +4,13 @@
     
     <div class="row">
       <div class="col-sm-11">
+        <form method="post" action="<?php echo base_url('index.php/pages/changePassword'); ?>">
         <h5><strong>Change Password</strong></h5>
-        <input type="password" name="pw-change" class="form-control" placeholder="Old Password" style="margin-bottom:5px;">
-        <input type="password" name="pw-change" class="form-control" placeholder="New Password" style="margin-bottom:5px;">
-        <input type="password" name="pw-change" class="form-control" placeholder="Confirm New Password" style="margin-bottom:5px;">
-        <a href="#" class="btn btn-success btn-sm" style="margin-top: 5px;">Change Password</a>
+        <input type="password" name="old-pass" class="form-control" placeholder="Old Password" style="margin-bottom:5px;">
+        <input type="password" name="new-pass" class="form-control" placeholder="New Password" style="margin-bottom:5px;">
+        <input type="password" name="re-new-pass" class="form-control" placeholder="Confirm New Password" style="margin-bottom:5px;">
+        <button type="submit" class="btn btn-success btn-sm" style="margin-top: 5px;">Change Password</button>
+        </form>
       </div>
     </div>
     

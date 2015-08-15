@@ -583,4 +583,31 @@ class Pages extends CI_Controller {
     public function getLiveEvents() {
         echo json_encode($this->event->getLiveEvents());
     }
+    
+    public function changePassword() {
+        $user_id     = $this->session->userdata('user_id');
+        $old_pass    = $this->input->post('old-pass');
+        $new_pass    = $this->input->post('new-pass');
+        $re_new_pass = $this->input->post('re-new-pass');
+        if($this->user->passwordMatched($user_id ,$old_pass) && $new_pass == $re_new_pass)
+            $this->user->changePassword($user_id, $new_pass);
+        redirect(base_url('index.php/pages/settings'));
+    }
+    
+    public function connectToFacebook(){
+        require_once(__DIR__ . '/facebook-sdk-v5/autoload.php');
+        $fb = new Facebook\Facebook([
+            'app_id' => '',
+            'app_secret' => '',
+            'default_graph_version' => 'v2.3',
+        ]);
+        $u_id = $this->session->userdata('user_id');
+        $this->db->where('user_id',$uid);
+        $query = $this->db->get('access_token');
+        if($query->num_rows()==0){
+            $helper = $fb->getRedirectLoginHelper();
+            $permissions = ['public_profile,email,publish_actions,user_birthday'];
+            $loginUrl = $helper->getLoginUrl('http://localhost/xiphias/',$permissions);
+        }
+    }
 }

@@ -338,5 +338,20 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         return $this->db->get('player')->row()->program_code;
     }
+    
+    public function passwordMatched($user_id, $pass) {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('password', md5($pass));
+        $query = $this->db->get('user');
+        if($query->num_rows() == 1)
+            return true;
+        return false;
+    }
+    
+    public function changePassword($user_id, $pass) {
+        $data['password'] = md5($pass);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('user', $data);
+    }
 
 }
