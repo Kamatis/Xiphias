@@ -250,8 +250,19 @@ class Pages extends CI_Controller {
       $data = $this->user->getSessionData();
       $data['title'] = 'Xiphias | Hall of Fame';
       
+      // @Kelly
+      // data needed for 1 fame item:
+      // date         - may be Sem 1 S/Y 2014-2015
+      // house[]      - rankings for that duration -> 0-base
+      // houseLogo1st - logo of 1st place house
+      $viewdata = '';
+      
+      // iterate viewdata to be plugged in each fameitem view
+//      for($i = 0; $i < 6; $i++) // -> forsample
+        $views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata, true);
+      
       $body['menu'] = $this->load->view('menu', $data, true);
-      $body['content'] = $this->load->view('famehall', '', true);
+      $body['content'] = $this->load->view('famehall', $views, true);
       
       $this->load->view('header');
       $this->load->view('body', $body);
