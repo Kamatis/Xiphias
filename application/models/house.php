@@ -1,6 +1,22 @@
 <?php
 
 class House extends CI_Model {
+    
+    public function getHouseName($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_name;
+    }
+    
+    public function getHouseDescription($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_description;
+    }
+    
+    public function getHousePoint($house_id) {
+        $this->db->where('house_id', $house_id);
+        return $this->db->get('house')->row()->house_points;    
+    }
+    
     public function getHouseInfo($house_id){
         $this->db->where('house_id', $house_id);
         $house = $this->db->get('house')->row();
@@ -15,8 +31,16 @@ class House extends CI_Model {
         $this->db->update('house');
     }
     
-    public function getHouseName($house_id) {
-        $this->db->where('house_id', $house_id);
-        return $this->db->get('house')->row()->house_name;
+    public function getHousePoints() {
+        $houses = $this->db->get('house');
+        $x = 0;
+        foreach($houses->result() as $house) {
+            $house_id = $house->house_id;
+            $map[$house_id] = $x;
+            $data[$x]['name'] = $house->house_name;
+            $data[$x]['y']    = 0 + $this->house->getHousePoint($house_id);
+            $x++;
+        }
+        return $data;
     }
 }

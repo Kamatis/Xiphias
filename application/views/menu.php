@@ -7,7 +7,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url('index.php/pages/index'); ?>">Xiphias</a>
+    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">Xiphias</a>
   </div>
   
   <div class="collapse navbar-collapse">
@@ -20,6 +20,9 @@
       </li>
       <li class="xiphiasMenu">
         <a href="<?php echo base_url('index.php/pages/leaderboards'); ?>" style="color: #ececea">Leaderboards</a>
+      </li>
+      <li class="xiphiasMenu">
+        <a href="<?php echo base_url('index.php/pages/famehall'); ?>" style="color: #ececea">Hall of Fame</a>
       </li>
       <?php if($isNPC) { ?>
       <li class="xiphiasMenu">
@@ -34,7 +37,7 @@
       <li>
         <form class="navbar-form" role="search">
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+            <input type="text" class="form-control" placeholder="Search user..." name="srch-term" id="srch-term">
             <div class="input-group-btn">
               <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>

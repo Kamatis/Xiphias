@@ -2,6 +2,8 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover(); 
 });
 
+var socket = io.connect('http://localhost:8080');
+
 $("#txtaDescription").focus(function(){
   $(this).siblings(".edit-controls").show();
   $(this).removeClass("txtaDescription");
@@ -87,7 +89,8 @@ $('#btn-next').on('click', function(){
 //endregion
 
 //region QuestBoard
-$('.btn-join-quest').on('click', function(){
+$('.btn-join-quest').on('click', function(e){
+  e.preventDefault();
   var qid = $(this).data("questid");
   var btn = $(this);
   if($(this).html() == "Join") {
@@ -125,16 +128,16 @@ $('body').on('click', '.btn-dashboard-menu', function(){
   var panelForm = $(panel).data('form');
   $('input:text').val("");
   $('textarea').val("");
-  $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+  $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
   $('.badge-level').remove();
-  $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+  $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
   $('#btn-change-passcode').hide();
 });
 
 $('body').on('click', '.badge-thumb', function(){
   var badgeId = $(this).data('badgeid');
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.php/ajax/getBadgeDetails",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getBadgeDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -227,9 +230,9 @@ $('#badge-form').on('submit', function(e){
 //        alert(dataPass);
         $('input').val("");
         $('textarea').val("");
-        $('#base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+        $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
-        $('base-lvl-badge').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+        $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
         $('#my-badges').html(dataPass);
     }
   })
@@ -245,7 +248,7 @@ $('#btn-add-badge').on('click', function(e){
 $('body').on('click', '.list-item-party', function(){
   var partyId = $(this).data('partyid');
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.php/ajax/getPartyDetails",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getPartyDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -266,7 +269,7 @@ $('body').on('click', '.list-item-party', function(){
 $('body').on('click', '#btn-save-profile', function(){
   var formData = new FormData(document.getElementById('edit-profile'));
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.php/pages/updateProfile",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/pages/updateProfile",
     type: "post",
     data: formData,
     contentType: false,
@@ -282,12 +285,14 @@ $('body').on('click', '#btn-award-ok', function(){
   formData.append('badge_id', badgeid);
   formData.append('quest_id', questid);
   $.ajax({
-    url: "awardReward",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/pages/awardReward",
     type: "post",
     data: formData,
     contentType: false,
     processData: false,
+    aync: false,
     success: function(dataPass){
+      socket.emit('feed', { streamItem : dataPass });
       BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
@@ -410,7 +415,7 @@ $('body').on('click', '.list-item-quest', function() {
     var questId = $(this).data('questid');
     var activeli = $(this);
     $.ajax({
-        url: 'http://127.0.0.1/xiphias/index.php/ajax/getQuestDetails',
+        url: 'http://' + window.location.hostname + '/xiphias/index.php/ajax/getQuestDetails',
         type: 'post',
         dataType: 'json',
         data: { quest_id : questId },
@@ -487,6 +492,7 @@ $('#form-quest').on('submit', function(e){
    var formData = new FormData(this);
    var badgeid = $('#quest-badge-reward').data('badgeid');
   formData.append('badge_id', badgeid);
+//  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
   $.ajax({
     url: "addQuest",
@@ -495,10 +501,12 @@ $('#form-quest').on('submit', function(e){
     contentType: false,
     processData: false,
     success: function(dataPass){
+//        socket.emit('feed', { name: questid, message: questid });
         BootstrapDialog.show({
             title: 'SUCCESS',
             message: 'ADDED!'
         });
+      
         $('input').val("");
         $('textarea').val("");
         $('#quest-list').html(dataPass);
@@ -536,7 +544,8 @@ $('#office-form').on('submit', function(e){
             });
             $('input').val("");
             $('textarea').val("");
-            $('#office-logo').attr('src', "http://127.0.0.1/xiphias/assets/images/emptyBadge.png");
+            $('#office-logo').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+            $('#office-logo').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
             $('#office-list').html(dataPass);
         }
     });
@@ -545,7 +554,7 @@ $('#office-form').on('submit', function(e){
 $('body').on('click', '.list-item-office', function(){
   var officeId = $(this).data('officeid');
   $.ajax({
-    url: "http://127.0.0.1/xiphias/index.php/ajax/getOfficeDetails",
+    url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getOfficeDetails",
     async: true,
     type: "POST",
     dataType: 'json',
@@ -594,7 +603,7 @@ $('#verify-account').on('click', function() {
           dialog.close();
         else {
             $.ajax({
-              url: 'http://127.0.0.1/xiphias/index.php/pages/checkVerification',
+              url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/checkVerification',
               type: 'post',
               data: { verificationCode: vcode },
               success: function(dataPass) {
@@ -623,16 +632,33 @@ $('#verify-account').on('click', function() {
 
 //region leaderboards
 
+function namelink(value, row) {
+  var username = value.split("/");
+  return '<a href="' + value + '">' + username[username.length-1] + '</a>';
+}
+
+function changeTopThree(questType) {
+  $.ajax({
+    url: 'changeTopThree',
+    type: 'post',
+    data: { quest_type : questType },
+    success: function(dataPass) {
+      $('.staircase').html(dataPass);
+    }
+  });
+}
+
 $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
-  var geturl = ""
+  var geturl = "";
   if(selectedVal == 1)
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Academic";
-  else if(selectedVal == 2) 
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Co-Curricular";
+    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Academic";
+  else if(selectedVal == 2)
+    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Co-Curricular";
   else if(selectedVal == 3)
-    geturl = "http://127.0.0.1/xiphias/index.php/pages/getRankings/Extra-Curricular";
+    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
   
+  changeTopThree(selectedVal);
   $('#rank-table').bootstrapTable('refresh', {
     url: geturl
   });
@@ -645,7 +671,7 @@ $('#sel-quest-type').on('change', function(){
 $('#btn-edit-profile').on('click', function(){
   BootstrapDialog.show({
     title: 'Edit Profile',
-    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/editProfile'),
+    message: $('<div class="container"></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/editProfile'),
     cssClass: 'edit-profile-dialog'
   });
 });
@@ -653,7 +679,7 @@ $('#btn-edit-profile').on('click', function(){
 $('#btn-create-resume').on('click', function(){
   BootstrapDialog.show({
     title: 'Create Resume',
-    message: $('<div class="container"></div>').load('http://127.0.0.1/xiphias/index.php/pages/createResume'),
+    message: $('<div class="container"></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/createResume'),
     cssClass: 'edit-profile-dialog'
   });
 });
@@ -691,7 +717,7 @@ $('body').on('click', '#secondary-list', function(){
 $('body').on('click', '#add-affil', function(){
   BootstrapDialog.show({
     title: 'Add Affiliation',
-    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddAffiliation'),
+    message: $('<div></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/showAddAffiliation'),
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
@@ -721,7 +747,7 @@ $('body').on('click', '#add-affil', function(){
 $('body').on('click', '#add-involve', function(){
   BootstrapDialog.show({
     title: 'Add Involvement',
-    message: $('<div></div>').load('http://127.0.0.1/xiphias/index.php/pages/showAddInvolvement'),
+    message: $('<div></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/showAddInvolvement'),
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
@@ -748,3 +774,16 @@ $('body').on('click', '#add-involve', function(){
   });
 })
 // endregion
+
+//region Sockets
+
+
+$('#')
+
+socket.on('message', function(data){
+  var actualContent = $("#feeder").html();
+  var msgContent = '<li>' + data.name + '</li>';
+  var concatCOntent = msgContent + actualContent;
+  $('#feeder').html(concatCOntent);
+});
+//endregion

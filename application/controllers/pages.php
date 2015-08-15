@@ -13,7 +13,14 @@ class Pages extends CI_Controller {
             $data = $this->user->getSessionData();
             $data['title']      = 'Xiphias | Home';
             
-            $views['carousel'] = $this->load->view('index/carousel', '', true);
+            $events = $this->event->getLiveEvents();
+          
+            for($x = 0; $x < count($events); $x++) {
+              $views['stream'] .= $this->load->view('index/streamItem', $events[$x], true); 
+            }
+          
+//            $views['stream']    = $this->load->view('index/streamItem', '', true); 
+            $views['carousel']  = $this->load->view('index/carousel', '', true);
           
             $body['menu']    = $this->load->view('menu', $data, true);
             $body['content'] = $this->load->view('index', $views, true);
@@ -79,6 +86,14 @@ class Pages extends CI_Controller {
     
     public function getRankings($type) {
         echo json_encode($this->user->getRankings($type));
+    }
+    
+    public function getHousePoints() {
+        echo json_encode($this->house->getHousePoints());
+    }
+    
+    public function getUserActivity($user_id) {
+        echo json_encode($this->user->getUserActivity($user_id));
     }
     
     public function logout(){
@@ -217,12 +232,48 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
-
+        
+        $viewdata = $this->user->getTopThree('Academic');
+        
+        $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
+        
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('leaderboards', $views, true);
 
         $this->load->view('header');
         $this->load->view('body', $body);
+    }
+  
+    public function famehall() {
+      $query = $this->db->get('user');
+      
+      $data = $this->user->getSessionData();
+      $data['title'] = 'Xiphias | Hall of Fame';
+      
+      // @Kelly
+      // data needed for 1 fame item:
+      // date         - may be Sem 1 S/Y 2014-2015
+      // house[]      - rankings for that duration -> 0-base
+      // houseLogo1st - logo of 1st place house
+      $viewdata = '';
+      
+      // iterate viewdata to be plugged in each fameitem view
+//      for($i = 0; $i < 6; $i++) // -> forsample
+        $views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata, true);
+      
+      $body['menu'] = $this->load->view('menu', $data, true);
+      $body['content'] = $this->load->view('famehall', $views, true);
+      
+      $this->load->view('header');
+      $this->load->view('body', $body);
+    }
+  
+    public function changeTopThree() {
+        $type = $this->input->post('quest_type');
+        $viewdata = $this->user->getTopThree($type);
+        $view = $this->load->view('leaderboards/steps', $viewdata, true);
+      
+        echo $view;
     }
     
     public function updateProfile() {
@@ -273,6 +324,7 @@ class Pages extends CI_Controller {
         $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
         $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
         $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['dashboardNoti']   = $this->load->view('dashboard/dashboardNoti', '', true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('dashboard', $views, true);
@@ -313,12 +365,12 @@ class Pages extends CI_Controller {
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
-        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges'))
-             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/badges', 0777, true);
+        if(!file_exists('c:/Apache24/htdocs/xiphias/assets/images/badges'))
+             mkdir('c:/Apache24/htdocs/xiphias/assets/images/badges', 0777, true);
         for($x = 1; $x <= $upgradesCount; $x++){
             $ext = pathinfo($badgePictures['name'][$x-1], PATHINFO_EXTENSION);
             $newfilename = "badge".$badgeId."_".$x.".".$ext;
-            $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/badges/" . $newfilename;
+            $filePath = "c:/Apache24/htdocs/xiphias/assets/images/badges/" . $newfilename;
             
             move_uploaded_file($badgePictures['tmp_name'][$x-1], $filePath);
             $badge_ups['badge_ups_id'  ] = $badgeId;
@@ -345,7 +397,7 @@ class Pages extends CI_Controller {
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
-        $quest['quest_rarity']      = $this->input->post('rarity');
+        $quest['quest_rarity']      = 5;
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
@@ -362,6 +414,7 @@ class Pages extends CI_Controller {
         $user_id = $this->session->userdata('user_id');
         $myQuests = $this->quest->getMyQuests($user_id);
       
+        
         for($x = 0; $x < count($myQuests); $x++)
             $questRefresh .= $this->load->view('dashboard/myquests', $myQuests[$x], TRUE);
         echo $questRefresh;
@@ -391,12 +444,12 @@ class Pages extends CI_Controller {
          
         $officeLogo = $_FILES['office-pix'];
         
-        if(!file_exists($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices'))
-             mkdir($_SERVER['DOCUMENT_ROOT'] . 'xiphias/assets/images/offices', 0777, true);
+        if(!file_exists('c:/Apache24/htdocs/xiphias/assets/images/offices'))
+             mkdir('c:/Apache24/htdocs/xiphias/assets/images/offices', 0777, true);
         
         $ext = pathinfo($officeLogo['name'], PATHINFO_EXTENSION);
         $newfilename = "office".$officeId.".".$ext;
-        $filePath = $_SERVER['DOCUMENT_ROOT'] . "xiphias/assets/images/offices/" . $newfilename;
+        $filePath = "c:/Apache24/htdocs/xiphias/assets/images/offices/" . $newfilename;
         move_uploaded_file($officeLogo['tmp_name'], $filePath);
         $logo['office_logo'] = "assets/images/offices/" . $newfilename;
         $this->office->updateLogo($officeId, $logo);
@@ -432,27 +485,30 @@ class Pages extends CI_Controller {
         $memberId   = $this->input->post('qRegID');
         $housePoint = $this->quest->getHousePoints($questId);
         $experience = $this->quest->getQuestExp($questId);
-        echo $badgeId;
         $memberCount = count($memberId);
+        $success = "";
         for($x = 0; $x < $memberCount; $x++){
-            // update house point
-            $houseId = $this->user->getHouseId($memberId[$x]);
-            $this->house->awardHousePoint($houseId, $housePoint);
-            
-            // update player experience
-            $this->user->awardExperience($memberId[$x], $experience);
-            
-//             award badge
-            if($badgeId != false && !$this->quest->doneAwarding($questId, $memberId[$x])){
-                echo $badgeId;
-                $data['user_id'] = $memberId[$x];
-                $data['badge_id'] = $badgeId;
-                $data['date_earned'] = date('Y-m-d');
-                $this->user->awardBadge($data);
-              echo 'yow';
+            if(!$this->quest->doneAwarding($questId, $memberId[$x])) {
+                $houseId = $this->user->getHouseId($memberId[$x]);
+                $this->house->awardHousePoint($houseId, $housePoint);
+                $this->quest->completeQuest($questId, $memberId[$x]);
+                
+                $event['username']    = $this->user->getUsername($memberId[$x]);
+                $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
+                $event['date']        = date("F j, Y, g:i a");
+                if($badgeId != false){
+                    $data['user_id'] = $memberId[$x];
+                    $data['badge_id'] = $badgeId;
+                    $data['date_earned'] = date('Y-m-d');
+                    $this->user->awardBadge($data);
+                    $event['description'] .= ' and earned a ' . $this->badge->getBadgeName($badgeId, 1);
+                }
+                $this->event->addEvent($event);
+                $success = $this->load->view('index/streamItem', $event, true) . $success;
+                $success = $this->user->awardExperience($memberId[$x], $experience) . $success;
             }
-            $this->quest->completeQuest($questId, $memberId[$x]);
-          }
+        } 
+        echo $success;
     }
     
     public function changePartyPassword(){
@@ -496,12 +552,24 @@ class Pages extends CI_Controller {
         $data['quest_id'] = $this->input->post('quest_id');
         $data['date_registered'] = date('Y-m-d');
         $this->quest->register($data);
+        
+        $event['username']    = $this->user->getUsername($data['user_id']);
+        $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
+        $event['date']        = date("F j, Y, g:i a");
+        $this->event->addEvent($event);
+        echo $this->load->view('index/streamItem', $event, true);
     }
   
     public function questAbort() {
         $quest_id = $this->input->post('quest_id');
         $user_id  = $this->session->userdata('user_id');
-        $this->quest->abortQuest($quest_id, $user_id);  
+        $this->quest->abortQuest($quest_id, $user_id);
+        
+        $event['username']    = $this->user->getUsername($user_id);
+        $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
+        $event['date']        = date("F j, Y, g:i a");
+        $this->event->addEvent($event);
+        echo $this->load->view('index/streamItem', $event, true);
     }
     
     public function getAllPrograms() {
@@ -510,5 +578,36 @@ class Pages extends CI_Controller {
       foreach ($query->result() as $row) 
           $options .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
       return $options;
+    }
+    
+    public function getLiveEvents() {
+        echo json_encode($this->event->getLiveEvents());
+    }
+    
+    public function changePassword() {
+        $user_id     = $this->session->userdata('user_id');
+        $old_pass    = $this->input->post('old-pass');
+        $new_pass    = $this->input->post('new-pass');
+        $re_new_pass = $this->input->post('re-new-pass');
+        if($this->user->passwordMatched($user_id ,$old_pass) && $new_pass == $re_new_pass)
+            $this->user->changePassword($user_id, $new_pass);
+        redirect(base_url('index.php/pages/settings'));
+    }
+    
+    public function connectToFacebook(){
+        require_once(__DIR__ . '/facebook-sdk-v5/autoload.php');
+        $fb = new Facebook\Facebook([
+            'app_id' => '',
+            'app_secret' => '',
+            'default_graph_version' => 'v2.3',
+        ]);
+        $u_id = $this->session->userdata('user_id');
+        $this->db->where('user_id',$uid);
+        $query = $this->db->get('access_token');
+        if($query->num_rows()==0){
+            $helper = $fb->getRedirectLoginHelper();
+            $permissions = ['public_profile,email,publish_actions,user_birthday'];
+            $loginUrl = $helper->getLoginUrl('http://localhost/xiphias/',$permissions);
+        }
     }
 }

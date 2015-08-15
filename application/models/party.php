@@ -1,6 +1,22 @@
 <?php
 
 class Party extends CI_Model{
+    
+    public function getPartyName($party_id) {
+        $this->db->where('party_id', $party_id);
+        return $this->db->get('party')->row()->party_name;
+    }
+    
+    public function getPartyDescription($party_id) {
+        $this->db->where('party_id', $party_id);
+        return $this->db->get('party')->row()->party_description;
+    }
+    
+    public function getPartyCreator($party_id) {
+        $this->db->where('party_id', $party_id);
+        return $this->db->get('party')->row()->creator_id;
+    }
+    
     public function getMyParties($user_id){
         $this->db->where('creator_id', $user_id);
         $query = $this->db->get('party');

@@ -33,7 +33,7 @@ function checkRequired(){
 // check username and password
 function checkUser(un, pw, callback){
     return $.ajax({
-        url: "http://127.0.0.1/xiphias/index.php/pages/checkUser",
+        url: "http://"+ window.location.hostname + "/xiphias/index.php/pages/checkUser",
         type: "post",
         cache: false,
         data: { username: un, password: pw }
@@ -147,6 +147,7 @@ $('input.validation').on('input', function(e) {
 });
 
 $('.submit-validation').on('click', function(e){
+    e.preventDefault();
     appendingTitle = "";
     if(!checkRequired()){
         appendingTitle = "All fields are required.";

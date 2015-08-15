@@ -23,11 +23,9 @@
           <li class="btn-dashboard-menu" data-idlink="#dashboard-serial">
             <a href="#">Serial <i class="glyphicon glyphicon-plus pull-right badge-add" ></i></a>
           </li>
-<!--
           <li class="btn-dashboard-menu" data-idlink="#dashboard-notifs">
-            <a href="#">Notifications <span class="badge">4</span> <i class="glyphicon glyphicon-plus pull-right"></i></a>
+            <a href="#">Notifications <span class="label noti-badge pull-right label-danger"></span></a>
           </li>
--->
           <?php } ?>
           
         </ul>

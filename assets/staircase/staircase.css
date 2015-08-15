@@ -97,6 +97,14 @@
 }
 
 /* house colors */
+/*
+dark - light
+house 1 convex hulk         #66cc88   #7fd99d
+house 2 segment thor-ee     #d9d96c   #e1e188
+house 3 travelling ironman  #cc6666   #e57272
+house 4 captain josephus    #6688cc   #7396db
+*/
+
 .header-name.house-1{
   background-color: #66cc88;
 }
@@ -147,4 +155,25 @@
 .stair-step.house-4{
   border-left: 1px solid #6688cc;
   border-right: 1px solid #6688cc;
+}
+
+.header-name.house-gray{
+  background-color: #909090;
+}
+
+.header-lvl-house.house-gray,.footer-place.house-gray{
+  background-color: #a8a8a8;
+}
+
+.stair-step.house-gray{
+  border-left: 1px solid #909090;
+  border-right: 1px solid #909090;
+}
+
+.white-link {
+  color: white;
+}
+
+.white-link:hover {
+  color: white;
 }

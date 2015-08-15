@@ -2,6 +2,26 @@
 
 class User extends CI_Model{
     
+    public function getUserId($username){
+        $this->db->where('username', $username);
+        return $this->db->get('user')->row()->user_id;
+    }
+    
+    public function getUsername($user_id){
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->username;
+    }
+    
+    public function getDescription($user_id){
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->description;
+    }
+    
+    public function getUserType($username){
+        $this->db->where('username', $username);
+        return $this->db->get('user')->row()->user_type;
+    }
+    
     public function addUser($data){
         $this->db->insert('user', $data);
         return mysql_insert_id();
@@ -18,11 +38,6 @@ class User extends CI_Model{
     public function assignHouse(){
         $this->db->select('count(*) as counter');
         return ($this->db->get('player')->row()->counter % 4) + 1;
-    }
-    
-    public function getUsername($user_id){
-        $this->db->where('user_id', $user_id);
-        return $this->db->get('user')->row()->username;
     }
     
     public function valid_login($data){
@@ -83,11 +98,6 @@ class User extends CI_Model{
         $this->db->update('player', $data);
     }
     
-    public function getDescription($user_id){
-        $this->db->where('user_id', $user_id);
-        return $this->db->get('user')->row()->description;
-    }
-    
     public function getUserPhoto($user_id) {
         if($this->user->isNPC($user_id))
             return base_url('assets/images/new_logo.png');
@@ -116,16 +126,24 @@ class User extends CI_Model{
         $this->db->set('experience', 'experience + ' . $exp, false);
         $this->db->where('user_id', $user_id);
         $this->db->update('player');
+        $success = "";
         while(true) {
             $this->db->where('user_id', $user_id);
             $query = $this->db->get('player')->row();
             $curr_exp = $query->experience;
             $next_exp = $this->user->getExpNeeded($query->player_level + 1);
-            if($curr_exp >= $next_exp)
+            if($curr_exp >= $next_exp){
                 $this->user->levelUp($user_id);
+                $event['username']    = $this->user->getUsername($user_id);
+                $event['description'] = 'is now level ' . $this->player->getPlayerLevel($user_id);
+                $event['date']        = date("F j, Y, g:i a");
+                $this->event->addEvent($event);
+                $success = $this->load->view('index/streamItem', $event, true) . $success;
+            }
             else
                 break;
         }
+        return $success;
     }
     
     public function getUserInfo($username){
@@ -160,7 +178,7 @@ class User extends CI_Model{
     }
     
     public function getProfileLink($username) {
-        return "<a href=\"".base_url('index.php/pages/profile/'.$username)."\">".$username."</a>";
+        return base_url('index.php/pages/profile/'.$username);
     }
     
     public function getPlayerPoints($user_id, $type) {
@@ -174,6 +192,36 @@ class User extends CI_Model{
         }
         return $points;
     }
+  
+    public function getTopThree($type) {
+//      select QR.user_id, P.house_id, P.player_level from quest_registration QR, quest Q, player P
+//      where QR.quest_id = Q.quest_id and QR.user_id = P.user_id and Q.quest_type = $type and P.experience > 0
+//      group by QR.user_id order by P.experience desc limit 3
+        $this->db->select('QR.user_id');
+        $this->db->select('P.house_id');
+        $this->db->select('P.player_level');
+        $this->db->from('quest_registration QR');
+        $this->db->join('quest Q', 'QR.quest_id=Q.quest_id', 'left');
+        $this->db->join('player P', 'P.user_id = QR.user_id', 'left');
+        $this->db->where('Q.quest_type', $type);
+        $this->db->where('P.experience >', 0);
+        $this->db->group_by('QR.user_id');
+        $this->db->order_by('P.experience', 'desc');
+        $this->db->limit(3);
+      
+        $players = $this->db->get();
+        $x = 0;
+        
+        foreach($players->result() as $player) {
+            $data['name' . $x]        = $this->user->getUsername($player->user_id);
+            $data['namelink' . $x]    = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+            $data['houseid' . $x]     = $player->house_id;
+            $data['playerLevel' . $x] = $player->player_level;
+            $data['points' . $x]      = $this->user->getPlayerPoints($player->user_id, $type);
+            $x++;
+        }
+        return $data;
+    }
     
     public function getRankings($type) {
         $this->db->order_by('experience', 'desc');
@@ -181,7 +229,8 @@ class User extends CI_Model{
         $x = 0;
         foreach($players->result() as $player) {
             $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
-            $data[$x]['price']  = $this->house->getHouseName($player->house_id);
+            $data[$x]['level']  = $player->player_level;
+            $data[$x]['house']  = $this->house->getHouseName($player->house_id);
             $data[$x]['points'] = $this->user->getPlayerPoints($player->user_id, $type);
             $x++;
         }
@@ -201,14 +250,20 @@ class User extends CI_Model{
         $this->db->insert('earned_badge', $data);
     }
     
-    public function getUserId($username){
-        $this->db->where('username', $username);
-        return $this->db->get('user')->row()->user_id;
-    }
-    
-    public function getUserType($username){
-        $this->db->where('username', $username);
-        return $this->db->get('user')->row()->user_type;
+    public function getUserActivity($user_id) {
+        $quests = $this->quest->getCompletedQuests($user_id);
+        $x = 0;
+        foreach($quests->result() as $quest) {
+            if($x != 0 && $data[$x]['date'] == $quest->date_completed) {
+                $data[$x]['quest'] .= '|';
+                $x--;
+            }
+            $data[$x]['date']  = $quest->date_completed;
+            $data[$x]['exp']   += $this->quest->getQuestExp($quest->quest_id);
+            $data[$x]['quest'] .= $this->quest->getQuestTitle($quest->quest_id);
+            $x++;
+        }
+        return $data;
     }
     
     public function isNPC($userId) {
@@ -282,6 +337,21 @@ class User extends CI_Model{
     public function getCourse($user_id) {
         $this->db->where('user_id', $user_id);
         return $this->db->get('player')->row()->program_code;
+    }
+    
+    public function passwordMatched($user_id, $pass) {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('password', md5($pass));
+        $query = $this->db->get('user');
+        if($query->num_rows() == 1)
+            return true;
+        return false;
+    }
+    
+    public function changePassword($user_id, $pass) {
+        $data['password'] = md5($pass);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('user', $data);
     }
 
 }
