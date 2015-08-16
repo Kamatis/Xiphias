@@ -227,6 +227,12 @@ create table if not exists event(
     date_time timestamp
 );
 
+create table if not exists facebook_settings(
+    user_id int not null,
+    access_token varchar(255),
+    expiration_date datetime,
+    foreign key(user_id) references user(user_id)    
+);
 /*# Extra Tables
 create table if not exists settings(
     user_id int not null,
