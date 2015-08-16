@@ -8,6 +8,11 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pages extends CI_Controller {
     
+    public function __construct() {
+      parent::__construct();
+      $this->load->library('facebook');
+    }
+  
     public function index() {
         if($this->session->userdata('is_logged_in')){
             $data = $this->user->getSessionData();
@@ -317,7 +322,7 @@ class Pages extends CI_Controller {
         for($x = 0; $x < count($myOffices); $x++)
             $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
 
-        $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
+        $views['error']           = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
         $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
         $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
         $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
@@ -508,6 +513,9 @@ class Pages extends CI_Controller {
                 $success = $this->user->awardExperience($memberId[$x], $experience) . $success;
             }
         } 
+        
+        $accessTokens = $this->fbauthorization->getAccessTokens($memberId);
+        $this->facebook->batchPost($accessTokens);
         echo $success;
     }
     
@@ -610,4 +618,31 @@ class Pages extends CI_Controller {
             $loginUrl = $helper->getLoginUrl('http://localhost/xiphias/',$permissions);
         }
     }
+  
+  
+  // facebook functions
+  // Note:  Some of these are not really used in the system
+  //        But used as testing the library modules
+  public function FB_link() {
+    $login_url = $this->facebook->loginUrl();
+    echo $login_url;
+  }
+  
+  public function FB_getAccessToken($memberId) {
+    $members[] = $memberId;
+    $accesstoken = $this->fbauthorization->getAccessTokens($members);
+    foreach($accesstoken as $toks) {
+      echo $toks;
+    }
+  }
+  
+  public function FB_exchangeToken() {
+    $fbSet = $this->facebook->exchangeToken();
+    $fbSet['user_id'] = $this->session->userdata('user_id');
+    $this->fbauthorization->addAccessToken($fbSet);
+  }
+  
+  public function FB_batchPost() {
+    $this->facebook->batchPost();
+  }
 }
