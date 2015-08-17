@@ -2,11 +2,11 @@
 <!-- Except for login and registration -->
 
 <body style="margin:0px; background-image: url(<?php echo base_url('assets/images/groovepaper.png'); ?>);">
-  <?php echo $menu; ?>
-  <?php echo $content; ?>
-  
-  
     <script src="<?php echo base_url('assets/js/jquery-1.11.3.min.js'); ?>"></script>
+    
+    <?php echo $menu; ?>
+    <?php echo $content; ?>
+  
     <script src="<?php echo base_url('assets/bootstrap-3.3.4-dist/js/bootstrap.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-dialog/js/bootstrap-dialog.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/bootstrap-date-range/js/moment.min.js'); ?>"></script>
