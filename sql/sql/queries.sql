@@ -70,10 +70,10 @@ insert into affiliation values(null, "Ateneo Paradigm Eclat Xircle");
 
 
 # House Table
-insert into house values (null, "Convex Hulk", 0, "Hustle...Loyalty...Respect");
-insert into house values (null, "Segment Thor-ee", 0, "From out of nowhere");
-insert into house values (null, "Travelling Ironman", 0, "Got Milk?");
-insert into house values (null, "Captain Josephus", 0, "Survival of the Fittest");
+insert into house values (null, "Convex Hulk", 0, "Hustle...Loyalty...Respect", "assets/images/houses/house1_logo.png");
+insert into house values (null, "Segment Thor-ee", 0, "From out of nowhere", "assets/images/houses/house2_logo.png");
+insert into house values (null, "Travelling Ironman", 0, "Got Milk?", "assets/images/houses/house3_logo.png");
+insert into house values (null, "Captain Josephus", 0, "Survival of the Fittest", "assets/images/houses/house4_logo.png");
 
 
 # Avatar Table
@@ -103,3 +103,16 @@ insert into school values(null,"University of Nueva Caceres",3);
 insert into school values(null,"Ateneo de Naga University",1);
 insert into school values(null,"Ateneo de Naga University",2);
 insert into school values(null,"Ateneo de Naga University",3);
+
+insert into hall_of_fame values(null, "SY 2012-2013 1st Semester");
+insert into hall_of_fame values(null, "SY 2012-2013 2nd Semester");
+
+insert into ranking values (1, 1, 1000);
+insert into ranking values (1, 2, 2000);
+insert into ranking values (1, 3, 3000);
+insert into ranking values (1, 4, 4000);
+
+insert into ranking values (2, 2, 1000);
+insert into ranking values (2, 3, 2000);
+insert into ranking values (2, 4, 3000);
+insert into ranking values (2, 1, 4000);
