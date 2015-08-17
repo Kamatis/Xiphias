@@ -13,8 +13,7 @@
           <option value="Extra Curricular">Extra Curricular</option>
         </select>
     </div>
-    <!-- https://api.github.com/users/Ocramius/repos -->
-    <!-- https://api.github.com/users/mralexgray/repos -->
+
     <div class="col-sm-12" style="margin-top: 35px;">
       <div class="table-container">
         <table id="rank-table" data-toggle="table" data-toolbar="#leaderboard-controls" data-url="<?php echo base_url('index.php/pages/getRankings/Academic'); ?>" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]" data-search="true" data-show-refresh="true">
