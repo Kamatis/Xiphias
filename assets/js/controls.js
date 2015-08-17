@@ -637,6 +637,11 @@ function namelink(value, row) {
   return '<a href="' + value + '">' + username[username.length-1] + '</a>';
 }
 
+function unrank(value, row) {
+  if(row.points == 0) return '-';
+  else return value;
+}
+
 function changeTopThree(questType) {
   $.ajax({
     url: 'changeTopThree',
