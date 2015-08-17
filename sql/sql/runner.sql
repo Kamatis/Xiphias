@@ -233,6 +233,20 @@ create table if not exists facebook_settings(
     expiration_date datetime,
     foreign key(user_id) references user(user_id)    
 );
+
+create table if not exists hall_of_fame (
+    hof_id int auto_increment,
+    description varchar(100) not null,
+    primary key(hof_id)
+);
+
+create table if not exists ranking (
+    hof_id int not null,
+    house_id int not null,
+    points int not null,
+    foreign key(house_id) references house(house_id),
+    foreign key(hof_id) references hall_of_fame(hof_id)
+);
 /*# Extra Tables
 create table if not exists settings(
     user_id int not null,
