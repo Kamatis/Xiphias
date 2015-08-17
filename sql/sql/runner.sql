@@ -63,6 +63,7 @@ create table if not exists house(
     house_name varchar(50) not null,
     house_points int not null,
     house_description varchar(150) not null,
+    house_logo varchar(100) not null,
     primary key(house_id)
 );
 
