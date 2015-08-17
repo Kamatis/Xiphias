@@ -651,11 +651,11 @@ function changeTopThree(questType) {
 $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
   var geturl = "";
-  if(selectedVal == 1)
+  if(selectedVal == "Academic")
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Academic";
-  else if(selectedVal == 2)
+  else if(selectedVal == "Co-Curricular")
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Co-Curricular";
-  else if(selectedVal == 3)
+  else if(selectedVal == "Extra Curricular")
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
   
   changeTopThree(selectedVal);
