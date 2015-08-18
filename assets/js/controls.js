@@ -120,18 +120,35 @@ $('.btn-join-quest').on('click', function(e){
 
 //region Badges
 // dashboard menu button links
-// same as adding :D ahahahaha
 $('body').on('click', '.btn-dashboard-menu', function(){
   $('.dashboard-page').hide();
+  $('.dashboard-menuitem').removeClass('dashboard-active');
   var panel = $(this).data('idlink');
+  $(this).children('.dashboard-menuitem').addClass('dashboard-active');
   $(panel).show();
-  var panelForm = $(panel).data('form');
-  $('input:text').val("");
-  $('textarea').val("");
-  $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-  $('.badge-level').remove();
-  $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-  $('#btn-change-passcode').hide();
+});
+
+$('.dashboard-button').on('click', function(){
+  var form = $(this).data('form');
+  $(form).find('input').val('');
+  $(form).find('textarea').val('');
+
+  if(form == '#badge-form') {
+    $(form).find('.badge-level').remove();
+    $(form).find('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+  }
+
+  if(form == '#form-quest') {
+    $(form).find('#badge-reward-img').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+  }
+
+  if(form == '#party-form') {
+    $('#btn-change-passcode').hide();
+  }
+
+  if(form == '#office-form') {
+    $(form).find('#office-logo').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+  }
 });
 
 $('body').on('click', '.badge-thumb', function(){
