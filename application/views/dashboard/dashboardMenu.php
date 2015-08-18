@@ -8,23 +8,41 @@
         <hr>
         <ul class="nav nav-stacked">
           <li class="btn-dashboard-menu" data-idlink="#dashboard-badge">
-            <a href="#">Badge <i class="glyphicon glyphicon-plus pull-right"></i></a>
+            <a href="#" class="dashboard-menuitem">
+              Badge
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <li  class="btn-dashboard-menu" data-idlink="#dashboard-quest">
-            <a href="#">Quest <i class="glyphicon glyphicon-plus pull-right"></i></a>
+            <a href="#" class="dashboard-menuitem">
+              Quest
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <li class="btn-dashboard-menu" data-idlink="#dashboard-party">
-            <a href="#">Party <i class="glyphicon glyphicon-plus pull-right"></i></a>
+            <a href="#" class="dashboard-menuitem">
+              Party
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <li class="btn-dashboard-menu" data-idlink="#dashboard-office">
-            <a href="#">Office <i class="glyphicon glyphicon-plus pull-right "></i></a>
+            <a href="#" class="dashboard-menuitem">
+              Office
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <?php if($isAdmin) { ?>
           <li class="btn-dashboard-menu" data-idlink="#dashboard-serial">
-            <a href="#">Serial <i class="glyphicon glyphicon-plus pull-right badge-add" ></i></a>
+            <a href="#" class="dashboard-menuitem">
+              Serial
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <li class="btn-dashboard-menu" data-idlink="#dashboard-noti">
-            <a href="#">Notifications <span class="label noti-badge pull-right label-danger"></span></a>
+            <a href="#" class="dashboard-menuitem">
+              Notifications
+              <span class="pull-right"><button class="dashboard-button"><i class="glyphicon glyphicon-plus"></i></button></span>
+            </a>
           </li>
           <?php } ?>
           
