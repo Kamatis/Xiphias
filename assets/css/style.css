@@ -1594,7 +1594,12 @@ header h1 {
   color: black;
 }
 
-.nav>li>a.dashboard-menuitem:focus, .nav>li>a.dashboard-menuitem:hover {
+.nav>li>a.dashboard-menuitem:hover {
   background-color: #d9853c !important;
-  color: white;
+  color: white !important;
+}
+
+.dashboard-active {
+  background-color: #d9853c !important;
+  color: white !important;
 }
