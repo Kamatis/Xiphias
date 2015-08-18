@@ -151,7 +151,7 @@ $('.dashboard-button').on('click', function(){
   }
 });
 
-$('body').on('click', '.badge-thumb', function(){
+$('body').on('click', '.list-item-badge', function(){
   var badgeId = $(this).data('badgeid');
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getBadgeDetails",
@@ -263,6 +263,8 @@ $('#btn-add-badge').on('click', function(e){
 
 //region Party
 $('body').on('click', '.list-item-party', function(){
+  $('.list-item-party').removeClass('party-item-active');
+  $(this).addClass('party-item-active');
   var partyId = $(this).data('partyid');
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getPartyDetails",
@@ -352,11 +354,15 @@ $('#btn-award-badge').on('click', function(){
 });
 
 $('#btn-change-passcode').on('click', function(){
+  var partyId = $('.list-item-party.party-item-active').data('partyid');
+  var passCode = $('#pw-passcode').val();
   $.ajax({
     url: 'changePasscode',
     type: 'post',
+    data: { party_id: partyId,
+            passcode: passCode },
     success: function() {
-      
+      alert('passcode changed.');
     }
   })
 });
