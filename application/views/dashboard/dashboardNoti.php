@@ -1,4 +1,4 @@
-<div id="dashboard-notifs" class="dashboard-noti">
+<div id="dashboard-noti" class="dashboard-page">
   <div class="table-container">
     <table id="noti-table" data-toggle="table" data-show-header="false">
       <thead>
