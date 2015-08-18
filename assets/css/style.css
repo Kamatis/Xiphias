@@ -1575,3 +1575,26 @@ header h1 {
     transform: translateX(0);
   }
 }
+.dashboard-button {
+  border: 0;
+  background-color: transparent;
+  height: 39px;
+  width: 39px;
+  padding: 0px;
+  margin-top: -20.5px;
+  margin-right: -15px;
+  outline: none;
+}
+
+.dashboard-button:hover {
+  background-color: #c37736;
+}
+
+.nav>li>.dashboard-menuitem {
+  color: black;
+}
+
+.nav>li>a.dashboard-menuitem:focus, .nav>li>a.dashboard-menuitem:hover {
+  background-color: #d9853c !important;
+  color: white;
+}
