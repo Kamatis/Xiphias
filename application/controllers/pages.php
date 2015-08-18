@@ -511,9 +511,9 @@ class Pages extends CI_Controller {
         echo $success;
     }
     
-    public function changePartyPassword(){
+    public function changePasscode(){
         $partyId = $this->input->post('party_id');
-        $data['party_password'] = md5($this->input->post('new_password'));
+        $data['party_password'] = md5($this->input->post('passcode'));
         $this->party->changePassword($partyId, $data);
     }
   
