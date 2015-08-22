@@ -254,8 +254,8 @@ class User extends CI_Model{
         $quests = $this->quest->getCompletedQuests($user_id);
         $x = 0;
         foreach($quests->result() as $quest) {
-            if($x != 0 && $data[$x]['date'] == $quest->date_completed) {
-                $data[$x]['quest'] .= '|';
+            if($x != 0 && $data[$x-1]['date'] == $quest->date_completed) {
+                $data[$x-1]['quest'] .= '|';
                 $x--;
             }
             $data[$x]['date']  = $quest->date_completed;
