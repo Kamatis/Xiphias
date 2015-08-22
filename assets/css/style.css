@@ -1603,3 +1603,25 @@ header h1 {
   background-color: #d9853c !important;
   color: white !important;
 }
+
+/*badge reward list style*/
+
+.badge-reward-list {
+  max-height: 250px;
+  overflow: auto;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.badge-reward-item {
+  cursor: pointer;
+}
+
+.badge-reward-item:hover {
+  border: 3px dashed #F4A663;
+}
+
+.badge-reward-active {
+  background-color: #F4A663;
+}
