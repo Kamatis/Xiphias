@@ -291,8 +291,10 @@ class Pages extends CI_Controller {
 
         // Badges
         $myBadges = $this->badge->getMyBadges($user_id);
-        for($x = 0; $x < count($myBadges); $x++)
+        for($x = 0; $x < count($myBadges); $x++) {
           $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+          $quest['badgeRewards'] .= $this->load->view('dashboard/badgeRewards', $badgeRewards[$x], true);
+        }
 
         // Quests
         $myQuests = $this->quest->getMyQuests($user_id);
