@@ -509,6 +509,16 @@ $('#quest-badge-reward').on('click', function(){
   });
   
 });
+
+$('body').on('click', '.badge-reward-item', function() {
+  if($(this).hasClass('badge-reward-active')) {
+    $(this).removeClass('badge-reward-active');
+  }
+  else {
+    $('.badge-reward-item').removeClass('badge-reward-active');
+    $(this).addClass('badge-reward-active');
+  }
+});
                     
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
