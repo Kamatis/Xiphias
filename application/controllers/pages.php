@@ -97,7 +97,8 @@ class Pages extends CI_Controller {
         echo json_encode($this->house->getHousePoints());
     }
     
-    public function getUserActivity($user_id) {
+    public function getUserActivity($username) {
+				$user_id = $this->user->getUserId($username);
         echo json_encode($this->user->getUserActivity($user_id));
     }
     
