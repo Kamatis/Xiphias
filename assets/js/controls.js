@@ -139,7 +139,7 @@ $('.dashboard-button').on('click', function(){
   }
 
   if(form == '#form-quest') {
-    $(form).find('#badge-reward-img').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+    $('.badge-reward-item').removeClass('badge-reward-active');
   }
 
   if(form == '#party-form') {
@@ -514,8 +514,8 @@ $('body').on('click', '.badge-reward-item', function() {
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
    var formData = new FormData(this);
-   var badgeid = $('#quest-badge-reward').data('badgeid');
-  formData.append('badge_id', badgeid);
+   var badgeid = $('.badge-reward-active').data('badgeid');
+   formData.append('badge_id', badgeid);
 //  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
   $.ajax({
@@ -534,6 +534,7 @@ $('#form-quest').on('submit', function(e){
         $('input').val("");
         $('textarea').val("");
         $('#quest-list').html(dataPass);
+        $('.badge-reward-item').removeClass('badge-reward-active');
     }
   });
   
