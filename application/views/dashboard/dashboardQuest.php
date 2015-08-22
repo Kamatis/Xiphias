@@ -33,23 +33,10 @@
       
       <!-- Quest Rewards -->
       <div class="form-group">
-        <legend><h5><strong>Rewards</strong></h5></legend>
-<!--
-        <div class="range range-success">
-          <output id="exp-label">EXP</output>
-          <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
-          <output id="rangeSuccess">--</output>
-        </div>
--->
-<!--
-        <div class="range range-success">
-          <output id="hp-label">HP</output>
-          <input type="range" name="range" min="" max="" value="" oninput="rangeSuccess.value=value" disabled>
-          <output id="hprangeSuccess">--</output>
-        </div>
--->
-        <div id="quest-badge-reward" class="choice" data-badgeid="0" data-toggle="popover" data-trigger="focus" data-placement="top" title="Badge Reward" data-html="true" data-content="">
-          <img class="icon" id="badge-reward-img" src="" alt="Badge">
+        <legend><h5><strong>Badge Reward</strong></h5></legend>
+
+        <div class="badge-reward-list">
+          <?php echo $badgeRewards; ?>
         </div>
       </div>
       
