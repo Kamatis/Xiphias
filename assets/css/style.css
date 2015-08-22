@@ -1625,3 +1625,24 @@ header h1 {
 .badge-reward-active {
   background-color: #F4A663;
 }
+
+/* quest-item rarity border */
+.quest-Common {
+  border-left: 3px solid #157c43;
+}
+
+.quest-Uncommon {
+  border-left: 3px solid #174671;
+}
+
+.quest-Rare {
+  border-left: 3px solid #452974;
+}
+
+.quest-Legendary {
+  border-left: 3px solid #9b481b;
+}
+
+.quest-Blue {
+  border-left: 3px solid #af231a;
+}
