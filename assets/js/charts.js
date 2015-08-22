@@ -85,4 +85,66 @@ $(function () {
       }
       clickEvent = false;
   });
+
+	// timeline init values
+	$('#timeline').html("Wait, Loading graph...");
+	var timeline = {
+		chart: {
+			type: 'line',
+			renderTo: 'timeline'
+		},
+		title: {
+			text: ''
+		},
+		xAxis: {
+			type: 'datetime',
+			dateTimeLabelFormats: {
+				month: '%e %b',
+				year: '%b'
+			},
+			title: {
+				text: 'Date'
+			}
+		},
+		yAxis: {
+			title: {
+				text: 'Experience'
+			},
+			min: 0
+		},
+		tooltip: {
+			formatter: function() {
+				var header = '<small>' + Highcharts.dateFormat('%b %e, %Y', new Date(this.point.x)) + '</small><br>';
+				var body = '';
+				for(var i = 0; i < this.point.activity.length; i++)
+					body += this.point.activity[i] + '<br>';
+				return header+body;
+			},
+			useHTML: true,
+			crosshairs: true
+		},
+		plotOptions: {
+			spline: {
+				marker: {
+					enabled: true
+				}
+			}
+		},
+		series: [{
+			showInLegend: false,
+			name: 'Activities',
+			color: '#c33131'
+		}],
+		exporting: {
+			enabled: true
+		}
+	};
+
+	// draw the chart after getting json
+	$.getJSON('http://localhost/xiphias/index.php/pages/getUserActivity', function(json) {
+		timeline.series[0].data = json;
+		console.log(timeline);
+		var timelineGraph = new Highcharts.Chart(timeline);
+	})
+
 });
