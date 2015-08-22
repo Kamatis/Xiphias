@@ -140,8 +140,12 @@ $(function () {
 		}
 	};
 
+	// get the username of the profile being viewed
+	var url = window.location.href;
+	var username = url.substring(url.lastIndexOf('/') + 1);
+
 	// draw the chart after getting json
-	$.getJSON('http://localhost/xiphias/index.php/pages/getUserActivity', function(json) {
+	$.getJSON('http://localhost/xiphias/index.php/pages/getUserActivity/' + username, function(json) {
 		timeline.series[0].data = json;
 		console.log(timeline);
 		var timelineGraph = new Highcharts.Chart(timeline);
