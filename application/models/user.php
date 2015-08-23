@@ -254,19 +254,24 @@ class User extends CI_Model{
         $quests = $this->quest->getCompletedQuests($user_id);
         $x = 0;
         $y = 0;
+        $level = 1;
         foreach($quests->result() as $quest) {
             if($x != 0 && $data[$x-1]['x'] == (strtotime($quest->date_completed))*1000) {
                 $x--;
                 $y++;
             } else {
+                if($x != 0)
+                    $data[$x]['y'] = $data[$x-1]['y'];    
                 $y = 0;
             }
-						// get epoch time in milliseconds
-						// epoch time: number of seconds since January 1, 1970
-            $data[$x]['x']            = (strtotime($quest->date_completed))*1000;
+			$data[$x]['x']            = (strtotime($quest->date_completed))*1000;
             $data[$x]['exp'][$y]     += $this->quest->getQuestExp($quest->quest_id);
             $data[$x]['y']           += $data[$x]['exp'][$y];
             $data[$x]['activity'][$y] = ($this->quest->getQuestTitle($quest->quest_id));
+            while($data[$x]['y'] >= $this->user->getLvlExp($level + 1)) {
+                $level++;
+                $data[$x]['marker']['symbol'] = "url(http://www.highcharts.com/demo/gfx/sun.png)";
+            }
             $x++;
         }
         return $data;
