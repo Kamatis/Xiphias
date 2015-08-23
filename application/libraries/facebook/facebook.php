@@ -56,34 +56,29 @@ class Facebook {
     }
   }
   
-  public function batchPost($tokens) {
+  public function batchPost($token, $data) {
     $linkData = [
       'link'        => 'localhost/xiphias',
-      'message'     => 'This is a cute pikachu',
-      'caption'     => 'pika pikaa-chuu!',
-      'description' => 'description',
-      'picture'     => 'https://s-media-cache-ak0.pinimg.com/236x/22/57/b4/2257b4c95620e30dae20c904474de369.jpg',
-      'name'        => 'Pika pii~!'
+      'message'     => '',
+      'caption'     => 'XIPHIAS.COM',
+      'description' => $data['description'],
+      'picture'     => $data['picture'],
+      'name'        => $data['name']
     ];
     
-    
-    foreach($tokens as $token) {
-      try {
-        $response = $this->fb->post('/me/feed', $linkData, $token);
-      }
-      catch(Facebook\Exceptions\FacebookResponseException $e) {
-        echo 'Graph returned an error: ' . $e->getMessage();
-        exit;
-      }
-      catch(Facebook\Exceptions\FacebookSDKException $e) {
-        echo 'Facebook SDK returned an error: ' . $e->getMessage();
-        exit;
-      }
+    try {
+      $response = $this->fb->post('/me/feed', $linkData, $token);
+    }
+    catch(Facebook\Exceptions\FacebookResponseException $e) {
+      echo 'Graph returned an error: ' . $e->getMessage();
+      exit;
+    }
+    catch(Facebook\Exceptions\FacebookSDKException $e) {
+      echo 'Facebook SDK returned an error: ' . $e->getMessage();
+      exit;
     }
     
-
     $graphNode = $response->getGraphNode();
-
     echo 'Posted with id: ' . $graphNode['id'];
   }
   
