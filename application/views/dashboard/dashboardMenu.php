@@ -37,12 +37,11 @@
               Serial
             </a>
           </li>
+					<?php } ?>
           <li class="btn-dashboard-menu" data-idlink="#dashboard-noti">
             <a href="#" class="dashboard-menuitem">
               Notifications
               <span class="pull-right label label-danger">0</span>
             </a>
           </li>
-          <?php } ?>
-          
         </ul>
