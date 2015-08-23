@@ -253,16 +253,19 @@ class User extends CI_Model{
     public function getUserActivity($user_id) {
         $quests = $this->quest->getCompletedQuests($user_id);
         $x = 0;
+        $y = 0;
         foreach($quests->result() as $quest) {
-            if($x != 0 && $data[$x-1]['date'] == $quest->date_completed) {
-                $data[$x-1]['quest'] .= '|';
+            if($x != 0 && $data[$x-1]['x'] == (strtotime($quest->date_completed))*1000) {
                 $x--;
+                $y++;
+            } else {
+                $y = 0;
             }
 						// get epoch time in milliseconds
 						// epoch time: number of seconds since January 1, 1970
-            $data[$x]['x']  = (strtotime($quest->date_completed))*1000;
+            $data[$x]['x']   = (strtotime($quest->date_completed))*1000;
             $data[$x]['y']   += $this->quest->getQuestExp($quest->quest_id);
-						$data[$x]['activity'][] = ($this->quest->getQuestTitle($quest->quest_id));
+		    $data[$x]['activity'][$y] = ($this->quest->getQuestTitle($quest->quest_id));
             $x++;
         }
         return $data;
