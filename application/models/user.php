@@ -11,6 +11,11 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         return $this->db->get('user')->row()->username;
     }
+  
+    public function getFirstName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->first_name;
+    }
     
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
