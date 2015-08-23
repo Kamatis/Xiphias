@@ -145,10 +145,31 @@ $(function () {
 	var username = url.substring(url.lastIndexOf('/') + 1);
 
 	// draw the chart after getting json
-	$.getJSON('http://localhost/xiphias/index.php/pages/getUserActivity/' + username, function(json) {
-		timeline.series[0].data = json;
-		console.log(timeline);
-		var timelineGraph = new Highcharts.Chart(timeline);
-	})
+	$.ajax({
+		url: 'http://localhost/xiphias/index.php/pages/getUserActivity/' + username,
+		dataType: 'json',
+		success: function(json) {
+			timeline.series[0].data = json;
+			console.log(timeline);
+			var timelineGraph = new Highcharts.Chart(timeline);
+		},
+		error: function(jqXHR, exception) {
+			if (jqXHR.status === 0) {
+					alert ('Not connected.\nPlease verify your network connection.');
+			} else if (jqXHR.status == 404) {
+					alert ('The requested page not found. [404]');
+			} else if (jqXHR.status == 500) {
+					alert ('Internal Server Error [500].');
+			} else if (exception === 'parsererror') {
+					alert ('Requested JSON parse failed.');
+			} else if (exception === 'timeout') {
+					alert ('Time out error.');
+			} else if (exception === 'abort') {
+					alert ('Ajax request aborted.');
+			} else {
+					alert ('Uncaught Error.\n' + jqXHR.responseText);
+			}
+		}
+	});
 
 });
