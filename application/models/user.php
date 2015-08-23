@@ -263,9 +263,10 @@ class User extends CI_Model{
             }
 						// get epoch time in milliseconds
 						// epoch time: number of seconds since January 1, 1970
-            $data[$x]['x']   = (strtotime($quest->date_completed))*1000;
-            $data[$x]['y']   += $this->quest->getQuestExp($quest->quest_id);
-		    $data[$x]['activity'][$y] = ($this->quest->getQuestTitle($quest->quest_id));
+            $data[$x]['x']            = (strtotime($quest->date_completed))*1000;
+            $data[$x]['exp'][$y]     += $this->quest->getQuestExp($quest->quest_id);
+            $data[$x]['y']           += $data[$x]['exp'][$y];
+            $data[$x]['activity'][$y] = ($this->quest->getQuestTitle($quest->quest_id));
             $x++;
         }
         return $data;
