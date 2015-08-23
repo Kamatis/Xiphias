@@ -494,14 +494,25 @@ class Pages extends CI_Controller {
                 $this->quest->completeQuest($questId, $memberId[$x]);
                 
                 $event['username']    = $this->user->getUsername($memberId[$x]);
-                $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
+                $event['description'] = 'completed "' . $this->quest->getQuestTitle($questId) . '"';
                 $event['date']        = date("F j, Y, g:i a");
+                
+                $first_name = $this->user->getFirstName($memberId[$x]);
+                $linkData['description'] = 'This is a sample description for a sample facebook post.';
+                $linkData['picture']     = 'http://foursquareguru.com/media/badges/apple_big.png';
+                $linkData['name']        = $first_name . ' ' . $event['description'];
                 if($badgeId != false){
                     $data['user_id'] = $memberId[$x];
                     $data['badge_id'] = $badgeId;
                     $data['date_earned'] = date('Y-m-d');
                     $this->user->awardBadge($data);
-                    $event['description'] .= ' and earned a ' . $this->badge->getBadgeName($badgeId, 1);
+                    $event['description'] .= ' and earned a "' . $this->badge->getBadgeName($badgeId, 1) . '"';
+                    $linkData['name']      = $first_name . ' ' . $event['description'];
+                }
+                $linkData['name'] .= ' | XIPHIAS';
+                if($this->fbauthorization->hasAccessToken($memberId[$x])) {
+                    $accessToken = $this->fbauthorization->getAccessTokens($memberId[$x]);
+                    $this->facebook->batchPost($accessToken, $linkData);
                 }
                 $this->event->addEvent($event);
                 $success = $this->load->view('index/streamItem', $event, true) . $success;
@@ -509,8 +520,6 @@ class Pages extends CI_Controller {
             }
         } 
         
-        $accessTokens = $this->fbauthorization->getAccessTokens($memberId);
-        $this->facebook->batchPost($accessTokens);
         echo $success;
     }
     
