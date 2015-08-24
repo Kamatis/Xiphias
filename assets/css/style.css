@@ -1575,6 +1575,30 @@ header h1 {
     transform: translateX(0);
   }
 }
+
+.btn span.glyphicon-ok {
+	opacity: 0;
+}
+.btn.active span.glyphicon-ok {
+	opacity: 1;
+}
+
+.db-freq {
+	background-color: #e6e6e6;
+}
+
+.db-freq.active {
+	background-color: #F4A663;
+}
+
+.db-type {
+	background-color: #e6e6e6;
+}
+
+.db-type.active {
+	background-color: #F4A663;
+}
+
 .dashboard-button {
   border: 0;
   background-color: transparent;
