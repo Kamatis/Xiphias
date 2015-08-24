@@ -31,6 +31,52 @@
         <input type="text" name="questVenue" id="quest-venue" class="form-control">
       </div>
       
+			<!-- Frequency -->
+			<div class="form-group">
+				<legend><h5><strong>Frequency</strong></h5></legend>
+				<div class="btn-group" data-toggle="buttons" role="group" aria-label="...">
+					<label class="btn btn-default db-freq active" id="quest-frq-1">
+						<input type="radio" name="quest_frequency" value="1" autocomplete="off" checked>
+						<span class="glyphicon glyphicon-ok"></span> Once
+					</label>
+					<label class="btn btn-default db-freq" id="quest-frq-2">
+						<input type="radio" name="quest_frequency" value="2" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Weekly
+					</label>
+					<label class="btn btn-default db-freq" id="quest-frq-3">
+						<input type="radio" name="quest_frequency" value="3" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Monthly
+					</label>
+					<label class="btn btn-default db-freq" id="quest-frq-4">
+						<input type="radio" name="quest_frequency" value="4" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Semestral
+					</label>
+					<label class="btn btn-default db-freq" id="quest-frq-5">
+						<input type="radio" name="quest_frequency" value="5" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Annual
+					</label>
+				</div>
+			</div>
+
+			<!-- Type -->
+			<div class="form-group">
+				<legend><h5><strong>Type</strong></h5></legend>
+				<div class="btn-group" data-toggle="buttons" role="group" aria-label="...">
+					<label class="btn btn-default db-type" id="quest-typ-1">
+						<input type="radio" name="quest_type" value="1" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Academic
+					</label>
+					<label class="btn btn-default db-type" id="quest-typ-2">
+						<input type="radio" name="quest_type" value="2" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Co-curricular
+					</label>
+					<label class="btn btn-default db-type" id="quest-typ-3">
+						<input type="radio" name="quest_type" value="3" autocomplete="off">
+						<span class="glyphicon glyphicon-ok"></span> Extra Curricular
+					</label>
+				</div>
+			</div>
+
       <!-- Quest Rewards -->
       <div class="form-group">
         <legend><h5><strong>Badge Reward</strong></h5></legend>
