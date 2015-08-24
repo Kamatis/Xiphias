@@ -120,6 +120,17 @@ $('.btn-join-quest').on('click', function(e){
 
 //region Badges
 // dashboard menu button links
+
+$('.db-freq').on('click', function() {
+	$('input:radio[name=quest_frequency]').attr('checked', false);
+	$(this).children('input:radio').attr('checked', true);
+});
+
+$('.db-type').on('click', function() {
+	$('input:radio[name=quest_type]').attr('checked', false);
+	$(this).children('input:radio').attr('checked', true);
+});
+
 $('body').on('click', '.btn-dashboard-menu', function(){
   $('.dashboard-page').hide();
   $('.dashboard-menuitem').removeClass('dashboard-active');
@@ -806,10 +817,6 @@ $('body').on('click', '#add-involve', function(){
 // endregion
 
 //region Sockets
-
-
-$('#')
-
 socket.on('message', function(data){
   var actualContent = $("#feeder").html();
   var msgContent = '<li>' + data.name + '</li>';
