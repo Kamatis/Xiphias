@@ -3,15 +3,18 @@
 class Fbauthorization extends CI_Model {
   
   public function getAccessTokens($memberId) {
-    $tokens = array();
-    foreach($memberId as $id) {
       $this->db->select('access_token');
-      $this->db->where('user_id', $id);
-      $query = $this->db->get('facebook_settings');
-      
-      $tokens[] = $query->row()->access_token;
-    }
-    return $tokens;
+      $this->db->where('user_id', $memberId);
+      $query = $this->db->get('facebook_settings');      
+      return $query->row()->access_token;
+  }
+  
+  public function hasAccessToken($user_id) {
+      $this->db->where('user_id', $memberId);
+      $query = $this->db->get('facebook_settings');      
+      if($query->num_rows() == 0)
+          return false;
+      return true;
   }
   
   public function addAccessToken($data) {
