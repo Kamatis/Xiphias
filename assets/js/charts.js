@@ -146,7 +146,7 @@ $(function () {
 
 	// draw the chart after getting json
 	$.ajax({
-		url: 'http://localhost/xiphias/index.php/pages/getUserActivity/' + username,
+		url: 'http://'+  window.location.hostname + '/xiphias/index.php/pages/getUserActivity/' + username,
 		dataType: 'json',
 		success: function(json) {
 			timeline.series[0].data = json;
