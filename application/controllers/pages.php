@@ -397,24 +397,25 @@ class Pages extends CI_Controller {
         $time = explode(' ', $this->input->post('date-range'));
         $quest['quest_title']       = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
-        $quest['quest_rarity']      = 5;
+        $quest['quest_rarity']      = $this->input->post('quest_frequency');
         $quest['date_created']      = date('Y-m-d');
         $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
         $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->input->post('range');
+        $quest['experience']        = 1;
         $quest['venue']             = $this->input->post('questVenue');
-        $quest['quest_type']        = "Academic";
+        $quest['quest_type']        = $this->input->post('quest_type');
         $quest['house_points']      = 1;
-        $badge_id = $this->input->post('badge_id');
-        if(isset($badge_id))
-            $quest['badge_id']          = $this->input->post('badge_id');
         $quest['creator_id']        = $this->session->userdata('user_id');
+        
+        $badge_id = $this->input->post('badge_id');
+        if($badge_id != -1)
+            $quest['badge_id'] = $badge_id;
+      
         $this->quest->addQuest($quest);
         
         $user_id = $this->session->userdata('user_id');
         $myQuests = $this->quest->getMyQuests($user_id);
-      
-        
+    
         for($x = 0; $x < count($myQuests); $x++)
             $questRefresh .= $this->load->view('dashboard/myquests', $myQuests[$x], TRUE);
         echo $questRefresh;
