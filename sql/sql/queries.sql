@@ -47,9 +47,9 @@ insert into program values ("BS Bio", "Bachelor of Science in Biology");
 insert into program values ("BS Math", "Bachelor of Science in Mathematics");
 
 # Quest_Type Table
-insert into quests_type values ("Academic", "Studying is the essence of studying");
-insert into quests_type values ("Co-Curricular", "Put what you learn into action");
-insert into quests_type values ("Extra-Curricular", "Anything that is of sense to your intra-personal growth");
+insert into quests_type values (null, "Academic", "Studying is the essence of studying");
+insert into quests_type values (null, "Co-Curricular", "Put what you learn into action");
+insert into quests_type values (null, "Extra-Curricular", "Anything that is of sense to your intra-personal growth");
 
 # Rarity Table
 insert into rarity values (null, "Common", 1, 10, "assets/images/rarity/common.png");

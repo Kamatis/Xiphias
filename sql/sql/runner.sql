@@ -30,9 +30,10 @@ create table if not exists avatar(
 );
 
 create table if not exists quests_type(
+    quest_type_id int auto_increment not null,
     quest_type varchar(75) not null,
     description varchar(150) not null,
-    primary key(quest_type)
+    primary key(quest_type_id)
 );
 
 # Main Tables
@@ -148,13 +149,13 @@ create table if not exists quest(
     venue varchar(150) not null,
     experience int not null,
     house_points int not null,
-    quest_type varchar(75) not null,
+    quest_type int not null,
     creator_id int not null,
     badge_id int,
     primary key(quest_id),
     foreign key(badge_id) references badge(badge_id),
     foreign key(quest_rarity) references rarity(rarity_id),
-    foreign key(quest_type) references quests_type(quest_type),
+    foreign key(quest_type) references quests_type(quest_type_id),
     foreign key(creator_id) references npc(user_id)
 );
 
