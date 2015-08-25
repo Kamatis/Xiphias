@@ -110,6 +110,14 @@ class Quest extends CI_model{
         $this->db->where('quest_id', $quest_id);
         $this->db->update('quest', $data);
     }
+    
+    public function hasBadgeReward($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('badge_id is null', null, false);
+        if($this->db->get('quest')->num_rows() == 1)
+            return false;
+        return true;
+    }
   
     public function getRarityInfo() {
         $query = $this->db->get('rarity');
