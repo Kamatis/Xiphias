@@ -526,6 +526,7 @@ $('#form-quest').on('submit', function(e){
    e.preventDefault();
    var formData = new FormData(this);
    var badgeid = $('.badge-reward-active').data('badgeid');
+	 if(badgeid === undefined) badgeid = -1;
    formData.append('badge_id', badgeid);
 //  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
