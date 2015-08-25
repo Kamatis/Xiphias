@@ -261,7 +261,7 @@ $('#badge-form').on('submit', function(e){
         $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
         $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-        $('#my-badges').html(dataPass);
+        $('#badge-list').html(dataPass);
     }
   })
 });
@@ -692,14 +692,7 @@ function changeTopThree(questType) {
 
 $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
-  var geturl = "";
-  if(selectedVal == "Academic")
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Academic";
-  else if(selectedVal == "Co-Curricular")
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Co-Curricular";
-  else if(selectedVal == "Extra Curricular")
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
-  
+  var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/" + selectedVal;
   changeTopThree(selectedVal);
   $('#rank-table').bootstrapTable('refresh', {
     url: geturl
