@@ -41,7 +41,7 @@
           <li class="btn-dashboard-menu" data-idlink="#dashboard-noti">
             <a href="#" class="dashboard-menuitem">
               Notifications
-              <span class="pull-right label label-danger">0</span>
+              <span class="pull-right label label-danger" id="dbmenu-noti-label"><?php echo $noti; ?></span>
             </a>
           </li>
         </ul>
