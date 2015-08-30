@@ -605,6 +605,98 @@ $('body').on('click', '.list-item-office', function(){
   $('#btn-save').show();
   $('#btn-add').hide();
 });
+
+function boolIcon(value, row) {
+  if (value == "true")
+  	return '<i class="fa fa-check" data-uid="' + value + '"></i>';
+	else
+	return '<i data-uid="' + value + '"></i>';
+}
+
+function delButton(value, row) {
+	return '<i class="fa fa-times-circle del-role" style="font-size: 16px; color: dimgray;" data-uid="' + value + '"></i>';
+}
+
+function approval(value, row) {
+	if(value != "true")
+		return '<i class="fa fa-exclamation-circle" style="color: red" title="This user has not approved of the invitation."></i>';
+	else
+		return "<i></i>";
+}
+
+function refreshTable(tableId, url) {
+	$(tableId).bootstrapTable('refresh', {
+		url: url
+	});
+}
+
+$('#roles-table').bootstrapTable({
+	onClickCell: function (field, value, row, $element) {
+		var uid = row.deleteRole;
+		if(field == "badge-actions" && row.approved == "true") {
+			$.ajax({
+				url: 'badgePermission',
+				type: 'post',
+				data: { user_id: uid,
+								permission: value },
+				success: function(url) {
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax badgePermission call
+		} // end of badge permission update
+		else if(field == "quest-actions" && row.approved == "true") {
+			$.ajax({
+				url: 'questPermission',
+				type: 'post',
+				data: { user_id: uid,
+								permission: value },
+				success: function(url) {
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax questPermission call
+		} // end of quest permission update
+		else if(field == "deleteRole") {
+			$.ajax({
+				url: 'deleteRole',
+				type: 'post',
+				data: { user_id: value },
+				success: function(url) {
+					url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax deleteRole call
+		} // end of delete role
+		else {
+			alert('The user has not confirmed the role yet.');
+		}
+	}
+});
+
+$('#add-role-member').on('click', function() {
+	var user = $('#role-user-name').val();
+	$.ajax({
+		url: 'addRoleMember',
+		type: 'post',
+		data: { username: user },
+		success: function(url) {
+			url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
+			refreshTable('#roles-table', url);
+			alert('A confirmation message has been sent to the user.');
+		}
+	});
+});
+
+$('#pass-leadership').on('click', function() {
+	var user = $('#pass-leader-name').val();
+	$.ajax({
+		url: 'passLeadership',
+		type: 'post',
+		data: { username: user },
+		success: function() {
+			alert('A confirmation message has been sent to the user.');
+		}
+	});
+});
 // endregion
 
 // region Serial
@@ -701,9 +793,8 @@ $('#sel-quest-type').on('change', function(){
     geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
   
   changeTopThree(selectedVal);
-  $('#rank-table').bootstrapTable('refresh', {
-    url: geturl
-  });
+
+	refreshTable('#rank-table', geturl);
 });
 
 //endregion
