@@ -233,11 +233,14 @@ class User extends CI_Model{
         $players = $this->db->get('player');
         $x = 0;
         foreach($players->result() as $player) {
-            $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
-            $data[$x]['level']  = $player->player_level;
-            $data[$x]['house']  = $this->house->getHouseName($player->house_id);
-            $data[$x]['points'] = $this->user->getPlayerPoints($player->user_id, $type);
-            $x++;
+            $points = $this->user->getPlayerPoints($player->user_id, $type);
+            if($points > 0) {
+                $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+                $data[$x]['level']  = $player->player_level;
+                $data[$x]['house']  = $this->house->getHouseName($player->house_id);
+                $data[$x]['points'] = $points;
+                $x++;
+            }
         }
         usort($data, function($a, $b) {
             return $b['points'] - $a['points'];
