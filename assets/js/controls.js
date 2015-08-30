@@ -608,9 +608,9 @@ $('body').on('click', '.list-item-office', function(){
 
 function boolIcon(value, row) {
   if (value == "true")
-  	return '<i class="fa fa-check" data-uid="' + value + '"></i>';
+  	return '<i class="fa fa-check"></i>';
 	else
-	return '<i data-uid="' + value + '"></i>';
+	return '<i></i>';
 }
 
 function delButton(value, row) {
