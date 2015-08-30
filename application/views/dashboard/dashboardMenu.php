@@ -53,7 +53,7 @@
 		//get URL and the page
 		var url = window.location.href;
 		var page = url.substring(url.lastIndexOf('#') + 1);
-		if(page == "") page = "badge";
+		if(page.length > 10) page = "badge";
 		$('a[href=#' + page + ']').addClass('dashboard-active');
 		var pagepanel = $('.dashboard-active').parent().data('idlink');
 		$(pagepanel).show();
