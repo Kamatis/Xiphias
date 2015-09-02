@@ -37,6 +37,11 @@
 			Serial
 		</a>
 	</li>
+	<li class="btn-dashboard-menu" data-idlink="#dashboard-semaward">
+		<a href="#semaward" class="dashboard-menuitem">
+			Semestral Award
+		</a>
+	</li>
 	<?php } ?>
 	<li class="btn-dashboard-menu" data-idlink="#dashboard-noti">
 		<a href="#noti" class="dashboard-menuitem">
@@ -53,7 +58,7 @@
 		//get URL and the page
 		var url = window.location.href;
 		var page = url.substring(url.lastIndexOf('#') + 1);
-		if(page.length > 10) page = "badge";
+		if(page.length > 10 || page == '') page = "badge";
 		$('a[href=#' + page + ']').addClass('dashboard-active');
 		var pagepanel = $('.dashboard-active').parent().data('idlink');
 		$(pagepanel).show();
