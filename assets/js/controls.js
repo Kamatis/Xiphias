@@ -719,6 +719,48 @@ $('#btn-generate-serial').on('click', function(e){
 });
 // endregion
 
+// region Semestral Award
+$('body').on('click', '#btn-start-sem', function() {
+	$.ajax({
+		url: 'startSem',
+		success: function(startdate){
+			$('#startdate').html(startdate);
+			$('#btn-start-sem').toggle();
+			$('#btn-stop-sem').toggle();
+		}
+	});
+});
+
+$('body').on('click', '#btn-stop-sem', function() {
+	BootstrapDialog.show({
+		title: "Confirmation",
+		message: "This will stop the current semestral period and will update the hall of fame. Are you sure you want to stop the semestral period?",
+		cssClass: "stop-semester",
+		buttons: [{
+			label: 'No',
+			action: function(dialog) {
+				dialog.close();
+			},
+			cssClass: 'btn-danger'
+		}, {
+			label: 'Yes',
+			id: 'btn-stop-sem-confirm',
+			action: function(dialog) {
+				$.ajax({
+					url: 'stopSem',
+					success: function() {
+						$('#startdate').html('');
+						$('#btn-start-sem').toggle();
+						$('#btn-stop-sem').toggle();
+						dialog.close();
+					}
+				})
+			}
+		}]
+	});
+});
+//
+
 $('#verify-account').on('click', function() {
   BootstrapDialog.show({
     title: 'Account Verification',
