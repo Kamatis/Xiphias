@@ -287,7 +287,7 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();  
         $data['title'] =  "Xiphias | Dashboard";
-
+				$data['noti'] = 0;
         $user_id = $this->session->userdata('user_id');
 
         // Badges
@@ -317,14 +317,21 @@ class Pages extends CI_Controller {
         for($x = 0; $x < count($myOffices); $x++)
             $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
 
-        $views['error']           = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
-        $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
-        $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
-        $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
-        $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
-        $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
-        $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
-        $views['dashboardNoti']   = $this->load->view('dashboard/dashboardNoti', '', true);
+				// Semestral Award
+				// @kelly
+				// *date*
+				$semaward['started'] = false;
+				$semaward['startdate'] = "*date*";
+
+        $views['error']           	= $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
+        $views['dashboardMenu']   	= $this->load->view('dashboard/dashboardMenu', $data, true);
+        $views['dashboardBadge']  	= $this->load->view('dashboard/dashboardBadge', $badges, true);
+        $views['dashboardQuest']  	= $this->load->view('dashboard/dashboardQuest', $quest, true);
+        $views['dashboardParty']  	= $this->load->view('dashboard/dashboardParty', $party, true);
+        $views['dashboardOffice'] 	= $this->load->view('dashboard/dashboardOffice', $office, true);
+        $views['dashboardSerial'] 	= $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['dashboardNoti']   	= $this->load->view('dashboard/dashboardNoti', '', true);
+				$views['dashboardSemAward']	= $this->load->view('dashboard/dashboardSemAward', $semaward, true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('dashboard', $views, true);
@@ -650,4 +657,26 @@ class Pages extends CI_Controller {
   public function FB_batchPost() {
     $this->facebook->batchPost();
   }
+
+	public function dummyJSON() {
+		$json = '[{"approved":"false","username":"Kamatis","role":"Support","quest-actions":"true","badge-actions":"false","deleteRole":"15324"},{"approved":"true","username":"Kamatis","role":"Support","quest-actions":"153424","badge-actions":"153424","deleteRole":"1231"}]';
+		echo $json;
+	}
+
+	// @KELLY
+	// semestral awards
+	// no post inputs.. just use the current time of for startsem
+	public function startsem() {
+		// get current datetime and put in database
+		// reset house rankings
+		echo "date";
+	}
+
+	public function stopSem() {
+		// get current datetime and put in database
+		// finalize house rankings by double-checking the exp accumulated by each houses between the start and stop date
+		// put in hall of fame
+		// don't reset house rankings
+		// ^this is so that users can still see the previous ranking without going to the hall of fame
+	}
 }
