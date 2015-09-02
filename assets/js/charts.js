@@ -2,8 +2,7 @@ $(function () {
   
   var options = {
     chart: {
-      type: 'column',
-      backgroundColor: "#16a085"
+      type: 'column'
     },
     title: {
       text: 'HOUSE RANKING'
