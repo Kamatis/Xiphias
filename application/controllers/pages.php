@@ -669,6 +669,7 @@ class Pages extends CI_Controller {
 	public function startsem() {
 		// get current datetime and put in database
 		// reset house rankings
+        $this->house->resetHousePoints();
 		echo "date";
 	}
 
@@ -676,7 +677,21 @@ class Pages extends CI_Controller {
 		// get current datetime and put in database
 		// finalize house rankings by double-checking the exp accumulated by each houses between the start and stop date
 		// put in hall of fame
+        $data['description'] = "SY Year-(Year+1) nth Semester";
+        $hof_id = $this->hallOfFame->addHallOfFameEntry($data);
+        $this->ranking->addRankingsEntry($hof_id);
 		// don't reset house rankings
 		// ^this is so that users can still see the previous ranking without going to the hall of fame
 	}
+  
+  public function addRoleMember() {
+    $user_name = $this->input->post('username');
+    $data['approved'] = false;
+    $data['user_id'] = $this->user->getUserId($user_name);
+    $data['office_id'] = 1;
+    $data['role'] = "Support";
+    $data['quest_permission'] = 0;
+    $data['badge_permission'] = 0;
+    $this->officeRole->addRoleMember($data);
+  }
 }
