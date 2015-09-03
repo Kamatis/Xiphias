@@ -105,9 +105,20 @@ create table if not exists office(
     office_abbreviation varchar(15) not null,
     office_logo varchar(150),
     office_description varchar(150) not null,
-    user_id int not null,
+    user_id int,
     primary key(office_id),
     foreign key(user_id) references npc(user_id)
+);
+
+create table if not exists office_role (
+    approved int not null,
+    user_id int not null,
+    office_id int not null,
+    role varchar(50),
+    quest_permission int not null,
+    badge_permission int not null,
+    foreign key(user_id) references npc(user_id),
+    foreign key(office_id) references office(office_id)
 );
 
 create table if not exists party(
