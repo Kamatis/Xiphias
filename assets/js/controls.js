@@ -679,7 +679,7 @@ $('#add-role-member').on('click', function() {
 		type: 'post',
 		data: { username: user },
 		success: function(url) {
-			url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
+			url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + url;
 			refreshTable('#roles-table', url);
 			alert('A confirmation message has been sent to the user.');
 		}
