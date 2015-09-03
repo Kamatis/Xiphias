@@ -658,9 +658,9 @@ class Pages extends CI_Controller {
     $this->facebook->batchPost();
   }
 
-	public function dummyJSON() {
-		$json = '[{"approved":"false","username":"Kamatis","role":"Support","quest-actions":"true","badge-actions":"false","deleteRole":"15324"},{"approved":"true","username":"Kamatis","role":"Support","quest-actions":"153424","badge-actions":"153424","deleteRole":"1231"}]';
-		echo $json;
+	public function getOfficeMembers($office_id) {
+        $data = $this->officeRole->getOfficeMembers($office_id);
+		echo json_encode($data);
 	}
 
 	// @KELLY
@@ -693,5 +693,6 @@ class Pages extends CI_Controller {
     $data['quest_permission'] = 0;
     $data['badge_permission'] = 0;
     $this->officeRole->addRoleMember($data);
+    echo 1;
   }
 }
