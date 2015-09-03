@@ -14,4 +14,9 @@ class HallOfFame extends CI_Model {
         }
         return $data;
     }
+  
+  public function addHallOfFameEntry($data) {
+    $this->db->insert('hall_of_fame', $data);
+    return mysql_insert_id();
+  }
 }
