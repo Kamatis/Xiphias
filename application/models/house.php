@@ -48,4 +48,9 @@ class House extends CI_Model {
         }
         return $data;
     }
+  
+  public function resetHousePoints() {
+    $data['house_points'] = 0;
+    $this->db->update('house', $data); 
+  }
 }
