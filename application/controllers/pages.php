@@ -239,7 +239,7 @@ class Pages extends CI_Controller {
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
         
-        $viewdata = $this->user->getTopThree('Academic');
+        $viewdata = $this->user->getTopThree(1);
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
         
@@ -697,6 +697,7 @@ class Pages extends CI_Controller {
   }
     // function for generating resume
     public function resume(){
-        $this->htmlpdf->convert();
+        $data = $this->load->view('resume', '', true);
+        $this->htmlpdf->convert($data);
     }
 }
