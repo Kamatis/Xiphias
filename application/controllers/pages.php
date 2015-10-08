@@ -695,4 +695,8 @@ class Pages extends CI_Controller {
     $this->officeRole->addRoleMember($data);
     echo 1;
   }
+    // function for generating resume
+    public function resume(){
+        $this->htmlpdf->convert();
+    }
 }
