@@ -36,11 +36,11 @@ class Office extends CI_Model{
     
     public function getMyOffices($user_id){
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('office');
+        $query = $this->db->get('office_role');
         $x = 0;
         foreach($query->result() as $row){
             $office[$x]['officeId']   = $row->office_id; 
-            $office[$x]['officeName'] = $row->office_name;
+            $office[$x]['officeName'] = $this->office->getOfficeName($row->office_id);
             $x++;
         }
         return $office;
