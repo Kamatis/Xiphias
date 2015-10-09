@@ -16,6 +16,7 @@ class Htmlpdf {
         $width = 8.5 * 25.4; $height = 11 * 25.4;
         $html = new HTML2PDF('P',array($width,$height),'en');
         $html->writeHTML($data);
+		//		header('Cache-Control: private, max-age=0, must-revalidate');
         $html->Output('resume.pdf');
     }
 }

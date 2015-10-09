@@ -889,17 +889,20 @@ $('body').on('click', '#add-affil', function(){
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
-                    var n = $('input-org-name').val();
-                    var p = $('input-position').val();
-                    var d = $('input-join-date').val();
+                    var n = $('#input-org-name').val();
+                    var p = $('#input-position').val();
+                    var d = $('#input-join-date').val();
+									alert(p);
                     $.ajax({
-                      url: 'addAffiliation',
+                      url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addAffiliation',
                       type: 'post',
                       data: { name:n,
                               position: p, 
                               date: d },
-                      success: function(){
-                        alert('Affiliation Added');
+                      success: function(dataPass){
+												var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getAffilJson/";
+												alert(dataPass);
+												refreshTable('#affil-table', geturl);
                       }
                     })
                 }
@@ -940,7 +943,8 @@ $('body').on('click', '#add-involve', function(){
                 }
             }]
   });
-})
+});
+
 // endregion
 
 //region Sockets

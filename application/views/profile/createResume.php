@@ -1,4 +1,4 @@
-<form class="form-horizontal" role="form">
+<form action="http://localhost/xiphias/index.php/pages/resume" method="post" class="form-horizontal" role="form">
   
 <!--  picture-->
   <legend>Photo</legend>
@@ -10,6 +10,32 @@
       </div>    
     </div>
   </div>
+	
+	<legend>Personal</legend>
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="email">Address:</label>
+    <div class="col-sm-10">
+      <textarea id="address" name="address" class="form-control"><?php echo $address; ?></textarea>
+    </div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="email">Contact #:</label>
+    <div class="col-sm-10">
+      <input id="contact" class="form-control" name="contact" type="text" value="<?php echo $contact; ?>">
+    </div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="email">Email Address:</label>
+    <div class="col-sm-10">
+      <input id="email" class="form-control" type="text" name="emailadd" value="<?php echo $emailadd; ?>">
+    </div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="email">Career Objective:</label>
+    <div class="col-sm-10">
+      <textarea name="objective" id="objective" class="form-control"><?php echo $objective; ?></textarea>
+    </div>
+	</div>
   
 <!--  EDUC -->
   <legend>Educational Background</legend>
@@ -52,13 +78,13 @@
     <?php if(count($affiliations) != 0) { ?> 
       <div class="col-sm-12 text-center">No affiliations yet.</div>
     <?php } else { ?>
-      <table id="affil-table" data-toggle="table" data-toolbar="#affil-add-toolbar" data-url="<?php echo $affilJson; ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
+      <table id="affil-table" data-toggle="table" data-toolbar="#affil-add-toolbar" data-url="<?php echo base_url('index.php/pages/getAffilJson'); ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
           <thead>
             <tr>
-              <th data-field="id" data-sortable="true" class="col-sm-12">ORGANIZATION</th>
-              <th data-field="title" data-sortable="true" class="col-sm-2">POSITION</th>
-              <th data-field="start" data-sortable="true" data-align="center" class="col-sm-3">START DATE</th>
-              <th data-field="end" data-sortable="true" class="col-sm-3">END DATE</th>
+              <th data-field="organization" data-sortable="true" class="col-sm-12">ORGANIZATION</th>
+              <th data-field="position" data-sortable="true" class="col-sm-2">POSITION</th>
+              <th data-field="start_date" data-sortable="true" data-align="center" class="col-sm-3">START DATE</th>
+              <th data-field="end_date" data-sortable="true" class="col-sm-3">END DATE</th>
             </tr>
           </thead>
         </table>
@@ -92,7 +118,7 @@
   
   <div class="form-group"> 
     <div class="col-sm-offset-11 col-sm-2">
-      <button type="submit" class="btn btn-default">Create Resume</button>
+      <button href="#" type="submit" id="btn-form-create" class="btn btn-default">Create Resume</button>
     </div>
   </div>
 </form>

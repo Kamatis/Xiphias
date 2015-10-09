@@ -140,9 +140,14 @@ class Pages extends CI_Controller {
       foreach($query2->result() as $row)
           $data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
       
+			
       for($yr = 2015; $yr>=1900; $yr--)
         $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
+			$u_id = $this->session->userdata('user_id');
+			$data['address']  = $this->user->getHomeAddress($u_id); 
+			$data['contact']  = $this->user->getPhoneNumber($u_id);
+			$data['emailadd'] = $this->user->getEmailAddress($u_id);
       $view = $this->load->view('profile/createResume', $data , true);
       echo $view;
     }
@@ -695,9 +700,61 @@ class Pages extends CI_Controller {
     $this->officeRole->addRoleMember($data);
     echo 1;
   }
+		
+		public function debug() {
+			echo $this->user->getHomeAddress($this->session->userdata('user_id'));		
+		}
     // function for generating resume
     public function resume(){
-        $data = $this->load->view('resume', '', true);
+				$u_id = $this->session->userdata('user_id');
+				$info['address']  = $this->input->post('address');
+				$info['contact']  = $this->input->post('contact');
+				$info['emailadd']  = $this->input->post('emailadd');
+				
+				$user['home_address'] = $info['address'];
+				$user['phone_number'] = $info['contact'];
+				$user['email_address'] = $info['emailadd'];
+				$this->user->updateProfile($u_id, $user);
+				
+        $info['objective']  = $this->input->post('objective');
+				$obj['objective'] = $info['objective'];
+				$this->user->updateCareerObj($u_id, $obj);
+				
+				$info['fullname']  = $this->user->getFirstName($u_id);
+				$info['fullname'] .= " " . $this->user->getMiddleName($u_id)[0];
+				$info['fullname'] .= ". " . $this->user->getLastName($u_id);
+			
+				$info['affiliations'] = $this->affiliation->getAffiliations($u_id);
+				
+        $data = $this->load->view('resume', $info, true);
         $this->htmlpdf->convert($data);
     }
+		
+		public function addAffiliation() {
+				$time = explode(' ', $this->input->post('date'));
+				$data['user_id'] = $this->session->userdata('user_id');
+				$data['affiliation_id'] = $this->input->post('name');
+				$data['position'] = $this->input->post('position');
+				$data['start_date'] = date('Y-m-d', strtotime($time[0]));
+				$data['end_date'] = date('Y-m-d', strtotime($time[2]));
+				$this->affiliation->addAffiliation($data);
+		}
+		
+		public function addInvolvement() {
+				$time = explode(' ', $this->input->post('date'));
+				$data['user_id'] = $this->session->userdata('user_id');
+				$data['involvement_name'] = $this->input->post('name');
+				$data['involvement_venue'] = $this->input->post('venue');
+				$data['start_date'] = date('Y-m-d', strtotime($time[0]));
+				$data['end_date'] = date('Y-m-d', strtotime($time[2]));
+				$this->involvement->addInvolvement($data);
+		}
+		
+		public function getAffilJson() {
+				echo json_encode($this->affiliation->getAffiliations($this->session->userdata('user_id')));
+		}
+		
+		public function getInovolvementsJson() {
+			echo json_encode($this->affiliation->getInvolvements($this->session->userdata('user_id')));		
+		}
 }

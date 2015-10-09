@@ -16,6 +16,16 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         return $this->db->get('user')->row()->first_name;
     }
+	
+		public function getLastName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->last_name;
+    }
+	
+		public function getMiddleName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->middle_name;
+    }
     
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
@@ -372,5 +382,29 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         $this->db->update('user', $data);
     }
-
+		
+		public function updateProfile($user_id, $data) {
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user', $data);
+		}
+	
+	public function getHomeAddress($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->home_address;
+	}
+	
+	public function getPhoneNumber($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->phone_number;
+	}
+	
+	public function getEmailAddress($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->email_address;
+	}
+	
+	public function updateCareerObj($user_id, $data) {
+		$this->db->where('user_id', $user_id);
+		$this->db->update('player', $data);
+	}
 }

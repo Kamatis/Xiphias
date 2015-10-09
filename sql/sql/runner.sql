@@ -78,6 +78,7 @@ create table if not exists player(
 	player_level int not null,
 	experience int not null,
     program_code varchar(25) null,
+		career_objectives varchar(250),
     house_id int not null,
     user_id int not null,
     foreign key(program_code) references program(program_code),
@@ -260,6 +261,12 @@ create table if not exists ranking (
     foreign key(house_id) references house(house_id),
     foreign key(hof_id) references hall_of_fame(hof_id)
 );
+
+create table if not exists user_resume_details {
+		user_id int not null,
+		
+}
+
 /*# Extra Tables
 create table if not exists settings(
     user_id int not null,
