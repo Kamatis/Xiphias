@@ -748,6 +748,7 @@ class Pages extends CI_Controller {
 				$data['start_date'] = date('Y-m-d', strtotime($time[0]));
 				$data['end_date'] = date('Y-m-d', strtotime($time[2]));
 				$this->involvement->addInvolvement($data);
+				echo $data['involvement_name'];
 		}
 		
 		public function getAffilJson() {

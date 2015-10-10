@@ -26,11 +26,13 @@
       </li>
       <?php if($isNPC) { ?>
       <li class="xiphiasMenu">
-        <a href="<?php echo base_url('index.php/pages/dashboard'); ?>" style="color: #ececea">
+        <a href="<?php echo base_url('index.php/pages/dashboard'); ?>" style="color: #ececea"> 
           Dashboard 
           <?php if(!$isVerified) { ?>
           <i class="glyphicon glyphicon-lock"></i>
-          <?php } ?>
+					<?php } else { ?>
+					<span style="margin-left: 3px" class="pull-right label label-danger" id="dashboard-menu-label"> <?php echo $noti; ?></span>
+					<?php } ?>
         </a>
       </li>
       <?php } ?>

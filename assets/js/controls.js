@@ -926,15 +926,17 @@ $('body').on('click', '#add-involve', function(){
                     var p = $('input-inv-venue').val();
                     var d = $('input-inv-date').val();
                     $.ajax({
-                      url: 'addInvolvement',
+                      url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addInvolvement',
                       type: 'post',
                       data: { name:n,
-                              position: p, 
+                              venue: p, 
                               date: d },
-                      success: function(){
-                        alert('Involvement Added!');
+                      success: function(dataPass){
+//												alert(dataPass);
+                        var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getInvolvementJson/";
+												refreshTable('#involve-table', geturl);
                       }
-                    })
+                    });
                 }
             }, {
                 label: 'Cancel',
@@ -954,4 +956,8 @@ socket.on('message', function(data){
   var concatCOntent = msgContent + actualContent;
   $('#feeder').html(concatCOntent);
 });
+
+//socket.on('notification', function(data) {
+//	var 
+//});
 //endregion

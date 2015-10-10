@@ -9,14 +9,24 @@ var http = require('http');
 var app = express();
 var server = http.createServer(app);
 var io = socket.listen(server);
+//var clients[];
 
 io.sockets.on('connection', function(client) {
-  console.log("New client!");
+  console.log("New client with id: " + client.id);
+//	clients.push(client.id);
+	client.on('disconnect', function() {
+		console.log(client.id + " disconnected.");	
+	});
   
   client.on('feed', function(data){
     console.log('message received: ' + data.streamItem );
     io.sockets.emit('feed', { streamItem : data.streamItem });
   });
+	
+	client.on('noti', function(data) {
+		console.log('new notification' + data.notiItem);
+		io.sockets.emit('noti', { notiItem: data.notiItem });
+	});
 });
 
 server.listen(8080);

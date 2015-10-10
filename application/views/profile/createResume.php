@@ -102,14 +102,14 @@
               <div id="involve-add-toolbar">
                   <a href="#" class="btn btn-default" id="add-involve"> Add</a>
               </div>
-      <table id="involve-table" data-toggle="table" data-toolbar="#involve-add-toolbar" data-url="<?php echo $involveJson; ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
+      <table id="involve-table" data-toggle="table" data-toolbar="#involve-add-toolbar" data-url="<?php echo base_url('index.php/pages/getInvolvementsJson'); ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
           <thead>
             <tr>
               <th data-field="state" data-checkbox="true"></th>
-              <th data-field="name" data-sortable="true" class="col-sm-4">Name</th>
-              <th data-field="venue" data-sortable="true" class="col-sm-4">Venue</th>
-              <th data-field="start" data-sortable="true" data-align="center" class="col-sm-2">START DATE</th>
-              <th data-field="end" data-sortable="true" class="col-sm-2">END DATE</th>
+              <th data-field="name" data-sortable="true" class="col-sm-4">NAME</th>
+              <th data-field="venue" data-sortable="true" class="col-sm-4">VENUE</th>
+              <th data-field="start_date" data-sortable="true" data-align="center" class="col-sm-2">START DATE</th>
+              <th data-field="end_date" data-sortable="true" class="col-sm-2">END DATE</th>
             </tr>
           </thead>
         </table>
