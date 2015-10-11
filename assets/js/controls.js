@@ -157,7 +157,9 @@ $('.dashboard-button').on('click', function(){
     $('#btn-change-passcode').hide();
   }
 
-  if(form == '#office-form') {
+  if(form == '#office-add-form') {
+		$(form).show();
+		$('#office-manage-form').hide();
     $(form).find('#office-logo').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
   }
 });
@@ -562,10 +564,10 @@ $('#btn-quest-add').on('click', function(e) {
 
 $('#btn-office-add').on('click', function(e){
     e.preventDefault();
-    $('#office-form').submit();         
+    $('#office-add-form').submit();
 })
 
-$('#office-form').on('submit', function(e){
+$('#office-add-form').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
     $.ajax({
@@ -589,6 +591,8 @@ $('#office-form').on('submit', function(e){
 });
 
 $('body').on('click', '.list-item-office', function(){
+	$('#office-add-form').hide();
+	$('#office-manage-form').show();
   var officeId = $(this).data('officeid');
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getOfficeDetails",
@@ -598,8 +602,8 @@ $('body').on('click', '.list-item-office', function(){
     data: { office_id:officeId},
     success: function(jsonData) {
       $('#office-logo').attr('src', jsonData.officeLogo);
-      $('#txt-office-name').val(jsonData.officeName);
-      $('#txt-office-description').val(jsonData.officeDescription);
+      $('#office-shortname').html(jsonData.officeAbbr);
+			$('#office-longname').html(jsonData.officeName);
     }
   });
   $('#btn-save').show();
@@ -673,17 +677,45 @@ $('#roles-table').bootstrapTable({
 });
 
 $('#add-role-member').on('click', function() {
-	var user = $('#role-user-name').val();
-	$.ajax({
-		url: 'addRoleMember',
-		type: 'post',
-		data: { username: user },
-		success: function(url) {
-			url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + url;
-			refreshTable('#roles-table', url);
-			alert('A confirmation message has been sent to the user.');
-		}
-	});
+	var userr = $('#role-user-name').val();
+	var rol = $('#role-user-role').val();
+
+	if(user == "" || rol == "") {
+		$('#add-success-alert').removeClass('alert-info');
+		$('#add-success-alert').addClass('alert-danger');
+		$('#add-success-alert-msg').html("<strong>Error!</strong> Empty username or role.")
+		$('#add-success-alert').show();
+	}
+	else {
+		$.ajax({
+			url: 'addRoleMember',
+			type: 'post',
+			data: { username: userr,
+							role: rol },
+			dataType: 'json',
+			success: function(datapass) {
+				if(datapass['ok'] == false) {
+					$('#add-success-alert').removeClass('alert-info');
+					$('#add-success-alert').addClass('alert-danger');
+					$('#add-success-alert-msg').html("<strong>Error!</strong> Username not found.")
+					$('#add-success-alert').show();
+				}
+				else {
+					socket.emit('noti', { user: userr, IncOrDec: '+' });
+					var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
+					refreshTable('#roles-table', url);
+					$('#add-success-alert').removeClass('alert-danger');
+					$('#add-success-alert').addClass('alert-info');
+					$('#add-success-alert-msg').html("<strong>Info!</strong> A confirmation message has been sent to the user.")
+					$('#add-success-alert').show();
+					$('#role-user-name').val('');
+					$('#role-user-role').val('');
+				}
+
+			}
+		});
+	}
+
 });
 
 $('#pass-leadership').on('click', function() {
@@ -949,6 +981,16 @@ $('body').on('click', '#add-involve', function(){
 
 // endregion
 
+// Party
+$('#btn-view-party').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Edit Profile',
+    message: $('<div class=""></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/editProfile'),
+
+  });
+});
+//
+
 //region Sockets
 socket.on('message', function(data){
   var actualContent = $("#feeder").html();
@@ -961,3 +1003,11 @@ socket.on('message', function(data){
 //	var 
 //});
 //endregion
+
+// region Debugs and Tries
+var count = 0;
+$('#socket-button').on('click', function() {
+	socket.emit('noti', { user: 'admin', IncOrDec: '-' });
+	count++;
+});
+//

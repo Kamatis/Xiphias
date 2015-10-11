@@ -262,10 +262,10 @@ create table if not exists ranking (
     foreign key(hof_id) references hall_of_fame(hof_id)
 );
 
-create table if not exists user_resume_details {
+/*create table if not exists user_resume_details {
 		user_id int not null,
 		
-}
+}*/
 
 /*# Extra Tables
 create table if not exists settings(
