@@ -1,5 +1,6 @@
 
-var socket = io.connect('http://localhost:8080');
+var user = $('#username-plate').html();
+var socket = io("http://localhost:8080/", { query: "user=" + user });
 
 socket.on('feed', function(data){
   console.log('client feed');
@@ -9,5 +10,12 @@ socket.on('feed', function(data){
 
 socket.on('noti', function(data) {
 	console.log('client noti');
-	$('#dbmenu-noti-label').html('changed');
+	var noti_count = $('#mainmenu-noti-count').html();
+
+	if(data.IncOrDec == '+')
+		noti_count++;
+	else
+		noti_count--;
+	$('#dbmenu-noti-label').html(noti_count);
+	$('#mainmenu-noti-count').html(noti_count);
 });
