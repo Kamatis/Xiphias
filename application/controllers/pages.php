@@ -708,19 +708,20 @@ class Pages extends CI_Controller {
     $data['role'] = $role;
     $data['quest_permission'] = 0;
     $data['badge_permission'] = 0;
-    $this->officeRole->addRoleMember($data);
 		$retdata['url'] = $this->user->getProfileLink($user_name);
 		if(!$this->user->validUsername($user_name) || !$this->user->isNPC($data['user_id']))
 				$retdata['ok']  = 1;
 		else if($this->office->isInvited($data['office_id'], $data['user_id']))
 				$retdata['ok']  = 2;
-		else
+		else {
+				$this->officeRole->addRoleMember($data);
 				$retdata['ok']  = 0;
-    echo json_encode($retdata);
+		}
+		echo json_encode($retdata);
   }
 		
 		public function debug() {
-			if($this->office->isInvited(1,0))
+			if($this->user->validUsername("admin1"))
 					echo "valid";
 			else
 					echo "invalid";
