@@ -12,10 +12,15 @@ var io = socket.listen(server);
 //var clients[];
 
 io.sockets.on('connection', function(client) {
-  console.log("New client with id: " + client.id);
-//	clients.push(client.id);
+	var user = client.handshake.query.user;
+  console.log(user + " connected with id: " + client.id);
+	// same usernames join one group
+	client.join(user);
+
 	client.on('disconnect', function() {
-		console.log(client.id + " disconnected.");	
+//		var room = io.sockets.adapter.rooms[user];
+//		if(Object.keys(io.sockets.adapter.rooms[user]).length == 0)
+			console.log(user + " disconnected.");
 	});
   
   client.on('feed', function(data){
@@ -24,8 +29,13 @@ io.sockets.on('connection', function(client) {
   });
 	
 	client.on('noti', function(data) {
-		console.log('new notification' + data.notiItem);
-		io.sockets.emit('noti', { notiItem: data.notiItem });
+		console.log('new notification to ' + data.user);
+		// data.user is the one the noti is being sent to
+		io.to(data.user).emit('noti', { IncOrDec: data.IncOrDec });
+	});
+
+	client.on('noti-answer', function(data) {
+		console.log(data.user + " answered " + data.answer + " to a notification");
 	});
 });
 
