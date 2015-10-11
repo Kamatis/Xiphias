@@ -407,4 +407,13 @@ class User extends CI_Model{
 		$this->db->where('user_id', $user_id);
 		$this->db->update('player', $data);
 	}
+	
+	public function validUsername($user_name) {
+		$this->db->where('username like binary \'' .$user_name .'\'');
+		$query = $this->db->get('user');
+		echo $query->num_rows();
+		if($query->num_rows() > 0)
+			return true;
+		return false;
+	}
 }

@@ -55,4 +55,13 @@ class Office extends CI_Model{
         $this->db->where('office_id', $officeId);
         $this->db->update('office', $logo);
     }
+	
+	public function isInvited($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('office_role');
+		if($query->num_rows() > 0)
+				return true;
+		return false;
+	}
 }

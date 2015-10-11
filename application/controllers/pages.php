@@ -704,14 +704,23 @@ class Pages extends CI_Controller {
     $data['badge_permission'] = 0;
     $this->officeRole->addRoleMember($data);
 //		$retdata = array(1, 1);
-		$retdata['url'] = 1;
-		$retdata['ok'] = false;
+		$retdata['url'] = $this->user->getProfileLink($user_name);
+		if(!$this->user->validUsername($user_name) || !$this->user->isNPC($data['user_id']))
+				$retdata['ok']  = 1;
+		else if($this->office->isInvited($data['office_id'], $data['user_id']))
+				$retdata['ok']  = 2;
+		else
+				$retdata['ok']  = 0;
     echo json_encode($retdata);
   }
 		
 		public function debug() {
-			echo $this->user->getHomeAddress($this->session->userdata('user_id'));		
+			if($this->office->isInvited(1,0))
+					echo "valid";
+			else
+					echo "invalid";
 		}
+	
     // function for generating resume
     public function resume(){
 				$u_id = $this->session->userdata('user_id');
