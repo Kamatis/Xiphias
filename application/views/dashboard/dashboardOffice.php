@@ -19,12 +19,12 @@
 
       <div class="form-group">
         <legend><h5><strong>Name</strong></h5></legend>
-        <input name="officeName" type="text" id="txt-office-name" class="form-control" placeholder="Enter office name">
+        <input name="officeLongName" type="text" id="txt-office-name" class="form-control" placeholder="Enter office name">
       </div>
 
-      <div class="form-group">
-        <legend><h5><strong>Description</strong></h5></legend>
-        <textarea name="officeDescription" id="txt-office-description" class="form-control" placeholder="Enter office description"></textarea>
+			<div class="form-group">
+        <legend><h5><strong>Short Name</strong></h5></legend>
+        <input name="officeShortName" type="text" id="txt-office-name" class="form-control" placeholder="Enter abbreviation or acronym of office">
       </div>
       
       <div class="row">
@@ -38,21 +38,30 @@
 
 		<form id="office-manage-form" method="post" action="" class="form-horizontal">
 			<div class="form-group">
-				<h3 style="margin-bottom: 0px">TACTICS</h3>
-				<h6 style="margin-bottom: 20px;">The Ateneo Consortium of Technological Information and Computing Sciences</h6>
+				<h3 style="margin-bottom: 0px" id="office-shortname">TACTICS</h3>
+				<h6 style="margin-bottom: 20px;" id="office-longname">The Ateneo Consortium of Technological Information and Computing Sciences</h6>
 			</div>
 
 			<div class="form-group">
 				<legend>Roles</legend>
 				<div class="col-sm-12">
-					<div class="input-group">
-						<input type="text" id="role-user-name" class="form-control" placeholder="Username or full name">
-						<div class="input-group-btn">
-							<a id="add-role-member" class="btn btn-default">Add</a>
-						</div>
+					<div id="add-success-alert" class="alert alert-danger alert-dismissible" style="display: none" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<span id="add-success-alert-msg"><strong>Error!</strong> Username not found.</span>
+
 					</div>
+					<div class="row">
+						<div class="col-sm-5">
+							<input type="text" id="role-user-name" class="form-control" placeholder="Username">
+						</div>
+						<div class="col-sm-5">
+							<input type="text" id="role-user-role" class="form-control" placeholder="Role">
+						</div>
+						<a id="add-role-member" class="btn btn-default">Add</a>
+					</div>
+
 					<div class="roles-table-container" style="padding-top: 10px;">
-						<table id="roles-table" data-toggle="table" data-url="http://localhost/xiphias/index.php/pages/dummyJSON" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]">
+						<table id="roles-table" data-toggle="table" data-url="http://localhost/xiphias/index.php/pages/getOfficeMembers/1" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]">
 							<thead>
 								<tr>
 									<th data-field="approved" data-align="center" data-formatter="approval" class="col-lg-1 col-sm-1"></th>
