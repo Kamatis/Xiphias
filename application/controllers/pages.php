@@ -690,15 +690,23 @@ class Pages extends CI_Controller {
 	}
   
   public function addRoleMember() {
-    $user_name = $this->input->post('username');
+//		@kelly
+//		pacheck ako kng existing ang username..
+//		if existing.. do the normal procedures and set $retdata['ok'] to true and set the url to $retdata['url']
+//		else do not do normal procedures and set $retdata['ok'] to false
+		$user_name = $this->input->post('username');
+		$role = $this->input->post('role');
     $data['approved'] = false;
     $data['user_id'] = $this->user->getUserId($user_name);
     $data['office_id'] = 1;
-    $data['role'] = "Support";
+    $data['role'] = $role;
     $data['quest_permission'] = 0;
     $data['badge_permission'] = 0;
     $this->officeRole->addRoleMember($data);
-    echo 1;
+//		$retdata = array(1, 1);
+		$retdata['url'] = 1;
+		$retdata['ok'] = false;
+    echo json_encode($retdata);
   }
 		
 		public function debug() {
