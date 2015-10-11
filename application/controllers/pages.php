@@ -17,6 +17,7 @@ class Pages extends CI_Controller {
         if($this->session->userdata('is_logged_in')){
             $data = $this->user->getSessionData();
             $data['title']      = 'Xiphias | Home';
+						$data['noti'] = 0;
             
             $events = $this->event->getLiveEvents();
           
@@ -176,6 +177,7 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] = "Xiphias | ".$username;
+				$data['noti'] = 0;
 
         $description['description'] = $this->user->getDescription($user_profile['user_id']);
         $description['isOwner'] = ($data['username'] == $username);
@@ -204,6 +206,7 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title']      = "Xiphias | Settings";
+				$data['noti'] = 0;
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('settings', '', true);
@@ -217,6 +220,7 @@ class Pages extends CI_Controller {
         $query = $this->db->get('user');
         $data = $this->user->getSessionData();
         $data['title'] = 'Xiphias | Quest Board';
+				$data['noti'] = 0;
         $user_id = $this->session->userdata('user_id');
 
         $quests = $this->quest->getAllQuests();
@@ -243,7 +247,8 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
-        
+        $data['noti'] = 0;
+
         $viewdata = $this->user->getTopThree(1);
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
@@ -260,6 +265,7 @@ class Pages extends CI_Controller {
       
       $data = $this->user->getSessionData();
       $data['title'] = 'Xiphias | Hall of Fame';
+			$data['noti'] = 0;
       $viewdata = $this->hallOfFame->getHallOfFame();
       for($i = 0; $i < count($viewdata); $i++)
         $views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata[$i], true);
@@ -449,8 +455,8 @@ class Pages extends CI_Controller {
     }
   
     public function addOffice() {
-        $office['office_name']         = $this->input->post('officeName');
-        $office['office_abbreviation'] = "HELLO"; // $this->input->post('txtShortForm');
+        $office['office_name']         = $this->input->post('officeLongName');
+        $office['office_abbreviation'] = $this->input->post('officeShortName');
         $office['office_description']  = $this->input->post('officeDescription');
         $office['user_id'] = $this->session->userdata('user_id');
         $officeId = $this->office->addOffice($office);
@@ -705,7 +711,7 @@ class Pages extends CI_Controller {
     $this->officeRole->addRoleMember($data);
 //		$retdata = array(1, 1);
 		$retdata['url'] = 1;
-		$retdata['ok'] = false;
+		$retdata['ok'] = true;
     echo json_encode($retdata);
   }
 		
