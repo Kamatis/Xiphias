@@ -28,7 +28,7 @@
 	<li class="btn-dashboard-menu" data-idlink="#dashboard-office">
 		<a href="#office" class="dashboard-menuitem">
 			Office
-			<span class="pull-right"><button class="dashboard-button" data-form="#office-form"><i class="glyphicon glyphicon-plus"></i></button></span>
+			<span class="pull-right"><button class="dashboard-button" data-form="#office-add-form"><i class="glyphicon glyphicon-plus"></i></button></span>
 		</a>
 	</li>
 	<?php if($isAdmin) { ?>
