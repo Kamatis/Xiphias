@@ -717,6 +717,10 @@ class Pages extends CI_Controller {
 			$notif['noti_type'] = 1;
 			$notif['office_id']  = $data['office_id'];
 		  	$this->notification->addNotification($notif);
+		  
+		  	$retdata['from'] = $this->user->getUsername($notif['noti_from']);
+		  	$retdata['office_name'] = $this->office->getOfficeName($notif['office_id']);
+		  	$retdata['noti_type'] = 1;
 			$retdata['ok']  = 0;
 		}
 		echo json_encode($retdata);
