@@ -267,6 +267,7 @@ create table if not exists notification (
 	noti_to int not null,
 	noti_type int not null,
 	office_id int not null,
+	noti_date date not null,
 	foreign key(noti_from) references npc(user_id),
     foreign key(noti_to) references npc(user_id),
 	foreign key(office_id) references office(office_id)

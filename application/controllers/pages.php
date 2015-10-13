@@ -712,15 +712,17 @@ class Pages extends CI_Controller {
 			$retdata['ok']  = 2;
 		else {
 			$this->officeRole->addRoleMember($data);
-		  	$notif['noti_from']  = $this->session->userdata('user_id');
-			$notif['noti_to']    = $data['user_id'];
+		  	$notif['noti_from'] = $this->session->userdata('user_id');
+			$notif['noti_to']   = $data['user_id'];
 			$notif['noti_type'] = 1;
-			$notif['office_id']  = $data['office_id'];
+			$notif['office_id'] = $data['office_id'];
+		  	$notif['noti_date'] = date('Y-m-d');
 		  	$this->notification->addNotification($notif);
 		  
 		  	$retdata['from'] = $this->user->getUsername($notif['noti_from']);
 		  	$retdata['office_name'] = $this->office->getOfficeName($notif['office_id']);
 		  	$retdata['noti_type'] = 1;
+		  	$retdata['noti_date'] = $notif['noti_date'];
 			$retdata['ok']  = 0;
 		}
 		echo json_encode($retdata);
