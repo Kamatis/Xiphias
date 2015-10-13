@@ -78,8 +78,8 @@
 									<th data-field="approved" data-align="center" data-formatter="approval" class="col-lg-1 col-sm-1"></th>
 									<th data-field="username" data-formatter="namelink" class="col-lg-5 col-sm-5">USERNAME</th>
 									<th data-field="role" data-align="center" class="col-lg-3 col-sm-3">ROLE</th>
-									<th data-field="badge-actions" data-formatter="boolIcon" data-align="center" class="col-lg-1 col-sm-3"><img src="http://localhost/badge_icon.png" style="width: 20px; height: 20px;" title="Let user create, edit and delete a badge"></th>
-									<th data-field="quest-actions" data-formatter="boolIcon" data-align="center" class="col-lg-1 col-sm-1"><img src="http://localhost/quest_icon.png" style="width: 18px; height: 18px;" title="Let user create, edit and postpone quests"></th>
+									<th data-field="badge-actions" data-formatter="boolIcon" data-align="center" class="col-lg-1 col-sm-3"><img src="http://localhost/xiphias/assets/images/badge_icon.png" style="width: 20px; height: 20px;" title="Let user create, edit and delete a badge"></th>
+									<th data-field="quest-actions" data-formatter="boolIcon" data-align="center" class="col-lg-1 col-sm-1"><img src="http://localhost/xiphias/assets/images/quest_icon.png" style="width: 18px; height: 18px;" title="Let user create, edit and postpone quests"></th>
 									<th data-field="deleteRole" data-formatter="delButton" data-align="center" class="col-lg-1 col-sm-1 role-del-button"></th>
 								</tr>
 							</thead>
