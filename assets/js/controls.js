@@ -594,6 +594,8 @@ $('body').on('click', '.list-item-office', function(){
 	$('#office-add-form').hide();
 	$('#office-manage-form').show();
   var officeId = $(this).data('officeid');
+	$('.list-item-office').removeClass('list-item-office-active');
+	$(this).addClass('list-item-office-active');
 
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getOfficeDetails",
@@ -602,8 +604,6 @@ $('body').on('click', '.list-item-office', function(){
     dataType: 'json',
     data: { office_id:officeId},
     success: function(jsonData) {
-			$('.list-item-office').removeClass('list-item-office-active');
-			$(this).addClass('list-item-office-active');
       $('#office-logo').attr('src', jsonData.officeLogo);
       $('#office-shortname').html(jsonData.officeAbbr);
 			$('#office-longname').html(jsonData.officeName);
