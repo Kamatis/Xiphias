@@ -696,30 +696,31 @@ class Pages extends CI_Controller {
 		// ^this is so that users can still see the previous ranking without going to the hall of fame
 	}
   
-  public function addRoleMember() {
-//		@kelly
-//		pacheck ako kng existing ang username..
-//		if existing.. do the normal procedures and set $retdata['ok'] to true and set the url to $retdata['url']
-//		else do not do normal procedures and set $retdata['ok'] to false
-	$user_name = $this->input->post('username');
-	$role = $this->input->post('role');
-    $data['approved'] = false;
-    $data['user_id'] = $this->user->getUserId($user_name);
-    $data['office_id'] = $this->input->post('officeid');
-    $data['role'] = $role;
-    $data['quest_permission'] = 0;
-    $data['badge_permission'] = 0;
+  	public function addRoleMember() {
+		$user_name = $this->input->post('username');
+		$role = $this->input->post('role');
+		$data['approved'] = false;
+		$data['user_id'] = $this->user->getUserId($user_name);
+		$data['office_id'] = $this->input->post('officeid');
+		$data['role'] = $role;
+		$data['quest_permission'] = 0;
+		$data['badge_permission'] = 0;
 		$retdata['url'] = $data['office_id'];
 		if(!$this->user->validUsername($user_name) || !$this->user->isNPC($data['user_id']))
-				$retdata['ok']  = 1;
+			$retdata['ok']  = 1;
 		else if($this->office->isInvited($data['office_id'], $data['user_id']))
-				$retdata['ok']  = 2;
+			$retdata['ok']  = 2;
 		else {
-				$this->officeRole->addRoleMember($data);
-				$retdata['ok']  = 0;
+			$this->officeRole->addRoleMember($data);
+		  	$notif['noti_from']  = $this->session->userdata('user_id');
+			$notif['noti_to']    = $data['user_id'];
+			$notif['noti_type'] = 1;
+			$notif['office_id']  = $data['office_id'];
+		  	$this->notification->addNotification($notif);
+			$retdata['ok']  = 0;
 		}
 		echo json_encode($retdata);
-  }
+  	}
 		
 		public function debug() {
 			if($this->user->validUsername("admin1"))
