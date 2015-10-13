@@ -23,14 +23,20 @@ class OfficeRole extends CI_Model {
 	
 	public function confirmRole($office_id, $user_id) {
 		$this->db->where('office_id', $office_id);
-		$this->db->where('noti_to', $user_id);
+		$this->db->where('user_id', $user_id);
 		$data['approved'] = 1;
-		$this->db->update('notification', $data);
+		$this->db->update('office_role', $data);
+		$this->db->where('office_id', $office_id);
+		$this->db->where('noti_to', $user_id);
+		$this->db->delete('notification');
 	}
 	
 	public function declineRole() {
 		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->delete('office_role');
+		$this->db->where('office_id', $office_id);
 		$this->db->where('noti_to', $user_id);
-		$this->db->delete('notification');		
+		$this->db->delete('notification');	
 	}
 }
