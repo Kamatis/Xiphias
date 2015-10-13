@@ -701,15 +701,15 @@ class Pages extends CI_Controller {
 //		pacheck ako kng existing ang username..
 //		if existing.. do the normal procedures and set $retdata['ok'] to true and set the url to $retdata['url']
 //		else do not do normal procedures and set $retdata['ok'] to false
-		$user_name = $this->input->post('username');
-		$role = $this->input->post('role');
+	$user_name = $this->input->post('username');
+	$role = $this->input->post('role');
     $data['approved'] = false;
     $data['user_id'] = $this->user->getUserId($user_name);
-    $data['office_id'] = 1;
+    $data['office_id'] = $this->input->post('officeid');
     $data['role'] = $role;
     $data['quest_permission'] = 0;
     $data['badge_permission'] = 0;
-		$retdata['url'] = $this->user->getProfileLink($user_name);
+		$retdata['url'] = $data['office_id'];
 		if(!$this->user->validUsername($user_name) || !$this->user->isNPC($data['user_id']))
 				$retdata['ok']  = 1;
 		else if($this->office->isInvited($data['office_id'], $data['user_id']))
