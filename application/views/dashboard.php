@@ -14,9 +14,9 @@
           echo $dashboardOffice;
           if($isAdmin){
             echo $dashboardSerial;
-						echo $dashboardSemAward;
-            echo $dashboardNoti;
+			echo $dashboardSemAward;
           }
+		  echo $dashboardNoti;
         }
         else {
           echo $error;

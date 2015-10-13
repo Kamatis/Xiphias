@@ -8,10 +8,20 @@
         </tr>
       </thead>
       <tbody>
+		  <?php for($x = 0; $x < count($notif); $x++) { ?>
         <tr>
-          <td>Request 1</td>
-          <td>September 8</td>
+          <td>
+			  <a href="<?php echo $notif[$x]['from_url']; ?>"> <?php echo $notif[$x]['from'];?></a>
+			  <?php
+				echo ' asked you to be the ';
+				echo $notif[$x]['role'];
+				echo ' of ';
+				echo $notif[$x]['office_name'];
+			  ?>
+		  </td>
+          <td> <?php echo $notif[$x]['noti_date'] ?> </td>
         </tr>
+		  <?php } ?>
       </tbody>
     </table>
   </div>

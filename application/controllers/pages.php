@@ -329,12 +329,14 @@ class Pages extends CI_Controller {
         for($x = 0; $x < count($myOffices); $x++)
             $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
 
-				// Semestral Award
-				// @kelly
-				// *date*
-				$semaward['started'] = false;
-				$semaward['startdate'] = "*date*";
-
+		// Semestral Award
+		// @kelly
+		// *date*
+		$semaward['started'] = false;
+		$semaward['startdate'] = "*date*";
+	  	
+	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
+	  
         $views['error']           	= $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
         $views['dashboardMenu']   	= $this->load->view('dashboard/dashboardMenu', $data, true);
         $views['dashboardBadge']  	= $this->load->view('dashboard/dashboardBadge', $badges, true);
@@ -342,8 +344,8 @@ class Pages extends CI_Controller {
         $views['dashboardParty']  	= $this->load->view('dashboard/dashboardParty', $party, true);
         $views['dashboardOffice'] 	= $this->load->view('dashboard/dashboardOffice', $office, true);
         $views['dashboardSerial'] 	= $this->load->view('dashboard/dashboardSerial', $data, true);
-        $views['dashboardNoti']   	= $this->load->view('dashboard/dashboardNoti', '', true);
-				$views['dashboardSemAward']	= $this->load->view('dashboard/dashboardSemAward', $semaward, true);
+        $views['dashboardNoti']   	= $this->load->view('dashboard/dashboardNoti', $notif, true);
+		$views['dashboardSemAward']	= $this->load->view('dashboard/dashboardSemAward', $semaward, true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('dashboard', $views, true);
@@ -729,10 +731,7 @@ class Pages extends CI_Controller {
   	}
 		
 		public function debug() {
-			if($this->user->validUsername("admin1"))
-					echo "valid";
-			else
-					echo "invalid";
+			echo json_encode($this->notification->getNotifications(3));
 		}
 	
     // function for generating resume
