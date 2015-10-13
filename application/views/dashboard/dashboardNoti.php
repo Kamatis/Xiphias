@@ -11,6 +11,15 @@
 		  <?php for($x = 0; $x < count($notif); $x++) { ?>
         <tr>
           <td>
+			  <!--  
+					'from'        = username kung kiisay hali ang notification
+					'from_url'    = profile link ni from
+					'office_id'   = no need to explain.. haha
+					'office_name' = again, no need
+					'role'        = bla bla
+					'noti_type'   = type kang notification.. 1 = confirm or decline option
+					'noti_date'   = 
+			  -->
 			  <a href="<?php echo $notif[$x]['from_url']; ?>"> <?php echo $notif[$x]['from'];?></a>
 			  <?php
 				echo ' asked you to be the ';
