@@ -8,6 +8,7 @@
 
   <div class="col-md-7">
     <form id="office-add-form" method="post" action="" class="form-horizontal" style="display: none;">
+			<legend>Request for Office Addition</legend>
       <div class="form-group">
         <div class="picture-container">
           <div class="picture">
@@ -34,12 +35,22 @@
           <a class="btn btn-success pull-right m-right" id="btn-office-add">Add</a>
         </div>
       </div>
+
+			<legend>Join an Office</legend>
+			<div class="form-group">
+				<select class="form-control combobox" id="select-office">
+					<?php echo $officeOptions; ?>
+				</select>
+			</div>
+        <div class="form-group">
+          <a class="btn btn-success">Join</a>
+        </div>
     </form>
 
 		<form id="office-manage-form" method="post" action="" class="form-horizontal">
 			<div class="form-group">
-				<h3 style="margin-bottom: 0px" id="office-shortname">TACTICS</h3>
-				<h6 style="margin-bottom: 20px;" id="office-longname">The Ateneo Consortium of Technological Information and Computing Sciences</h6>
+				<h3 style="margin-bottom: 0px" id="office-shortname"></h3>
+				<h6 style="margin-bottom: 20px;" id="office-longname"></h6>
 			</div>
 
 			<div class="form-group">
@@ -61,7 +72,7 @@
 					</div>
 
 					<div class="roles-table-container" style="padding-top: 10px;">
-						<table id="roles-table" data-toggle="table" data-url="http://localhost/xiphias/index.php/pages/getOfficeMembers/1" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]">
+						<table id="roles-table" data-toggle="table" data-url="" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200, 500]">
 							<thead>
 								<tr>
 									<th data-field="approved" data-align="center" data-formatter="approval" class="col-lg-1 col-sm-1"></th>
@@ -106,3 +117,9 @@
     </div>
   </div>
 </div>
+
+<script>
+$(document).ready(function(){
+	$('.combobox').combobox();
+});
+</script>
