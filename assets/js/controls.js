@@ -594,6 +594,7 @@ $('body').on('click', '.list-item-office', function(){
 	$('#office-add-form').hide();
 	$('#office-manage-form').show();
   var officeId = $(this).data('officeid');
+
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getOfficeDetails",
     async: true,
@@ -601,9 +602,13 @@ $('body').on('click', '.list-item-office', function(){
     dataType: 'json',
     data: { office_id:officeId},
     success: function(jsonData) {
+			$('.list-item-office').removeClass('list-item-office-active');
+			$(this).addClass('list-item-office-active');
       $('#office-logo').attr('src', jsonData.officeLogo);
       $('#office-shortname').html(jsonData.officeAbbr);
 			$('#office-longname').html(jsonData.officeName);
+			var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + jsonData.officeId;
+			refreshTable('#roles-table', url);
     }
   });
   $('#btn-save').show();
@@ -637,12 +642,15 @@ function refreshTable(tableId, url) {
 $('#roles-table').bootstrapTable({
 	onClickCell: function (field, value, row, $element) {
 		var uid = row.deleteRole;
+		var ofc = $('.list-item-office-active').data('officeid');
+
 		if(field == "badge-actions" && row.approved == "true") {
 			$.ajax({
 				url: 'badgePermission',
 				type: 'post',
 				data: { user_id: uid,
-								permission: value },
+								permission: value,
+								office: ofc },
 				success: function(url) {
 					refreshTable('#roles-table', url);
 				}
@@ -653,7 +661,8 @@ $('#roles-table').bootstrapTable({
 				url: 'questPermission',
 				type: 'post',
 				data: { user_id: uid,
-								permission: value },
+								permission: value,
+								office: ofc },
 				success: function(url) {
 					refreshTable('#roles-table', url);
 				}
@@ -663,7 +672,8 @@ $('#roles-table').bootstrapTable({
 			$.ajax({
 				url: 'deleteRole',
 				type: 'post',
-				data: { user_id: value },
+				data: { user_id: value,
+								office: ofc },
 				success: function(url) {
 					url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
 					refreshTable('#roles-table', url);
@@ -679,6 +689,7 @@ $('#roles-table').bootstrapTable({
 $('#add-role-member').on('click', function() {
 	var userr = $('#role-user-name').val();
 	var rol = $('#role-user-role').val();
+	var ofc = $('.list-item-office-active').data('officeid');
 
 	if(user == "" || rol == "") {
 		$('#add-success-alert').removeClass('alert-info');
@@ -691,13 +702,20 @@ $('#add-role-member').on('click', function() {
 			url: 'addRoleMember',
 			type: 'post',
 			data: { username: userr,
-							role: rol },
+							role: rol,
+							officeid: ofc },
 			dataType: 'json',
 			success: function(datapass) {
-				if(datapass['ok'] == false) {
+				if(datapass['ok'] == 1) {
 					$('#add-success-alert').removeClass('alert-info');
 					$('#add-success-alert').addClass('alert-danger');
 					$('#add-success-alert-msg').html("<strong>Error!</strong> Username not found.")
+					$('#add-success-alert').show();
+				}
+				else if(datapass['ok'] == 2) {
+					$('#add-success-alert').removeClass('alert-info');
+					$('#add-success-alert').addClass('alert-danger');
+					$('#add-success-alert-msg').html("<strong>Error!</strong> Username already invited.")
 					$('#add-success-alert').show();
 				}
 				else {
