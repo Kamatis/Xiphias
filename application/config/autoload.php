@@ -112,7 +112,7 @@ $autoload['language'] = array();
 $autoload['model'] = array('user','course','badge','quest','office',
                            'party', 'house', 'school', 'player', 'npc',
                            'event', 'fbauthorization', 'hallOfFame', 'ranking',
-                           'officeRole', 'affiliation', 'involvement');
+                           'officeRole', 'affiliation', 'involvement', 'notification');
 
 
 /* End of file autoload.php */
