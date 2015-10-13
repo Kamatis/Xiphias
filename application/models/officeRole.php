@@ -20,6 +20,11 @@ class OfficeRole extends CI_Model {
     }
     return $data;
   }
+	public function getRole($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('office_role')->row()->role;
+	}
 	
 	public function confirmRole($office_id, $user_id) {
 		$this->db->where('office_id', $office_id);
@@ -31,7 +36,7 @@ class OfficeRole extends CI_Model {
 		$this->db->delete('notification');
 	}
 	
-	public function declineRole() {
+	public function declineRole($office_id, $user_id) {
 		$this->db->where('office_id', $office_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('office_role');
