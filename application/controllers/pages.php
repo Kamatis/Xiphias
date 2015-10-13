@@ -789,4 +789,16 @@ class Pages extends CI_Controller {
 		public function getInovolvementsJson() {
 			echo json_encode($this->affiliation->getInvolvements($this->session->userdata('user_id')));		
 		}
+  
+	public function confirmRole() {
+		$office_id = $this->input->post('office_id');
+	  	$user_id = $this->session->userdata('user_id');
+	  	$this->officeRole->confirmRole($office_id, $user_id);
+	}
+  
+	public function declineRole() {
+	  	$this_id = $this->input->post('office_id');
+	  	$user_id = $this->session->userdata('user_id');
+	  	$this->officeRole->declineRole($office_id, $user_id);
+	}	
 }
