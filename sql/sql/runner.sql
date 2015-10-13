@@ -262,6 +262,16 @@ create table if not exists ranking (
     foreign key(hof_id) references hall_of_fame(hof_id)
 );
 
+create table if not exists notification (
+	noti_from int not null,
+	noti_to int not null,
+	noti_type int not null,
+	office_id int not null,
+	foreign key(noti_from) references npc(user_id),
+    foreign key(noti_to) references npc(user_id),
+	foreign key(office_id) references office(office_id)
+);
+
 /*create table if not exists user_resume_details {
 		user_id int not null,
 		
