@@ -77,7 +77,7 @@ insert into house values (null, "Captain Josephus", 0, "Survival of the Fittest"
 
 
 # Avatar Table
-insert into avatar values(1, 'assets/images/levels/lvl1.png', 1);
+insert into avatar values(1, 'assets/images/levels/lvl1.png', 0);
 insert into avatar values(2, 'assets/images/levels/lvl2.png', 5);
 insert into avatar values(3, 'assets/images/levels/lvl3.png', 15);
 insert into avatar values(4, 'assets/images/levels/lvl4.png', 30);
