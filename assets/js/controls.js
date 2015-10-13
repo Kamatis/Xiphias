@@ -642,12 +642,15 @@ function refreshTable(tableId, url) {
 $('#roles-table').bootstrapTable({
 	onClickCell: function (field, value, row, $element) {
 		var uid = row.deleteRole;
+		var ofc = $('.list-item-office-active').data('officeid');
+
 		if(field == "badge-actions" && row.approved == "true") {
 			$.ajax({
 				url: 'badgePermission',
 				type: 'post',
 				data: { user_id: uid,
-								permission: value },
+								permission: value,
+								office: ofc },
 				success: function(url) {
 					refreshTable('#roles-table', url);
 				}
@@ -658,7 +661,8 @@ $('#roles-table').bootstrapTable({
 				url: 'questPermission',
 				type: 'post',
 				data: { user_id: uid,
-								permission: value },
+								permission: value,
+								office: ofc },
 				success: function(url) {
 					refreshTable('#roles-table', url);
 				}
@@ -668,7 +672,8 @@ $('#roles-table').bootstrapTable({
 			$.ajax({
 				url: 'deleteRole',
 				type: 'post',
-				data: { user_id: value },
+				data: { user_id: value,
+								office: ofc },
 				success: function(url) {
 					url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
 					refreshTable('#roles-table', url);
