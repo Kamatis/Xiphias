@@ -145,10 +145,11 @@ class Pages extends CI_Controller {
       for($yr = 2015; $yr>=1900; $yr--)
         $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
-			$u_id = $this->session->userdata('user_id');
-			$data['address']  = $this->user->getHomeAddress($u_id); 
-			$data['contact']  = $this->user->getPhoneNumber($u_id);
-			$data['emailadd'] = $this->user->getEmailAddress($u_id);
+      $u_id = $this->session->userdata('user_id');
+      $data['address']  = $this->user->getHomeAddress($u_id); 
+      $data['contact']  = $this->user->getPhoneNumber($u_id);
+      $data['emailadd'] = $this->user->getEmailAddress($u_id);
+      $data['objective'] = $this->player->getCareerObjective($u_id);
       $view = $this->load->view('profile/createResume', $data , true);
       echo $view;
     }
@@ -740,7 +741,7 @@ class Pages extends CI_Controller {
 				$this->user->updateProfile($u_id, $user);
 				
         $info['objective']  = $this->input->post('objective');
-				$obj['objective'] = $info['objective'];
+				$obj['career_objectives'] = $info['objective'];
 				$this->user->updateCareerObj($u_id, $obj);
 				
 				$info['fullname']  = $this->user->getFirstName($u_id);

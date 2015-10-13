@@ -21,4 +21,9 @@ class Player extends CI_Model{
         $this->db->where('user_id', $user_id);
         return $this->db->get('player')->row()->program_code;
     }
+  
+	public function getCareerObjective($user_id) {
+		$this->db->where('user_id', $user_id);
+	  	return $this->db->get('player')->row()->career_objectives;
+	}
 }
