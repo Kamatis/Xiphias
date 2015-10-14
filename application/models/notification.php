@@ -12,7 +12,7 @@ class Notification extends CI_Model {
 		foreach($query->result() as $row) {
 			$data[$x]['from'       ] = $this->user->getUsername($row->noti_from);
 			$data[$x]['from_url'   ] = $this->user->getProfileLink($data[$x]['from']);
-			$data[$x]['to'         ] = $this->user->getUsername($row->noti_to);
+			$data[$x]['to'         ] = $row->noti_to;
 			$data[$x]['office_id'  ] = $row->office_id;
 			$data[$x]['role'       ] = $this->officeRole->getRole($row->office_id, $user_id);
 			$data[$x]['office_name'] = $this->office->getOfficeName($row->office_id);
