@@ -1,6 +1,6 @@
 <div id="dashboard-noti" class="dashboard-page">
   <div class="table-container">
-    <table id="noti-table" data-toggle="table" data-show-header="false" data-url="url">
+    <table id="noti-table" data-toggle="table" data-show-header="false">
       <thead>
         <tr>
           <th data-field="request" class="col-md-10">Request</th>
@@ -31,17 +31,92 @@
 							echo ' </i>';
 							echo ' of ';
 							echo $notif[$x]['office_name'];
+							echo '.';
 							?>
 							<div class="row-fluid">
 								<div class="form-group">
-									<a href="#" class="btn btn-success btn-xs" data-notiId="<?php echo $notif[$x]['noti_id']; ?>">Approve</a>
-									<a href="#" class="btn btn-danger btn-xs" data-notiId="<?php echo $notif[$x]['noti_id']; ?>">Decline</a>
+									<a href="#" class="btn btn-success btn-xs btn-noti-approve"
+										 data-notiId="<?php
+																		echo $notif[$x]['office_id'];
+																		echo '_';
+																		echo $notif[$x]['to'];
+																		echo '_';
+																		echo $notif[$x]['from']; ?>"
+										 data-ofcName="<?php
+																		echo $notif[$x]['office_name'];
+																		?>">Approve</a>
+									<a href="#" class="btn btn-danger btn-xs btn-noti-decline"
+										 data-notiId="<?php
+																		echo $notif[$x]['office_id'];
+																		echo '_';
+																		echo $notif[$x]['to'];
+																		echo '_';
+																		echo $notif[$x]['from']; ?>"
+										 data-ofcName="<?php
+																		echo $notif[$x]['office_name'];
+																		?>">Decline</a>
 								</div>
 							</div>
 						</td>
-						<td><?php echo $notif[$x]['noti_date'] ?></td>
 					<?php } ?> <!-- endif confirmation -->
 
+					<!-- If approve -->
+					<?php if($notif[$x]['noti_type'] == 2) { ?>
+						<td>
+							<a href="<?php echo $notif[$x]['from_url']; ?>"><?php echo $notif[$x]['from'];?></a>
+							<?php
+							echo ' agreed to be ';
+							echo ' <i>';
+							echo $notif[$x]['role'];
+							echo ' </i>';
+							echo ' of ';
+							echo $notif[$x]['office_name'];
+							echo '.';
+							?>
+							<div class="row-fluid">
+								<div class="form-group">
+									<a href="#" class="btn btn-success btn-xs btn-noti-ok"
+											 data-notiId="<?php
+																			echo $notif[$x]['office_id'];
+																			echo '_';
+																			echo $notif[$x]['to'];
+																			echo '_';
+																			echo $notif[$x]['from']; ?>">OK</a>
+								</div>
+							</div>
+						</td>
+
+					<?php } ?> <!-- endif approve -->
+
+					<!-- If decline -->
+					<?php if($notif[$x]['noti_type'] == 3) { ?>
+						<td>
+							<a href="<?php echo $notif[$x]['from_url']; ?>"><?php echo $notif[$x]['from'];?></a>
+							<?php
+							echo ' declined to be ';
+							echo ' <i>';
+							echo $notif[$x]['role'];
+							echo ' </i>';
+							echo ' of ';
+							echo $notif[$x]['office_name'];
+							echo '.';
+							?>
+							<div class="row-fluid">
+								<div class="form-group">
+									<a href="#" class="btn btn-success btn-xs btn-noti-ok"
+											 data-notiId="<?php
+																			echo $notif[$x]['office_id'];
+																			echo '_';
+																			echo $notif[$x]['to'];
+																			echo '_';
+																			echo $notif[$x]['from']; ?>">OK</a>
+								</div>
+							</div>
+						</td>
+
+					<?php } ?> <!-- endif decline -->
+
+					<td><?php echo $notif[$x]['noti_date']; ?></td>
 				</tr>
 		  <?php } ?>
       </tbody>
