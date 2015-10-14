@@ -30,12 +30,19 @@ socket.on('approve', function(data) {
 	$('#noti-table').bootstrapTable('append', format(data, 2));
 });
 
+socket.on('decline', function(data) {
+	console.log(data.from + ' declined a notification');
+	$('#noti-table').bootstrapTable('append', format(data, 3));
+});
+
 // miscellaneus functions
 function format(data, mode) {
 	var rows = [];
 	var stringReq = "";
+
+	// if confirmation noti
 	if(mode == 1) {
-		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile' + data.from + '">' + data.from + '</a>';
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
 		stringReq += " asked you to be the ";
 		stringReq += " <i>";
 		stringReq += data.role;
@@ -56,8 +63,42 @@ function format(data, mode) {
 			request: stringReq,
 			date: 'today'
 		});
-
 	}
+
+	// if approve
+	else if(mode == 2) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
+		stringReq += ' agreed to be <i>';
+		stringReq += data.role;
+		stringReq += '</i> of ';
+		stringReq += data.office;
+		stringReq += '.';
+		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '>OK</a></div></div>';
+		rows.push({
+			request: stringReq,
+			data: 'today'
+		});
+	}
+
+	// if decline
+	else if(mode == 3) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
+		stringReq += ' declined to be <i>';
+		stringReq += data.role;
+		stringReq += '</i> of ';
+		stringReq += data.office;
+		stringReq += '.';
+		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '>OK</a></div></div>';
+		rows.push({
+			request: stringReq,
+			data: 'today'
+		});
+	}
+
 	return rows;
 
 }
