@@ -356,6 +356,7 @@ class User extends CI_Model{
     public function getSessionData(){
         $data['user_image'] = $this->session->userdata('image');
         $data['username']   = $this->session->userdata('username');
+				$data['user_id']		= $this->getUserId($data['username']);
         $data['isNPC']      = $this->session->userdata('isNPC');
         $data['isAdmin']    = $this->session->userdata('isAdmin');
         $data['isVerified'] = $this->session->userdata('isVerified');
