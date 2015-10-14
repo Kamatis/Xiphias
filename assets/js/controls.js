@@ -688,6 +688,7 @@ $('#roles-table').bootstrapTable({
 
 $('#add-role-member').on('click', function() {
 	var userr = $('#role-user-name').val();
+	var userr_id = $("#username-plate").data('id');
 	var rol = $('#role-user-role').val();
 	var ofc = $('.list-item-office-active').data('officeid');
 
@@ -720,7 +721,7 @@ $('#add-role-member').on('click', function() {
 				}
 				else {
 					socket.emit('noti', { user: userr, IncOrDec: '+' });
-					socket.emit('confirmation', { user: userr, from: datapass['from'], office: datapass['office_name'] });
+					socket.emit('confirmation', { user: userr, userid: datapass['to_id'], from: datapass['from'], office: datapass['office_name'], officeid: ofc, role: rol });
 					var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
 					refreshTable('#roles-table', url);
 					$('#add-success-alert').removeClass('alert-danger');
@@ -739,6 +740,24 @@ $('#add-role-member').on('click', function() {
 
 $('#add-success-alert-close').on('click', function() {
 	$('#add-success-alert').hide();
+});
+
+$('body').on('click', '.btn-noti-approve', function() {
+	var ids = $(this).data('notiId').split("_");
+	var officeName = $(this).data('ofcName');
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'confirmRole',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[1]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('confirmation', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+		}
+	});
 });
 
 $('#pass-leadership').on('click', function() {
