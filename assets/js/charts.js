@@ -149,7 +149,6 @@ $(function () {
 		dataType: 'json',
 		success: function(json) {
 			timeline.series[0].data = json;
-			console.log(timeline);
 			var timelineGraph = new Highcharts.Chart(timeline);
 		},
 		error: function(jqXHR, exception) {

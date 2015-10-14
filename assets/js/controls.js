@@ -720,6 +720,7 @@ $('#add-role-member').on('click', function() {
 				}
 				else {
 					socket.emit('noti', { user: userr, IncOrDec: '+' });
+					socket.emit('confirmation', { user: userr, from: datapass['from'], office: datapass['office_name'] });
 					var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
 					refreshTable('#roles-table', url);
 					$('#add-success-alert').removeClass('alert-danger');

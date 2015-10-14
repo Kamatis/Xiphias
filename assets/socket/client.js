@@ -9,7 +9,6 @@ socket.on('feed', function(data){
 });
 
 socket.on('noti', function(data) {
-	console.log('client noti');
 	var noti_count = $('#mainmenu-noti-count').html();
 
 	if(data.IncOrDec == '+')
@@ -19,3 +18,20 @@ socket.on('noti', function(data) {
 	$('#dbmenu-noti-label').html(noti_count);
 	$('#mainmenu-noti-count').html(noti_count);
 });
+
+socket.on('confirmation', function(data) {
+	console.log('confirmation noti sent to ' + user);
+//	format(data);
+	$('#noti-table').bootstrapTable('append', format(data));
+});
+
+// miscellaneus functions
+function format(data) {
+	var rows = [];
+	var stringReq = "You have been invited by " + data.from;
+	rows.push({
+		request: data.from,
+		date: 'today'
+	});
+	return rows;
+}

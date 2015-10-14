@@ -34,6 +34,11 @@ io.sockets.on('connection', function(client) {
 		io.to(data.user).emit('noti', { IncOrDec: data.IncOrDec });
 	});
 
+	client.on('confirmation', function(data) {
+		console.log('confirmation noti sent to ' + data.user);
+		io.to(data.user).emit('confirmation', { from: data.from, office: data.office });
+	});
+
 	client.on('noti-answer', function(data) {
 		console.log(data.user + " answered " + data.answer + " to a notification");
 	});
