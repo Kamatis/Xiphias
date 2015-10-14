@@ -137,6 +137,13 @@ $('body').on('click', '.btn-dashboard-menu', function(){
   var panel = $(this).data('idlink');
   $(this).children('.dashboard-menuitem').addClass('dashboard-active');
   $(panel).show();
+	if($(this).data('idlink') == '#dashboard-office') {
+		var selectedOffice = $('.list-item-office-active').data('officeid');
+		if(selectedOffice != "") {
+			var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + selectedOffice;
+			refreshTable('#roles-table', url);
+		}
+	}
 });
 
 $('.dashboard-button').on('click', function(){
@@ -627,7 +634,7 @@ function delButton(value, row) {
 }
 
 function approval(value, row) {
-	if(value != "true")
+	if(value != "1")
 		return '<i class="fa fa-exclamation-circle" style="color: red" title="This user has not approved of the invitation."></i>';
 	else
 		return "<i></i>";
@@ -644,7 +651,7 @@ $('#roles-table').bootstrapTable({
 		var uid = row.deleteRole;
 		var ofc = $('.list-item-office-active').data('officeid');
 
-		if(field == "badge-actions" && row.approved == "true") {
+		if(field == "badge-actions" && row.approved == "1") {
 			$.ajax({
 				url: 'badgePermission',
 				type: 'post',
@@ -656,7 +663,7 @@ $('#roles-table').bootstrapTable({
 				}
 			}); // end of ajax badgePermission call
 		} // end of badge permission update
-		else if(field == "quest-actions" && row.approved == "true") {
+		else if(field == "quest-actions" && row.approved == "1") {
 			$.ajax({
 				url: 'questPermission',
 				type: 'post',
@@ -743,7 +750,7 @@ $('#add-success-alert-close').on('click', function() {
 });
 
 $('body').on('click', '.btn-noti-approve', function() {
-	var ids = $(this).data('notiId').split("_");
+	var ids = $(this).data('notiid').split("_");
 	var officeName = $(this).data('ofcName');
 	var senderr = $('#username-plate').html();
 	$.ajax({
@@ -755,7 +762,7 @@ $('body').on('click', '.btn-noti-approve', function() {
 		},
 		success: function(data) {
 			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
-			socket.emit('confirmation', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			socket.emit('approve', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
 		}
 	});
 });
