@@ -50,7 +50,7 @@
     <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
       <li class="dropdown">
         <a href="#" style="color: #ececea" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-        <img class="user-image" src="<?php echo $user_image; ?>" style="height:20px; width:auto"> <b id="username-plate"><?php echo $username?></b> <span class="caret"></span></a>
+        <img class="user-image" src="<?php echo $user_image; ?>" style="height:20px; width:auto"> <b id="username-plate" data-id="<?php echo $user_id; ?>"><?php echo $username;?></b> <span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
           <?php if($isNPC) { ?>
             <?php if($isVerified) {?>
