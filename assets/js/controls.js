@@ -737,6 +737,10 @@ $('#add-role-member').on('click', function() {
 
 });
 
+$('#add-success-alert-close').on('click', function() {
+	$('#add-success-alert').hide();
+});
+
 $('#pass-leadership').on('click', function() {
 	var user = $('#pass-leader-name').val();
 	$.ajax({

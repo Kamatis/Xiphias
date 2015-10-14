@@ -57,7 +57,7 @@
 				<legend>Roles</legend>
 				<div class="col-sm-12">
 					<div id="add-success-alert" class="alert alert-danger alert-dismissible" style="display: none" role="alert">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<a id="add-success-alert-close" class="close" aria-label="Close" aria-hidden="true"><span aria-hidden="true">&times;</span></a>
 						<span id="add-success-alert-msg"><strong>Error!</strong> Username not found.</span>
 
 					</div>
