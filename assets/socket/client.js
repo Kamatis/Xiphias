@@ -22,16 +22,42 @@ socket.on('noti', function(data) {
 socket.on('confirmation', function(data) {
 	console.log('confirmation noti sent to ' + user);
 //	format(data);
-	$('#noti-table').bootstrapTable('append', format(data));
+	$('#noti-table').bootstrapTable('append', format(data, 1));
+});
+
+socket.on('approve', function(data) {
+	console.log(data.from + ' approved a notification');
+	$('#noti-table').bootstrapTable('append', format(data, 2));
 });
 
 // miscellaneus functions
-function format(data) {
+function format(data, mode) {
 	var rows = [];
-	var stringReq = "You have been invited by " + data.from;
-	rows.push({
-		request: data.from,
-		date: 'today'
-	});
+	var stringReq = "";
+	if(mode == 1) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile' + data.from + '">' + data.from + '</a>';
+		stringReq += " asked you to be the ";
+		stringReq += " <i>";
+		stringReq += data.role;
+		stringReq += "</i> of ";
+		stringReq += data.office;
+		stringReq += ".";
+		stringReq += '<div class="row-fluid"><div class="form-group">';
+		stringReq += '<a href="#" class="btn btn-success btn-xs btn-noti-approve" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '" data-ofcName="';
+		stringReq += data.office + '">Approve</a> ';
+		stringReq += '<a href="#" class="btn btn-danger btn-xs btn-noti-decline" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += ' data-ofcName="';
+		stringReq += data.office + '">Decline</a>';
+		stringReq += '</div></div>';
+		rows.push({
+			request: stringReq,
+			date: 'today'
+		});
+
+	}
 	return rows;
+
 }
