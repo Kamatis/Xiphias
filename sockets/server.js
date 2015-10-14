@@ -36,12 +36,12 @@ io.sockets.on('connection', function(client) {
 
 	client.on('confirmation', function(data) {
 		console.log('confirmation noti sent to ' + data.user);
-		console.log(data.officeid);
 		io.to(data.user).emit('confirmation', { from: data.from, role: data.role, office: data.office, officeid: data.officeid, user: data.user, userid: data.userid });
 	});
 
-	client.on('noti-answer', function(data) {
-		console.log(data.user + " answered " + data.answer + " to a notification");
+	client.on('approve', function(data) {
+		console.log(data.user + " approved a notification");
+		io.to(data.user).emit('approve', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
 	});
 });
 
