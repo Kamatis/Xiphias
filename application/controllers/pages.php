@@ -15,9 +15,10 @@ class Pages extends CI_Controller {
   
     public function index() {
         if($this->session->userdata('is_logged_in')){
-            $data = $this->user->getSessionData();
+			$user_id = $this->session->userdata('user_id');
+            $data = $this->user->getSessionData($user_id);
             $data['title']      = 'Xiphias | Home';
-						$data['noti'] = 0;
+			$data['noti'] = $this->notification->getNotificationCount($user_id);
             
             $events = $this->event->getLiveEvents();
           
@@ -178,7 +179,8 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] = "Xiphias | ".$username;
-				$data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
 
         $description['description'] = $this->user->getDescription($user_profile['user_id']);
         $description['isOwner'] = ($data['username'] == $username);
@@ -207,7 +209,8 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title']      = "Xiphias | Settings";
-				$data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('settings', '', true);
@@ -221,7 +224,8 @@ class Pages extends CI_Controller {
         $query = $this->db->get('user');
         $data = $this->user->getSessionData();
         $data['title'] = 'Xiphias | Quest Board';
-				$data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
         $user_id = $this->session->userdata('user_id');
 
         $quests = $this->quest->getAllQuests();
@@ -248,7 +252,8 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
-        $data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+        $data['noti'] = $this->notification->getNotificationCount($user_id);
 
         $viewdata = $this->user->getTopThree(1);
         
@@ -266,7 +271,8 @@ class Pages extends CI_Controller {
       
       $data = $this->user->getSessionData();
       $data['title'] = 'Xiphias | Hall of Fame';
-			$data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
       $viewdata = $this->hallOfFame->getHallOfFame();
       for($i = 0; $i < count($viewdata); $i++)
         $views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata[$i], true);
@@ -299,7 +305,8 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();  
         $data['title'] =  "Xiphias | Dashboard";
-				$data['noti'] = 0;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
         $user_id = $this->session->userdata('user_id');
 
         // Badges
@@ -731,7 +738,7 @@ class Pages extends CI_Controller {
   	}
 		
 		public function debug() {
-			echo json_encode($this->notification->getNotifications(3));
+			echo json_encode($this->notification->getNotificationCount(3));
 		}
 	
     // function for generating resume

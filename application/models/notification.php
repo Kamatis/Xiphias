@@ -22,4 +22,10 @@ class Notification extends CI_Model {
 		return $data;
 	}
 	
+	public function getNotificationCount($user_id) {
+		$this->db->where('noti_to', $user_id);
+		$query = $this->db->get('notification');
+		return $query->num_rows();
+	}
+	
 }
