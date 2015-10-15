@@ -20,10 +20,10 @@
 			  -->
 		  <?php for($x = 0; $x < count($notif); $x++) { ?>
 				<tr>
-
+					<td><?php echo $notif[$x]['office_id']; echo $notif[$x]['to']; ?></td>
 					<!-- If confirmation -->
 					<?php if($notif[$x]['noti_type'] == 1) { ?>
-                        <td><?php echo $notif[$x]['office_id']; echo $notif[$x]['to']; ?></td>
+
 						<td>
 							<a href="<?php echo $notif[$x]['from_url']; ?>"><?php echo $notif[$x]['from'];?></a>
 							<?php
