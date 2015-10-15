@@ -59,7 +59,6 @@
 					<div id="add-success-alert" class="alert alert-danger alert-dismissible" style="display: none" role="alert">
 						<a id="add-success-alert-close" class="close" aria-label="Close" aria-hidden="true"><span aria-hidden="true">&times;</span></a>
 						<span id="add-success-alert-msg"><strong>Error!</strong> Username not found.</span>
-
 					</div>
 					<div class="row">
 						<div class="col-sm-5">
@@ -90,6 +89,10 @@
 
 			<div class="form-group">
 				<legend>Leadership</legend>
+				<div id="pass-leadership-alert" class="alert alert-danger alert-dismissible" style="display: none" role="alert">
+						<a id="pass-leadership-alert-close" class="close" aria-label="Close" aria-hidden="true"><span aria-hidden="true">&times;</span></a>
+						<span id="pass-leadership-alert-msg"><strong>Error!</strong> Username not found.</span>
+					</div>
 				<div class="col-sm-12">
 					<div class="input-group">
 						<input type="text" id="pass-leader-name" class="form-control" placeholder="Enter username or full name">
