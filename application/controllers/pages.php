@@ -17,8 +17,8 @@ class Pages extends CI_Controller {
         if($this->session->userdata('is_logged_in')){
 			$user_id = $this->session->userdata('user_id');
             $data = $this->user->getSessionData($user_id);
-            $data['title']      = 'Xiphias | Home';
-			$data['noti'] = $this->notification->getNotificationCount($user_id);
+            $data['title'] = 'Xiphias | Home';
+			$data['noti' ] = $this->notification->getNotificationCount($user_id);
             
             $events = $this->event->getLiveEvents();
           
@@ -29,7 +29,7 @@ class Pages extends CI_Controller {
 //            $views['stream']    = $this->load->view('index/streamItem', '', true); 
             $views['carousel']  = $this->load->view('index/carousel', '', true);
           
-            $body['menu']    = $this->load->view('menu', $data, true);
+            $body['menu'   ] = $this->load->view('menu', $data, true);
             $body['content'] = $this->load->view('index', $views, true);
           
             $this->load->view('header');
@@ -145,9 +145,9 @@ class Pages extends CI_Controller {
 			$data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
 		$u_id = $this->session->userdata('user_id');
-		$data['address']  = $this->user->getHomeAddress($u_id); 
-		$data['contact']  = $this->user->getPhoneNumber($u_id);
-		$data['emailadd'] = $this->user->getEmailAddress($u_id);
+		$data['address'  ] = $this->user->getHomeAddress($u_id); 
+		$data['contact'  ] = $this->user->getPhoneNumber($u_id);
+		$data['emailadd' ] = $this->user->getEmailAddress($u_id);
 		$data['objective'] = $this->player->getCareerObjective($u_id);
 		$view = $this->load->view('profile/createResume', $data , true);
 		echo $view;
@@ -181,20 +181,20 @@ class Pages extends CI_Controller {
 		$data['noti'] = $this->notification->getNotificationCount($user_id);
 
         $description['description'] = $this->user->getDescription($user_profile['user_id']);
-        $description['isOwner'] = ($data['username'] == $username);
+        $description['isOwner'    ] = ($data['username'] == $username);
 
         if($user_profile['isNPC'])
             $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
         else
             $badges['badge'] = $this->badge->getEarnedBadges($user_profile['user_id']);
 
-        $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
-        $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
-        $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
-        $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
+        $views['profileInfo'       ] = $this->load->view('profile/profileInfo', $user_profile, true);
+        $views['profileDescription'] = $this->load->view('profile/profileDescription', $description, true);
+        $views['profileBadges'     ] = $this->load->view('profile/profileBadges', $badges, true);
+        $views['profileTimeline'   ] = $this->load->view('profile/profileTimeline', '', true);
 
         // views in <body>
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('profile', $views, true);
 
         // Main views inserted in <html>
@@ -208,9 +208,8 @@ class Pages extends CI_Controller {
         $data = $this->user->getSessionData();
         $data['title']      = "Xiphias | Settings";
 		$user_id = $this->session->userdata('user_id');
-		$data['noti'] = $this->notification->getNotificationCount($user_id);
-
-        $body['menu'] = $this->load->view('menu', $data, true);
+		$data['noti'   ] = $this->notification->getNotificationCount($user_id);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('settings', '', true);
 
         // Main views inserted in <html>
@@ -232,13 +231,13 @@ class Pages extends CI_Controller {
         $questCount = count($quests);
         for($x = 0; $x < $questCount; $x++)
         {
-			$quests[$x]['isNPC']   = $data['isNPC'];
+			$quests[$x]['isNPC'  ] = $data['isNPC'];
 			$quests[$x]['awarded'] = $this->quest->doneAwarding($quests[$x]['quest_id'], $user_id);
-			$views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
+			$views['questpins'   ] .= $this->load->view('questboard/questpin', $quests[$x], true);
         }
             
 
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('questboard', $views, true);
 
         $this->load->view('header');
@@ -257,7 +256,7 @@ class Pages extends CI_Controller {
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
         
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('leaderboards', $views, true);
 
         $this->load->view('header');
@@ -309,7 +308,7 @@ class Pages extends CI_Controller {
         // Badges
         $myBadges = $this->badge->getMyBadges($user_id);
         for($x = 0; $x < count($myBadges); $x++) {
-          $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+          $badges['mybadges'   ] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
           $quest['badgeRewards'] .= $this->load->view('dashboard/badgeRewards', $badgeRewards[$x], true);
         }
 
@@ -336,19 +335,19 @@ class Pages extends CI_Controller {
 		// Semestral Award
 		// @kelly
 		// *date*
-		$semaward['started'] = false;
+		$semaward['started'  ] = false;
 		$semaward['startdate'] = "*date*";
 	  	
 	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
 	  
-        $views['error']           	= $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
-        $views['dashboardMenu']   	= $this->load->view('dashboard/dashboardMenu', $data, true);
-        $views['dashboardBadge']  	= $this->load->view('dashboard/dashboardBadge', $badges, true);
-        $views['dashboardQuest']  	= $this->load->view('dashboard/dashboardQuest', $quest, true);
-        $views['dashboardParty']  	= $this->load->view('dashboard/dashboardParty', $party, true);
-        $views['dashboardOffice'] 	= $this->load->view('dashboard/dashboardOffice', $office, true);
-        $views['dashboardSerial'] 	= $this->load->view('dashboard/dashboardSerial', $data, true);
-        $views['dashboardNoti']   	= $this->load->view('dashboard/dashboardNoti', $notif, true);
+        $views['error'            ] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
+        $views['dashboardMenu'    ] = $this->load->view('dashboard/dashboardMenu', $data, true);
+        $views['dashboardBadge'   ] = $this->load->view('dashboard/dashboardBadge', $badges, true);
+        $views['dashboardQuest'   ] = $this->load->view('dashboard/dashboardQuest', $quest, true);
+        $views['dashboardParty'   ] = $this->load->view('dashboard/dashboardParty', $party, true);
+        $views['dashboardOffice'  ] = $this->load->view('dashboard/dashboardOffice', $office, true);
+        $views['dashboardSerial'  ] = $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['dashboardNoti'    ] = $this->load->view('dashboard/dashboardNoti', $notif, true);
 		$views['dashboardSemAward']	= $this->load->view('dashboard/dashboardSemAward', $semaward, true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
@@ -385,8 +384,8 @@ class Pages extends CI_Controller {
         $badgePictures    = $_FILES['badge-pix'];
         
         $badge['badge_description'] = $badgeDescription;
-        $badge['creator_id']        = $this->session->userdata('user_id');
-        $badge['date_created']      = date('Y-m-d');
+        $badge['creator_id'       ] = $this->session->userdata('user_id');
+        $badge['date_created'     ] = date('Y-m-d');
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
@@ -420,17 +419,17 @@ class Pages extends CI_Controller {
   
     public function addQuest() {
         $time = explode(' ', $this->input->post('date-range'));
-        $quest['quest_title']       = $this->input->post('questName');
+        $quest['quest_title'      ] = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
-        $quest['quest_rarity']      = $this->input->post('quest_frequency');
-        $quest['date_created']      = date('Y-m-d');
-        $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
-        $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = 1;
-        $quest['venue']             = $this->input->post('questVenue');
-        $quest['quest_type']        = $this->input->post('quest_type');
-        $quest['house_points']      = 1;
-        $quest['creator_id']        = $this->session->userdata('user_id');
+        $quest['quest_rarity'     ] = $this->input->post('quest_frequency');
+        $quest['date_created'     ] = date('Y-m-d');
+        $quest['start_date'       ] = date('Y-m-d', strtotime($time[0]));
+        $quest['end_date'         ] = date('Y-m-d', strtotime($time[2]));
+        $quest['experience'       ] = 1;
+        $quest['venue'            ] = $this->input->post('questVenue');
+        $quest['quest_type'       ] = $this->input->post('quest_type');
+        $quest['house_points'     ] = 1;
+        $quest['creator_id'       ] = $this->session->userdata('user_id');
         
         $badge_id = $this->input->post('badge_id');
         if($badge_id != -1)
