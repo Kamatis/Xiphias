@@ -911,12 +911,14 @@ class Pages extends CI_Controller {
 	public function alterBadgePermission() {
 		$user_id = $this->input->post('userid');
 		$office_id = $this->input->post('officeid');
-		$this->officeRole->alterBadgePermission($office_id, $user_id);
+		$role = $this->input->post('role');
+		$this->officeRole->alterBadgePermission($office_id, $user_id, $role);
 	}
 	
 	public function alterQuestPermission() {
 		$user_id = $this->input->post('userid');
 		$office_id = $this->input->post('officeid');
-		$this->officeRole->alterQuestPermission($office_id, $user_id);	
+		$role = $this->input->post('role');
+		$this->officeRole->alterQuestPermission($office_id, $user_id, $role);	
 	}
 }
