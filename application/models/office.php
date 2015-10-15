@@ -65,4 +65,14 @@ class Office extends CI_Model{
 				return true;
 		return false;
 	}
+	
+	public function isInvitedasAdmin($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->where('role', 'Admin');
+		$query = $this->db->get('office_role');
+		if($query->num_rows() > 0)
+				return true;
+		return false;
+	}
 }
