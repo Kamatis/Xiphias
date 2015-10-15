@@ -907,4 +907,16 @@ class Pages extends CI_Controller {
 		$user_id = $this->session->userdata('user_id');
 		$this->officeRole->declineLeadership($office_id, $user_id);
 	}
+	
+	public function alterBadgePermission() {
+		$user_id = $this->input->post('userid');
+		$office_id = $this->input->post('officeid');
+		$this->officeRole->alterBadgePermission($office_id, $user_id);
+	}
+	
+	public function alterQuestPermission() {
+		$user_id = $this->input->post('userid');
+		$office_id = $this->input->post('officeid');
+		$this->officeRole->alterQuestPermission($office_id, $user_id);	
+	}
 }

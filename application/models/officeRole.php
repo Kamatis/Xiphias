@@ -83,4 +83,22 @@ class OfficeRole extends CI_Model {
 		$this->db->where('user_id', $user_id);
 		$this->db->delete('office_role');
 	}
+	
+	public function alterBadgePermission($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$data['badge_permission'] = 1 - $this->db->get('office_role')->row()->badge_permission;
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('office_role', $data);
+	}
+	
+	public function alterQuestPermission($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$data['quest_permission'] = 1 - $this->db->get('office_role')->row()->quest_permission;
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->update('office_role', $data);			
+	}
 }
