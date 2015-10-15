@@ -335,8 +335,8 @@ class Pages extends CI_Controller {
 		// Semestral Award
 		// @kelly
 		// *date*
-		$semaward['started'  ] = false;
-		$semaward['startdate'] = "*date*";
+		$semaward['started'  ] = $this->semester->isStarted();
+		$semaward['startdate'] = date("F j, Y");
 	  	
 	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
 	  
@@ -686,6 +686,7 @@ class Pages extends CI_Controller {
 		// get current datetime and put in database
 		// reset house rankings
         $this->house->resetHousePoints();
+		$this->semester->start();
 		echo "date";
 	}
 
@@ -696,6 +697,7 @@ class Pages extends CI_Controller {
         $data['description'] = "SY Year-(Year+1) nth Semester";
         $hof_id = $this->hallOfFame->addHallOfFameEntry($data);
         $this->ranking->addRankingsEntry($hof_id);
+		$this->semester->stop();
 		// don't reset house rankings
 		// ^this is so that users can still see the previous ranking without going to the hall of fame
 	}
