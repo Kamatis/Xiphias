@@ -738,6 +738,26 @@ class Pages extends CI_Controller {
 		echo json_encode($retdata);
   	}
 		
+	public function passLeadership() {
+		$username = $this->input->post('username');
+		$office_id = $this->input->post('officeid');
+		$user_id = $this->user->getUserId($username);
+		$data['approved'] = false;
+		$data['user_id'] = $user_id;
+		$data['office_id'] = $office_id;
+		$data['role'] = 'Admin';
+		$data['quest_permission'] = 1;
+		$data['badge_permission'] = 1;
+		$this->officeRole->addRoleMember($data);
+		
+		$notif['noti_from'] = $this->session->userdata('user_id');
+		$notif['noti_to']   = $user_id;
+		$notif['noti_type'] = 4;
+		$notif['office_id'] = $office_id;
+		$notif['noti_date'] = date('Y-m-d');
+		$this->notification->addNotification($notif);
+	}
+		
 		public function debug() {
 			echo json_encode($this->notification->getNotificationCount(3));
 		}
