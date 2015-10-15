@@ -47,13 +47,23 @@
       </select>
     </div>
 		<div class="col-sm-2">
-      <select class="form-control">
-        <?php echo $pyearsfrom; ?>
+      <select class="form-control" id="pyears-from">
+				<?php for($x = 2015; $x>=1970; $x--) {
+					if($x == $pyearsfrom)
+						echo '<option value="' + $x + '" selected>' + $x + '</option>';
+					else
+						echo '<option value="' + $x + '">' + $x + '</option>';
+				} ?>
       </select>
     </div>
     <div class="col-sm-2">
-      <select class="form-control">
-        <?php echo $pyearsto; ?>
+      <select class="form-control" id="pyears-to">
+        <?php for($x = 2015; $x>=1970; $x--) {
+					if($x == $pyearsto)
+						echo '<option value="' + $x + '" selected>' + $x + '</option>';
+					else
+						echo '<option value="' + $x + '">' + $x + '</option>';
+				} ?>
       </select>
     </div>
   </div>
@@ -65,13 +75,23 @@
       </select>
     </div>
 		<div class="col-sm-2">
-      <select class="form-control">
-        <?php echo $syearsfrom; ?>
+      <select class="form-control" id="syears-from">
+        <?php for($x = 2015; $x>=1970; $x--) {
+					if($x == $syearsfrom)
+						echo '<option value="' + $x + '" selected>' + $x + '</option>';
+					else
+						echo '<option value="' + $x + '">' + $x + '</option>';
+				} ?>
       </select>
     </div>
     <div class="col-sm-2">
-      <select class="form-control">
-        <?php echo $syearsto; ?>
+      <select class="form-control" id="syears-to">
+        <?php for($x = 2015; $x>=1970; $x--) {
+					if($x == $syearsto)
+						echo '<option value="' + $x + '" selected>' + $x + '</option>';
+					else
+						echo '<option value="' + $x + '">' + $x + '</option>';
+				} ?>
       </select>
     </div>
   </div>
