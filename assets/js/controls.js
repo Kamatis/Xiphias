@@ -749,6 +749,10 @@ $('#add-success-alert-close').on('click', function() {
 	$('#add-success-alert').hide();
 });
 
+$('#pass-leadership-alert-close').on('click', function() {
+	$('#pass-leadership-alert').hide();
+});
+
 $('body').on('click', '.btn-noti-approve', function() {
 	var ids = $(this).data('notiid').split("_");
 	var officeName = $(this).data('ofcName');
@@ -800,16 +804,93 @@ $('body').on('click', '.btn-noti-decline', function() {
 });
 
 $('#pass-leadership').on('click', function() {
-	var user = $('#pass-leader-name').val();
+	var userr = $('#pass-leader-name').val();
+	var ofc = $('.list-item-office-active').data('officeid');
 	$.ajax({
 		url: 'passLeadership',
 		type: 'post',
-		data: { username: user },
-		success: function() {
-			alert('A confirmation message has been sent to the user.');
+		data: { username: userr,
+						officeid: ofc },
+		success: function(data) {
+			if(data['ok'] == 1) {
+				$('#pass-leadership-alert').removeClass('alert-info');
+				$('#pass-leadership-alert').addClass('alert-danger');
+				$('#pass-leadership-alert-msg').html("<strong>Error!</strong> Username not found.")
+				$('#pass-leadership-alert').show();
+			}
+			else if(data['ok'] == 2) {
+				$('#pass-leadership-alert').removeClass('alert-info');
+				$('#pass-leadership-alert').addClass('alert-danger');
+				$('#pass-leadership-alert-msg').html("<strong>Error!</strong> A leadership pass is still in pending.");
+				$('#pass-leadership-alert').show();
+			}
+			else {
+				socket.emit('noti', { user: userr, IncOrDec: '+' });
+				console.log("from: " + data['from']);
+				console.log("from_id: " + data['from_id']);
+				socket.emit('passleader', { user: userr, userid: data['to_id'], from: data['from'], office: data['office_name'], officeid: ofc, date: data['noti_date'] });
+//				var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
+//				refreshTable('#roles-table', url);
+				$('#pass-leadership-alert').removeClass('alert-danger');
+				$('#pass-leadership-alert').addClass('alert-info');
+				$('#pass-leadership-alert-msg').html("<strong>Info!</strong> A confirmation message has been sent to the user.")
+				$('#pass-leadership-alert').show();
+				$('#pass-leader-name').val('');
+			}
 		}
 	});
 });
+
+$('body').on('click', '.btn-pass-approve', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'confirmLeaderShip',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('confirmleader', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
+$('body').on('click', '.btn-pass-decline', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'declineLeaderShip',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('declineleader', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
 // endregion
 
 // region Serial
