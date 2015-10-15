@@ -737,18 +737,19 @@ class Pages extends CI_Controller {
   	}
 		
 	public function passLeadership() {
+		$user_id = $this->user->getUserId($username);
 		$username = $this->input->post('username');
 		$office_id = $this->input->post('officeid');
+		$data['user_id'  ] = $user_id;
+		$data['office_id'] = $office_id;
+		
 		$retdata['url'] = $data['office_id'];
 		if(!$this->user->validUsername($username) || !$this->user->isNPC($data['user_id'])) {
 			$retdata['ok']  = 1;
 		} else if ($this->office->isInvitedasAdmin($data['office_id'], $data['user_id'])){
 			$retdata['ok']  = 2;
 		} else {
-			$user_id = $this->user->getUserId($username);
 			$data['approved'        ] = false;
-			$data['user_id'         ] = $user_id;
-			$data['office_id'       ] = $office_id;
 			$data['role'            ] = 'Admin';
 			$data['quest_permission'] = 1;
 			$data['badge_permission'] = 1;
