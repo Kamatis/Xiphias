@@ -824,8 +824,8 @@ class Pages extends CI_Controller {
 	}
   
 	public function declineRole() {
-	  	$this_id = $this->input->post('office_id');
+	  	$office_id = $this->input->post('office_id');
 	  	$user_id = $this->session->userdata('user_id');
 	  	$this->officeRole->declineRole($office_id, $user_id);
-	}	
+	}
 }
