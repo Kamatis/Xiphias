@@ -189,11 +189,13 @@
 						<td class="resume-th resume-th-40p">Place</td>
 						<td class="resume-th resume-th-25p">Inclusive Dates</td>
 				</tr>
+				<?php for($x = 0; $x < count($involvement); $x++) {?>
 				<tr>
-						<td class="resume-td resume-td-35p">Senior Practicum</td>
-						<td class="resume-td resume-td-40p">Nueva Caceres Technological Solutions</td>
-						<td class="resume-td resume-td-25p">November 2015 - March 2016</td>
+						<td class="resume-td resume-td-35p"><?php echo $involvement[$x]['name']; ?></td>
+						<td class="resume-td resume-td-40p"><?php echo $involvement[$x]['venue']; ?></td>
+						<td class="resume-td resume-td-25p"><?php echo $involvement[$x]['start_date'] . " - " . $involvement[$x]['end_date']; ?></td>
 				</tr>
+				<?php } ?>
 		</table>
 		<br>
 		<!--<page>-->

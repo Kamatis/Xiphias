@@ -973,7 +973,6 @@ $('body').on('click', '#add-affil', function(){
                     var n = $('#input-org-name').val();
                     var p = $('#input-position').val();
                     var d = $('#input-join-date').val();
-									alert(p);
                     $.ajax({
                       url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addAffiliation',
                       type: 'post',
@@ -982,7 +981,6 @@ $('body').on('click', '#add-affil', function(){
                               date: d },
                       success: function(dataPass){
 												var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getAffilJson/";
-												alert(dataPass);
 												refreshTable('#affil-table', geturl);
                       }
                     })
@@ -1003,9 +1001,9 @@ $('body').on('click', '#add-involve', function(){
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
-                    var n = $('input-inv-name').val();
-                    var p = $('input-inv-venue').val();
-                    var d = $('input-inv-date').val();
+                    var n = $('#input-inv-name').val();
+                    var p = $('#input-inv-venue').val();
+                    var d = $('#input-inv-date').val();
                     $.ajax({
                       url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addInvolvement',
                       type: 'post',
@@ -1013,7 +1011,6 @@ $('body').on('click', '#add-involve', function(){
                               venue: p, 
                               date: d },
                       success: function(dataPass){
-//												alert(dataPass);
                         var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getInvolvementJson/";
 												refreshTable('#involve-table', geturl);
                       }

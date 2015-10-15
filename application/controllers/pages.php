@@ -755,7 +755,7 @@ class Pages extends CI_Controller {
 	}
 		
 	public function debug() {
-		echo json_encode($this->notification->getNotificationCount(3));
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));
 	}
 	
     // function for generating resume
@@ -779,7 +779,8 @@ class Pages extends CI_Controller {
 		$info['fullname'] .= ". " . $this->user->getLastName($u_id);
 
 		$info['affiliations'] = $this->affiliation->getAffiliations($u_id);
-
+		$info['involvement' ] = $this->involvement->getInvolvements($u_id);
+			
 		$data = $this->load->view('resume', $info, true);
 		$this->htmlpdf->convert($data);
 	}
@@ -809,8 +810,8 @@ class Pages extends CI_Controller {
 		echo json_encode($this->affiliation->getAffiliations($this->session->userdata('user_id')));
 	}
 		
-	public function getInovolvementsJson() {
-		echo json_encode($this->affiliation->getInvolvements($this->session->userdata('user_id')));		
+	public function getInvolvementJson() {
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));		
 	}
 
 	public function confirmRole() {

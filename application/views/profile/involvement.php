@@ -14,7 +14,7 @@
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Venue:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="input-venue" data-provide="typeahead">
+      <input type="text" class="form-control" id="input-inv-venue" data-provide="typeahead">
     </div>
   </div>
   
