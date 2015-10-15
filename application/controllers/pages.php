@@ -834,4 +834,10 @@ class Pages extends CI_Controller {
 		$user_id = $this->session->userdata('user_id');
 		$this->officeRole->confirmLeaderShip($office_id, $user_id);
 	}
+	
+	public function declineLeadership() {
+		$office_id = $this->input->post('office_id');
+		$user_id = $this->session->userdata('user_id');
+		$this->officeRole->declineLeadership($office_id, $user_id);
+	}
 }
