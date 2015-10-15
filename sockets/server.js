@@ -45,8 +45,8 @@ io.sockets.on('connection', function(client) {
 	});
 
 	client.on('decline', function(data) {
-		console.log(data.user + " approved a notification");
-		io.to(data.user).emit('approve', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
+		console.log(data.user + " declined a notification");
+		io.to(data.user).emit('decline', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
 	});
 });
 
