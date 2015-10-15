@@ -336,7 +336,7 @@ class Pages extends CI_Controller {
 		// @kelly
 		// *date*
 		$semaward['started'  ] = $this->semester->isStarted();
-		$semaward['startdate'] = $this->semester->getStartDate();
+		$semaward['startdate'] = date("F j, Y", strtotime($this->semester->getStartDate()));
 	  	
 	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
 	  
