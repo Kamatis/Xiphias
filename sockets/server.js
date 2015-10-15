@@ -43,6 +43,11 @@ io.sockets.on('connection', function(client) {
 		console.log(data.user + " approved a notification");
 		io.to(data.user).emit('approve', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
 	});
+
+	client.on('decline', function(data) {
+		console.log(data.user + " approved a notification");
+		io.to(data.user).emit('approve', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
+	});
 });
 
 server.listen(8080);
