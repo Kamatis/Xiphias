@@ -8,11 +8,12 @@ class Semester extends CI_Model {
 	
 	public function start() {
 		$data['on_going'] = 1;
-		$this->db->update('semester');
+		$data['start_date'] = date('Y-m-d')
+		$this->db->update('semester', $data);
 	}
 	
 	public function stop() {
 		$data['on_going'] = 0;
-		$this->db->update('semester');		
+		$this->db->update('semester', $data);		
 	}
 }
