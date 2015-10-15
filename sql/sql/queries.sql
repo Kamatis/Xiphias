@@ -119,4 +119,4 @@ insert into ranking values (2, 1, 4000);
 
 insert into office values (null, "The Ateneo Consortium of Technological Information and Computing Sciences","TACTICS","assets/images/office/badge3.png","TACTICS",null);
 
-insert into semester values (0);
+insert into semester values (1, curdate());
