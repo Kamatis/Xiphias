@@ -12,11 +12,14 @@ class Notification extends CI_Model {
 		foreach($query->result() as $row) {
 			$data[$x]['from'       ] = $this->user->getUsername($row->noti_from);
 			$data[$x]['from_url'   ] = $this->user->getProfileLink($data[$x]['from']);
+			$data[$x]['noti_type'  ] = $row->noti_type;
 			$data[$x]['to'         ] = $row->noti_to;
 			$data[$x]['office_id'  ] = $row->office_id;
-			$data[$x]['role'       ] = $this->officeRole->getRole($row->office_id, $user_id);
+			if($row->noti_type == 1)
+				$data[$x]['role'   ] = $this->officeRole->getRole($row->office_id, $user_id);
+			else if($row->noti_type == 2 || $row->noti_type == 3)
+				$data[$x]['role'   ] = $this->officeRole->getRole($row->office_id, $row->noti_from);	
 			$data[$x]['office_name'] = $this->office->getOfficeName($row->office_id);
-			$data[$x]['noti_type'  ] = $row->noti_type;
 			$data[$x]['noti_date'  ] = date("F j, Y", strtotime($row->noti_date));
 			$x++;	
 		}
