@@ -35,6 +35,11 @@ socket.on('decline', function(data) {
 	$('#noti-table').bootstrapTable('append', format(data, 3));
 });
 
+socket.on('passleader', function(data) {
+	console.log(data.from + ' passed leadership');
+	$('#noti-table').bootstrapTable('append', format(data, 4));
+})
+
 // miscellaneus functions
 function format(data, mode) {
 	var rows = [];
@@ -64,7 +69,7 @@ function format(data, mode) {
 		rows.push({
 			id: idd,
 			request: stringReq,
-			date: 'today'
+			date: data.date
 		});
 	}
 
@@ -82,7 +87,7 @@ function format(data, mode) {
 		rows.push({
 			id: idd,
 			request: stringReq,
-			data: 'today'
+			data: data.date
 		});
 	}
 
@@ -100,7 +105,63 @@ function format(data, mode) {
 		rows.push({
 			id: idd,
 			request: stringReq,
-			data: 'today'
+			data: data.date
+		});
+	}
+
+	// if pass leader
+	else if(mode == 4) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
+		stringReq += ' wants to pass the leadership of ';
+		stringReq += data.office;
+		stringReq += ' to you.';
+		stringReq += '<div class="row-fluid"><div class="form-group">';
+		stringReq += '<a href="#" class="btn btn-success btn-xs btn-pass-approve" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '" data-ofcName="';
+		stringReq += data.office + '">Approve</a> ';
+		stringReq += '<a href="#" class="btn btn-danger btn-xs btn-pass-decline" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '" data-ofcName="';
+		stringReq += data.office + '">Decline</a>';
+		stringReq += '</div></div>';
+
+		rows.push({
+			id: idd,
+			request: stringReq,
+			data: data.date
+		});
+	}
+
+	// if confirm pass
+	else if(mode == 5) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
+		stringReq += ' agreed to be the new leader of ';
+		stringReq += data.office;
+		stringReq += '.';
+		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '">OK</a></div></div>';
+		rows.push({
+			id: idd,
+			request: stringReq,
+			data: data.date
+		});
+	}
+
+	// if decline pass
+	else if(mode == 6) {
+		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
+		stringReq += ' agreed to be the new leader of ';
+		stringReq += data.office;
+		stringReq += '.';
+		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
+		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
+		stringReq += '">OK</a></div></div>';
+		rows.push({
+			id: idd,
+			request: stringReq,
+			data: data.date
 		});
 	}
 
