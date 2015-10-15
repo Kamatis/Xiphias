@@ -19,8 +19,8 @@ class Affiliation extends CI_Model {
 		foreach($query->result() as $row) {
 			$data[$x]['organization'] = $this->affiliation->getOrganization($row->affiliation_id);
 			$data[$x]['position'] = $row->position;
-			$data[$x]['start_date'] = $row->start_date;
-			$data[$x]['end_date'] = $row->end_date;
+			$data[$x]['start_date'] = date("M j, Y", strtotime($row->start_date));
+			$data[$x]['end_date'] = date("M j, Y", strtotime($row->end_date));
 			$x++;
 		}
 		return $data;

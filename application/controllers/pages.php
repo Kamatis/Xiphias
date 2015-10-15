@@ -335,8 +335,8 @@ class Pages extends CI_Controller {
 		// Semestral Award
 		// @kelly
 		// *date*
-		$semaward['started'  ] = false;
-		$semaward['startdate'] = "*date*";
+		$semaward['started'  ] = $this->semester->isStarted();
+		$semaward['startdate'] = date("F j, Y", strtotime($this->semester->getStartDate()));
 	  	
 	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
 	  
@@ -686,6 +686,7 @@ class Pages extends CI_Controller {
 		// get current datetime and put in database
 		// reset house rankings
         $this->house->resetHousePoints();
+		$this->semester->start();
 		echo "date";
 	}
 
@@ -696,6 +697,7 @@ class Pages extends CI_Controller {
         $data['description'] = "SY Year-(Year+1) nth Semester";
         $hof_id = $this->hallOfFame->addHallOfFameEntry($data);
         $this->ranking->addRankingsEntry($hof_id);
+		$this->semester->stop();
 		// don't reset house rankings
 		// ^this is so that users can still see the previous ranking without going to the hall of fame
 	}
@@ -755,7 +757,7 @@ class Pages extends CI_Controller {
 	}
 		
 	public function debug() {
-		echo json_encode($this->notification->getNotificationCount(3));
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));
 	}
 	
     // function for generating resume
@@ -779,7 +781,8 @@ class Pages extends CI_Controller {
 		$info['fullname'] .= ". " . $this->user->getLastName($u_id);
 
 		$info['affiliations'] = $this->affiliation->getAffiliations($u_id);
-
+		$info['involvement' ] = $this->involvement->getInvolvements($u_id);
+			
 		$data = $this->load->view('resume', $info, true);
 		$this->htmlpdf->convert($data);
 	}
@@ -809,8 +812,8 @@ class Pages extends CI_Controller {
 		echo json_encode($this->affiliation->getAffiliations($this->session->userdata('user_id')));
 	}
 		
-	public function getInovolvementsJson() {
-		echo json_encode($this->affiliation->getInvolvements($this->session->userdata('user_id')));		
+	public function getInvolvementJson() {
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));		
 	}
 
 	public function confirmRole() {

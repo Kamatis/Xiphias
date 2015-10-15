@@ -118,3 +118,5 @@ insert into ranking values (2, 4, 3000);
 insert into ranking values (2, 1, 4000);
 
 insert into office values (null, "The Ateneo Consortium of Technological Information and Computing Sciences","TACTICS","assets/images/office/badge3.png","TACTICS",null);
+
+insert into semester values (0);

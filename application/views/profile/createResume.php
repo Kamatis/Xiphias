@@ -102,7 +102,7 @@
               <div id="involve-add-toolbar">
                   <a href="#" class="btn btn-default" id="add-involve"> Add</a>
               </div>
-      <table id="involve-table" data-toggle="table" data-toolbar="#involve-add-toolbar" data-url="<?php echo base_url('index.php/pages/getInvolvementsJson'); ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
+      <table id="involve-table" data-toggle="table" data-toolbar="#involve-add-toolbar" data-url="<?php echo base_url('index.php/pages/getInvolvementJson'); ?>" data-pagination="true" data-page-list="[5, 10, 20]" data-search="true" data-show-refresh="true">
           <thead>
             <tr>
               <th data-field="state" data-checkbox="true"></th>
