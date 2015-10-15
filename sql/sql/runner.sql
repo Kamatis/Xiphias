@@ -67,12 +67,12 @@ create table if not exists house(
     house_logo varchar(100) not null,
     primary key(house_id)
 );
-
+/*
 create table if not exists affiliation(
     affiliation_id int auto_increment not null,
     name varchar(150) not null,
     primary key(affiliation_id)
-);
+); */
 
 create table if not exists player(
 	player_level int not null,
@@ -210,14 +210,13 @@ create table if not exists student_affiliations(
     end_date date,
     position varchar(100) not null,
     user_id int not null,
-    affiliation_id int not null,
-    foreign key(user_id) references player(user_id),
-    foreign key(affiliation_id) references affiliation(affiliation_id)
+    affiliation varchar(100),
+    foreign key(user_id) references player(user_id)
 );
 
 create table if not exists school_attended(
-    start_date date not null,
-    end_date date not null,
+    start_date int not null,
+    end_date int not null,
     school_id int not null,
     user_id int not null,
     foreign key(school_id) references school(school_id),

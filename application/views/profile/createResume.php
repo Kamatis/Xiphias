@@ -42,14 +42,14 @@
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Primary School/Graduate Year:</label>
     <div class="col-sm-6">
-      <select class="form-control combobox" id="select-primary">
+      <select name="pschool" class="form-control combobox" id="select-primary">
         <?php echo $primary; ?>
       </select>
     </div>
 		<div class="col-sm-2">
-      <select class="form-control" id="pyears-from">
+      <select name="pstart" class="form-control" id="pyears-from">
 				<?php for($x = 2015; $x>=1970; $x--) {
-					if($x == $pyearsfrom)
+					if($x == $school[0]['start_year'])
 						echo '<option value="' . $x . '" selected>' . $x . '</option>';
 					else
 						echo '<option value="' . $x . '">' . $x . '</option>';
@@ -57,9 +57,9 @@
       </select>
     </div>
     <div class="col-sm-2">
-      <select class="form-control" id="pyears-to">
+      <select name="pend" class="form-control" id="pyears-to">
         <?php for($x = 2015; $x>=1970; $x--) {
-					if($x == $pyearsto)
+					if($x == $school[0]['end_year'])
 						echo '<option value="' . $x . '" selected>' . $x . '</option>';
 					else
 						echo '<option value="' . $x . '">' . $x . '</option>';
@@ -70,14 +70,14 @@
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Secondary School/Graduate Year:</label>
     <div class="col-sm-6">
-      <select class="form-control combobox" id="select-secondary">
+      <select name="sschool" class="form-control combobox" id="select-secondary">
         <?php echo $secondary; ?>
       </select>
     </div>
 		<div class="col-sm-2">
-      <select class="form-control" id="syears-from">
+      <select name="sstart" class="form-control" id="syears-from">
         <?php for($x = 2015; $x>=1970; $x--) {
-					if($x == $syearsfrom)
+					if($x == $school[1]['start_year'])
 						echo '<option value="' . $x . '" selected>' . $x . '</option>';
 					else
 						echo '<option value="' . $x . '">' . $x . '</option>';
@@ -85,9 +85,9 @@
       </select>
     </div>
     <div class="col-sm-2">
-      <select class="form-control" id="syears-to">
+      <select name="send" class="form-control" id="syears-to">
         <?php for($x = 2015; $x>=1970; $x--) {
-					if($x == $syearsto)
+					if($x == $school[1]['end_year'])
 						echo '<option value="' . $x . '" selected>' . $x . '</option>';
 					else
 						echo '<option value="' . $x . '">' . $x . '</option>';

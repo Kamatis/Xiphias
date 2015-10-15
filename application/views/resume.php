@@ -149,19 +149,14 @@
 								<td class="resume-th resume-th-20p">Inclusive Years</td>
 						</tr>
 						<tr>
-								<td class="resume-td resume-td-40p" >Ateneo de Naga University</td>
-								<td class="resume-td resume-td-40p" >Bachelor of Science in Information Technology</td>
-								<td class="resume-td resume-td-20p">2012 - 2016</td>
-						</tr>
-						<tr>
-								<td class="resume-td resume-td-40p" >Ateneo de Naga University - High School</td>
+								<td class="resume-td resume-td-40p" ><?php echo $secondary_school; ?></td>
 								<td class="resume-td resume-td-40p" >High School Diploma</td>
-								<td class="resume-td resume-td-20p">2008 - 2012</td>
+								<td class="resume-td resume-td-20p"><?php echo $secondary_school_s . " - " . $secondary_school_e?></td>
 						</tr>
 						<tr>
-								<td class="resume-td resume-td-40p" >Naga Central School I</td>
+								<td class="resume-td resume-td-40p" ><?php echo $primary_school; ?></td>
 								<td class="resume-td resume-td-40p" >Elementary Diploma</td>
-								<td class="resume-td resume-td-20p">2002 - 2008</td>
+								<td class="resume-td resume-td-20p"><?php echo $primary_school_s . " - " . $primary_school_e; ?></td>
 						</tr>
 				</table>
 		</div> <br>
