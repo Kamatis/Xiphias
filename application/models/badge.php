@@ -47,6 +47,7 @@ class Badge extends CI_Model{
         foreach($query->result() as $row){
             $badge[$x]['badgeId'] = $row->badge_id;  
             $badge[$x]['imageSource'] = $this->getBadgeThumbnail($row->badge_id, 1);
+            $badge[$x]['badgeName'] = $this->getBadgeName($row->badge_id, 1);
             $x++;
         }
         return $badge;

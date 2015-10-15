@@ -359,6 +359,22 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
+/*
+|--------------------------------------------------------------------------
+| Facebook App Config Variables
+|--------------------------------------------------------------------------
+|
+| Variables are self-explanatory
+|
+*/
+$config['facebook']['app_id'] = '979528042111341';
+$config['facebook']['app_secret'] = 'eb9ab8f1fc34ad98f607e1def430716e';
+$config['facebook']['redirect_url'] = 'http://localhost/xiphias/index.php/pages/settings';
+$config['facebook']['permissions'] = array(
+  'email',
+  'user_location',
+  'user_birthday'
+);
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

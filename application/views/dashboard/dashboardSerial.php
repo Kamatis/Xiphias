@@ -11,7 +11,7 @@
       <legend><h5><strong>NPC</strong></h5></legend>
       <input type="text" placeholder="Enter NPC username" class="form-control" id="txt-npc-id">
       <legend><h5><strong>Serial</strong></h5></legend>
-      <input type="text" placeholder="" class="form-control" name="country" value="asdasdasd" id="txt-serial-code" readonly>
+      <input type="text" placeholder="" class="form-control" name="country" id="txt-serial-code" readonly>
       <button id="btn-generate-serial" class="btn btn-success" style="margin-top: 10px">Generate Serial Code</button>
     </form>
   </div>

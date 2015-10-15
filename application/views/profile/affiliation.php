@@ -2,10 +2,12 @@
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Organization Name:</label>
     <div class="col-sm-10">
+<!--
       <select class="form-control affil-combobox">
         <?php echo $affiliations; ?>
       </select>
-<!--      <input type="text" class="form-control typeahead" id="input-org-name" data-provide="typeahead">-->
+-->
+      <input type="text" class="form-control" id="input-org-name">
     </div>
   </div>
   

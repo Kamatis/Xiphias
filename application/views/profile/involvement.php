@@ -7,21 +7,21 @@
         <?php echo $affiliations; ?>
       </select>
 -->
-      <input type="text" class="form-control typeahead" id="input-name" data-provide="typeahead">
+      <input type="text" class="form-control typeahead" id="input-inv-name" data-provide="typeahead">
     </div>
   </div>
   
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Venue:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control typeahead" id="input-venue" data-provide="typeahead">
+      <input type="text" class="form-control" id="input-inv-venue" data-provide="typeahead">
     </div>
   </div>
   
-  <div class="form-group"> 
+  <div class="form-group">
     <label class="control-label col-sm-2" for="email">Date:</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="date-range" id="input-join-date">
+      <input type="text" class="form-control" name="date-range" id="input-inv-date">
     </div>
   </div>
 </form>

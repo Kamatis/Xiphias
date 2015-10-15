@@ -36,11 +36,12 @@ class Office extends CI_Model{
     
     public function getMyOffices($user_id){
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('office');
+		$this->db->where('approved', 1);
+        $query = $this->db->get('office_role');
         $x = 0;
         foreach($query->result() as $row){
             $office[$x]['officeId']   = $row->office_id; 
-            $office[$x]['officeName'] = $row->office_name;
+            $office[$x]['officeName'] = $this->office->getOfficeName($row->office_id);
             $x++;
         }
         return $office;
@@ -55,4 +56,23 @@ class Office extends CI_Model{
         $this->db->where('office_id', $officeId);
         $this->db->update('office', $logo);
     }
+	
+	public function isInvited($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('office_role');
+		if($query->num_rows() > 0)
+				return true;
+		return false;
+	}
+	
+	public function isInvitedasAdmin($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->where('role', 'Admin');
+		$query = $this->db->get('office_role');
+		if($query->num_rows() > 0)
+				return true;
+		return false;
+	}
 }

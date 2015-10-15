@@ -2,8 +2,7 @@ $(function () {
   
   var options = {
     chart: {
-      type: 'column',
-      backgroundColor: "#16a085"
+      type: 'column'
     },
     title: {
       text: 'HOUSE RANKING'
@@ -85,4 +84,90 @@ $(function () {
       }
       clickEvent = false;
   });
+
+	// timeline init values
+	$('#timeline').html("Wait, Loading graph...");
+	var timeline = {
+		chart: {
+			type: 'line',
+			renderTo: 'timeline'
+		},
+		title: {
+			text: ''
+		},
+		xAxis: {
+			type: 'datetime',
+			dateTimeLabelFormats: {
+				month: '%e %b',
+				year: '%b'
+			},
+			title: {
+				text: 'Date'
+			}
+		},
+		yAxis: {
+			title: {
+				text: 'Experience'
+			},
+			min: 0
+		},
+		tooltip: {
+			formatter: function() {
+				var header = '<small>' + Highcharts.dateFormat('%b %e, %Y', new Date(this.point.x)) + '</small><br>';
+				var body = '';
+				for(var i = 0; i < this.point.activity.length; i++)
+					body += this.point.activity[i] + '<br>';
+				return header+body;
+			},
+			useHTML: true,
+			crosshairs: true
+		},
+		plotOptions: {
+			spline: {
+				marker: {
+					enabled: true
+				}
+			}
+		},
+		series: [{
+			showInLegend: false,
+			name: 'Activities',
+			color: '#c33131'
+		}],
+		exporting: {
+			enabled: true
+		}
+	};
+
+	// get the username of the profile being viewed
+	var url = window.location.href;
+	var username = url.substring(url.lastIndexOf('/') + 1);
+
+	// draw the chart after getting json
+	$.ajax({
+		url: 'http://'+  window.location.hostname + '/xiphias/index.php/pages/getUserActivity/' + username,
+		dataType: 'json',
+		success: function(json) {
+			timeline.series[0].data = json;
+			var timelineGraph = new Highcharts.Chart(timeline);
+		},
+		error: function(jqXHR, exception) {
+			if (jqXHR.status === 0) {
+					alert ('Not connected.\nPlease verify your network connection.');
+			} else if (jqXHR.status == 404) {
+					alert ('The requested page not found. [404]');
+			} else if (jqXHR.status == 500) {
+					alert ('Internal Server Error [500].');
+			} else if (exception === 'parsererror') {
+					alert ('Requested JSON parse failed.');
+			} else if (exception === 'timeout') {
+					alert ('Time out error.');
+			} else if (exception === 'abort') {
+					alert ('Ajax request aborted.');
+			} else {
+					alert ('Uncaught Error.\n' + jqXHR.responseText);
+			}
+		}
+	});
+
 });

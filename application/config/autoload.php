@@ -52,7 +52,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database','form_validation', 'session');
+$autoload['libraries'] = array('database','form_validation', 'session', 'htmlpdf');
 
 
 /*
@@ -111,7 +111,9 @@ $autoload['language'] = array();
 
 $autoload['model'] = array('user','course','badge','quest','office',
                            'party', 'house', 'school', 'player', 'npc',
-                           'event');
+                           'event', 'fbauthorization', 'hallOfFame', 'ranking',
+                           'officeRole', 'affiliation', 'involvement', 'notification',
+						   'semester');
 
 
 /* End of file autoload.php */

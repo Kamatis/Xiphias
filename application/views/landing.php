@@ -23,7 +23,7 @@
         <div class="row vertical-align">
             <div class="col-xs-12 col-lg-8 parent" style="height: 100vh;">
                 <div class="child">
-                    <img src="<?php echo base_url('assets/images/temp_logo.png'); ?>" class="img-responsive">
+                    <img src="<?php echo base_url('assets/images/ateneumLogox600.png'); ?>" class="img-responsive">
                 </div>
             </div>
             <div class="col-xs-12 col-lg-4 parent frame" id="frame" style="height: 100vh;">

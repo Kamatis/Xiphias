@@ -57,7 +57,7 @@
         My Badges
       </div>
       <div class="panel-body" id="badge-panel-body">
-        <ul class="grid columns-3" id="my-badges">
+        <ul id="badge-list" class="nav nav-stacked scrollable-menu">
           <?php echo $mybadges; ?>
         </ul>
       </div>

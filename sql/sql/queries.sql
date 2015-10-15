@@ -47,9 +47,9 @@ insert into program values ("BS Bio", "Bachelor of Science in Biology");
 insert into program values ("BS Math", "Bachelor of Science in Mathematics");
 
 # Quest_Type Table
-insert into quests_type values ("Academic", "Studying is the essence of studying");
-insert into quests_type values ("Co-Curricular", "Put what you learn into action");
-insert into quests_type values ("Extra-Curricular", "Anything that is of sense to your intra-personal growth");
+insert into quests_type values (null, "Academic", "Studying is the essence of studying");
+insert into quests_type values (null, "Co-Curricular", "Put what you learn into action");
+insert into quests_type values (null, "Extra-Curricular", "Anything that is of sense to your intra-personal growth");
 
 # Rarity Table
 insert into rarity values (null, "Common", 1, 10, "assets/images/rarity/common.png");
@@ -62,22 +62,22 @@ insert into rarity values (null, "Blue Moon", 41, 50, "assets/images/rarity/blue
 insert into user values(null, "admin", md5("admin"), "Admin", "Admin", "Admin", NULL, "facebook.com", "aadmin@gbox.adnu.edu.ph",null,"09091234567",3);
 # NPC Table
 insert into npc values(1,1);
-
+/*
 # Affiliations Table
 insert into affiliation values(null, "Days with the Lord");
 insert into affiliation values(null, "The Ateneo Consortium for Technological Information and Computing Sciences");
 insert into affiliation values(null, "Ateneo Paradigm Eclat Xircle");
-
+*/
 
 # House Table
-insert into house values (null, "Convex Hulk", 0, "Hustle...Loyalty...Respect");
-insert into house values (null, "Segment Thor-ee", 0, "From out of nowhere");
-insert into house values (null, "Travelling Ironman", 0, "Got Milk?");
-insert into house values (null, "Captain Josephus", 0, "Survival of the Fittest");
+insert into house values (null, "Convex Hulk", 0, "Hustle...Loyalty...Respect", "assets/images/houses/house1_logo.png");
+insert into house values (null, "Segment Thor-ee", 0, "From out of nowhere", "assets/images/houses/house2_logo.png");
+insert into house values (null, "Travelling Ironman", 0, "Got Milk?", "assets/images/houses/house3_logo.png");
+insert into house values (null, "Captain Josephus", 0, "Survival of the Fittest", "assets/images/houses/house4_logo.png");
 
 
 # Avatar Table
-insert into avatar values(1, 'assets/images/levels/lvl1.png', 1);
+insert into avatar values(1, 'assets/images/levels/lvl1.png', 0);
 insert into avatar values(2, 'assets/images/levels/lvl2.png', 5);
 insert into avatar values(3, 'assets/images/levels/lvl3.png', 15);
 insert into avatar values(4, 'assets/images/levels/lvl4.png', 30);
@@ -103,3 +103,20 @@ insert into school values(null,"University of Nueva Caceres",3);
 insert into school values(null,"Ateneo de Naga University",1);
 insert into school values(null,"Ateneo de Naga University",2);
 insert into school values(null,"Ateneo de Naga University",3);
+
+insert into hall_of_fame values(null, "SY 2012-2013 1st Semester");
+insert into hall_of_fame values(null, "SY 2012-2013 2nd Semester");
+
+insert into ranking values (1, 1, 1000);
+insert into ranking values (1, 2, 2000);
+insert into ranking values (1, 3, 3000);
+insert into ranking values (1, 4, 4000);
+
+insert into ranking values (2, 2, 1000);
+insert into ranking values (2, 3, 2000);
+insert into ranking values (2, 4, 3000);
+insert into ranking values (2, 1, 4000);
+
+insert into office values (null, "The Ateneo Consortium of Technological Information and Computing Sciences","TACTICS","assets/images/office/badge3.png","TACTICS",null);
+
+insert into semester values (1, curdate());

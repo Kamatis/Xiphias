@@ -63,6 +63,6 @@ class Party extends CI_Model{
     
     public function changePassword($partyId, $data){
         $this->db->where('party_id', $partyId);
-        $this->db->update('party', data);
+        $this->db->update('party', $data);
     }
 }

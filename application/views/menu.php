@@ -7,14 +7,11 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">Xiphias</a>
+    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">ATENEUM</a>
   </div>
   
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
-      <li class="xiphiasMenu">
-        <a href="#" style="color: #ececea">News</a>
-      </li>
       <li class="xiphiasMenu">
         <a href="<?php echo base_url('index.php/pages/questboard'); ?>" style="color: #ececea">Quests</a>
       </li>
@@ -26,11 +23,13 @@
       </li>
       <?php if($isNPC) { ?>
       <li class="xiphiasMenu">
-        <a href="<?php echo base_url('index.php/pages/dashboard'); ?>" style="color: #ececea">
+        <a href="<?php echo base_url('index.php/pages/dashboard'); ?>" style="color: #ececea"> 
           Dashboard 
           <?php if(!$isVerified) { ?>
           <i class="glyphicon glyphicon-lock"></i>
-          <?php } ?>
+          <?php } else { ?>
+					<span class="label label-danger" id="mainmenu-noti-count"><?php echo $noti; ?></span>
+					<?php } ?>
         </a>
       </li>
       <?php } ?>
@@ -48,11 +47,11 @@
     <ul class="nav navbar-nav navbar-right" style="padding-right: 15px;">
       <li class="dropdown">
         <a href="#" style="color: #ececea" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-        <img class="user-image" src="<?php echo $user_image; ?>" style="height:20px; width:auto"> <?php echo $username?> <span class="caret"></span></a>
+        <img class="user-image" src="<?php echo $user_image; ?>" style="height:20px; width:auto"> <b id="username-plate" data-id="<?php echo $user_id; ?>"><?php echo $username;?></b> <span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
           <?php if($isNPC) { ?>
             <?php if($isVerified) {?>
-              <li class="dropdown-header">Use Xiphias as:</li>
+              <li class="dropdown-header">Use Ateneum as:</li>
               <?php foreach($offices as $office): ?>
                 <li><a href=""><?php echo $office['officeName']; ?></a></li>
               <?php endforeach; ?>
@@ -64,6 +63,9 @@
           <?php } ?>
           <li><a href="<?php echo base_url('index.php/pages/profile/' . $username); ?>"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
           <li><a href="<?php echo base_url('index.php/pages/settings'); ?>"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+					<li class="divider"></li>
+					<li><a id="btn-view-party" href="#"><span class="fa fa-users"></span> View Parties</a></li>
+					<li><a id="btn-join-party" href="#"><span class=""> Join Party</span></a></li>
           <li class="divider"></li>
           <li><a href="<?php echo base_url('index.php/pages/logout'); ?>"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
         </ul>

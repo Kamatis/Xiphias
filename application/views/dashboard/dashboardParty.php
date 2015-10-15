@@ -21,7 +21,7 @@
           <input name="partyPasscode" type="password" class="form-control" placeholder="Enter Passcode" id="pw-passcode">
         </div>
         <div class="col-sm-4">
-          <button class="btn btn-default form-control" id="btn-change-passcode" data-selparty="">Change Passcode</button>
+          <a class="btn btn-default form-control" id="btn-change-passcode" data-selparty="">Change Passcode</a>
         </div>
       </div>
 

@@ -25,6 +25,11 @@ class House extends CI_Model {
         return $data;
     }
     
+    public function getHouseLogo($house_id) {
+        $this->db->where('house_id', $house_id);
+        return base_url($this->db->get('house')->row()->house_logo);
+    }
+    
     public function awardHousePoint($houseId, $housePoint) {
         $this->db->set('house_points', 'house_points + ' . $housePoint ,false);
         $this->db->where('house_id', $houseId);
@@ -43,4 +48,9 @@ class House extends CI_Model {
         }
         return $data;
     }
+  
+  public function resetHousePoints() {
+    $data['house_points'] = 0;
+    $this->db->update('house', $data); 
+  }
 }

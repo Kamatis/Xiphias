@@ -120,21 +120,58 @@ $('.btn-join-quest').on('click', function(e){
 
 //region Badges
 // dashboard menu button links
-// same as adding :D ahahahaha
-$('body').on('click', '.btn-dashboard-menu', function(){
-  $('.dashboard-page').hide();
-  var panel = $(this).data('idlink');
-  $(panel).show();
-  var panelForm = $(panel).data('form');
-  $('input:text').val("");
-  $('textarea').val("");
-  $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-  $('.badge-level').remove();
-  $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-  $('#btn-change-passcode').hide();
+
+$('.db-freq').on('click', function() {
+	$('input:radio[name=quest_frequency]').attr('checked', false);
+	$(this).children('input:radio').attr('checked', true);
 });
 
-$('body').on('click', '.badge-thumb', function(){
+$('.db-type').on('click', function() {
+	$('input:radio[name=quest_type]').attr('checked', false);
+	$(this).children('input:radio').attr('checked', true);
+});
+
+$('body').on('click', '.btn-dashboard-menu', function(){
+  $('.dashboard-page').hide();
+  $('.dashboard-menuitem').removeClass('dashboard-active');
+  var panel = $(this).data('idlink');
+  $(this).children('.dashboard-menuitem').addClass('dashboard-active');
+  $(panel).show();
+	if($(this).data('idlink') == '#dashboard-office') {
+		var selectedOffice = $('.list-item-office-active').data('officeid');
+		if(selectedOffice != "") {
+			var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + selectedOffice;
+			refreshTable('#roles-table', url);
+		}
+	}
+});
+
+$('.dashboard-button').on('click', function(){
+  var form = $(this).data('form');
+  $(form).find('input').val('');
+  $(form).find('textarea').val('');
+
+  if(form == '#badge-form') {
+    $(form).find('.badge-level').remove();
+    $(form).find('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+  }
+
+  if(form == '#form-quest') {
+    $('.badge-reward-item').removeClass('badge-reward-active');
+  }
+
+  if(form == '#party-form') {
+    $('#btn-change-passcode').hide();
+  }
+
+  if(form == '#office-add-form') {
+		$(form).show();
+		$('#office-manage-form').hide();
+    $(form).find('#office-logo').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
+  }
+});
+
+$('body').on('click', '.list-item-badge', function(){
   var badgeId = $(this).data('badgeid');
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getBadgeDetails",
@@ -233,7 +270,7 @@ $('#badge-form').on('submit', function(e){
         $('#base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
         $('.badge-level').remove();
         $('base-lvl-badge').attr('src', "http://" + window.location.hostname + "/xiphias/assets/images/emptyBadge.png");
-        $('#my-badges').html(dataPass);
+        $('#badge-list').html(dataPass);
     }
   })
 });
@@ -246,6 +283,8 @@ $('#btn-add-badge').on('click', function(e){
 
 //region Party
 $('body').on('click', '.list-item-party', function(){
+  $('.list-item-party').removeClass('party-item-active');
+  $(this).addClass('party-item-active');
   var partyId = $(this).data('partyid');
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getPartyDetails",
@@ -335,11 +374,15 @@ $('#btn-award-badge').on('click', function(){
 });
 
 $('#btn-change-passcode').on('click', function(){
+  var partyId = $('.list-item-party.party-item-active').data('partyid');
+  var passCode = $('#pw-passcode').val();
   $.ajax({
     url: 'changePasscode',
     type: 'post',
+    data: { party_id: partyId,
+            passcode: passCode },
     success: function() {
-      
+      alert('passcode changed.');
     }
   })
 });
@@ -423,19 +466,10 @@ $('body').on('click', '.list-item-quest', function() {
             var rarityID = '#rarity' + dataPass['questRarity'];
             $('#quest-name').val(dataPass['questTitle']);
             $('#quest-description').val(dataPass['questdescription']);
-            $('.choice').removeClass('active');
-            $('input:radio').removeAttr('checked');
-            $(rarityID).attr('checked', 'checked');
-            $(rarityID).parent().addClass('active');
             $('#quest-venue').val(dataPass['questVenue']);
             $('#quest-date').val(dataPass['questDate']);
-            $('input[name="range"]').prop('disabled', false);
-            $('input[name="range"]').attr('min', $('.choice').children('input:checked').data('minexp'));
-            $('input[name="range"]').attr('max', $('.choice').children('input:checked').data('maxexp'));
-            $('input[name="range"]').attr('value', dataPass['questExp']);
-            $('#rangeSuccess').html(dataPass['questExp']);
-            $('#quest-badge-reward').data('badgeid', dataPass['badge_id']);
-            $('#badge-reward-img').attr('src', (dataPass['badge_image']));
+            $('.badge-reward-item').removeClass('badge-reward-active');
+            $(".badge-reward-item[data-badgeid='" + dataPass['badge_id'] + "']").addClass('badge-reward-active');
             $('#quest-members').html(dataPass['questRegistrant']);
             $('.list-item-quest').removeClass('active');
             activeli.addClass('active');
@@ -486,12 +520,23 @@ $('#quest-badge-reward').on('click', function(){
   });
   
 });
+
+$('body').on('click', '.badge-reward-item', function() {
+  if($(this).hasClass('badge-reward-active')) {
+    $(this).removeClass('badge-reward-active');
+  }
+  else {
+    $('.badge-reward-item').removeClass('badge-reward-active');
+    $(this).addClass('badge-reward-active');
+  }
+});
                     
 $('#form-quest').on('submit', function(e){
    e.preventDefault();
    var formData = new FormData(this);
-   var badgeid = $('#quest-badge-reward').data('badgeid');
-  formData.append('badge_id', badgeid);
+   var badgeid = $('.badge-reward-active').data('badgeid');
+	 if(badgeid === undefined) badgeid = -1;
+   formData.append('badge_id', badgeid);
 //  socket.emit('feed', { streamItem: badgeid });
 //  alert(JSON.stringify(formData));
   $.ajax({
@@ -510,6 +555,7 @@ $('#form-quest').on('submit', function(e){
         $('input').val("");
         $('textarea').val("");
         $('#quest-list').html(dataPass);
+        $('.badge-reward-item').removeClass('badge-reward-active');
     }
   });
   
@@ -525,10 +571,10 @@ $('#btn-quest-add').on('click', function(e) {
 
 $('#btn-office-add').on('click', function(e){
     e.preventDefault();
-    $('#office-form').submit();         
+    $('#office-add-form').submit();
 })
 
-$('#office-form').on('submit', function(e){
+$('#office-add-form').on('submit', function(e){
     e.preventDefault();
     var formData = new FormData(this);
     $.ajax({
@@ -552,7 +598,12 @@ $('#office-form').on('submit', function(e){
 });
 
 $('body').on('click', '.list-item-office', function(){
+	$('#office-add-form').hide();
+	$('#office-manage-form').show();
   var officeId = $(this).data('officeid');
+	$('.list-item-office').removeClass('list-item-office-active');
+	$(this).addClass('list-item-office-active');
+
   $.ajax({
     url: "http://" + window.location.hostname + "/xiphias/index.php/ajax/getOfficeDetails",
     async: true,
@@ -561,13 +612,286 @@ $('body').on('click', '.list-item-office', function(){
     data: { office_id:officeId},
     success: function(jsonData) {
       $('#office-logo').attr('src', jsonData.officeLogo);
-      $('#txt-office-name').val(jsonData.officeName);
-      $('#txt-office-description').val(jsonData.officeDescription);
+      $('#office-shortname').html(jsonData.officeAbbr);
+			$('#office-longname').html(jsonData.officeName);
+			var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + jsonData.officeId;
+			refreshTable('#roles-table', url);
     }
   });
   $('#btn-save').show();
   $('#btn-add').hide();
 });
+
+function boolIcon(value, row) {
+  if (value == "1")
+  	return '<i class="fa fa-check"></i>';
+	else
+	return '<i></i>';
+}
+
+function delButton(value, row) {
+	return '<i class="fa fa-times-circle del-role" style="font-size: 16px; color: dimgray;" data-uid="' + value + '"></i>';
+}
+
+function approval(value, row) {
+	if(value != "1")
+		return '<i class="fa fa-exclamation-circle" style="color: red" title="This user has not approved of the invitation."></i>';
+	else
+		return "<i></i>";
+}
+
+function refreshTable(tableId, url) {
+	$(tableId).bootstrapTable('refresh', {
+		url: url
+	});
+}
+
+$('#roles-table').bootstrapTable({
+	onClickCell: function (field, value, row, $element) {
+		var uid = row.deleteRole;
+		var ofc = $('.list-item-office-active').data('officeid');
+
+		if(field == "badge-actions" && row.approved == true) {
+			$.ajax({
+				url: 'badgePermission',
+				type: 'post',
+				data: { user_id: uid,
+								permission: value,
+								office: ofc },
+				success: function(url) {
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax badgePermission call
+		} // end of badge permission update
+		else if(field == "quest-actions" && row.approved == true) {
+			$.ajax({
+				url: 'questPermission',
+				type: 'post',
+				data: { user_id: uid,
+								permission: value,
+								office: ofc },
+				success: function(url) {
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax questPermission call
+		} // end of quest permission update
+		else if(field == "deleteRole") {
+			$.ajax({
+				url: 'deleteRole',
+				type: 'post',
+				data: { user_id: value,
+								office: ofc },
+				success: function(url) {
+					url = "http://" + window.location.hostname + "/xiphias/index.php/pages/" + url;
+					refreshTable('#roles-table', url);
+				}
+			}); // end of ajax deleteRole call
+		} // end of delete role
+		else {
+			alert('The user has not confirmed the role yet.');
+		}
+	}
+});
+
+$('#add-role-member').on('click', function() {
+	var userr = $('#role-user-name').val();
+	var userr_id = $("#username-plate").data('id');
+	var rol = $('#role-user-role').val();
+	var ofc = $('.list-item-office-active').data('officeid');
+
+	if(user == "" || rol == "") {
+		$('#add-success-alert').removeClass('alert-info');
+		$('#add-success-alert').addClass('alert-danger');
+		$('#add-success-alert-msg').html("<strong>Error!</strong> Empty username or role.")
+		$('#add-success-alert').show();
+	}
+	else {
+		$.ajax({
+			url: 'addRoleMember',
+			type: 'post',
+			data: { username: userr,
+							role: rol,
+							officeid: ofc },
+			dataType: 'json',
+			success: function(datapass) {
+				if(datapass['ok'] == 1) {
+					$('#add-success-alert').removeClass('alert-info');
+					$('#add-success-alert').addClass('alert-danger');
+					$('#add-success-alert-msg').html("<strong>Error!</strong> Username not found.")
+					$('#add-success-alert').show();
+				}
+				else if(datapass['ok'] == 2) {
+					$('#add-success-alert').removeClass('alert-info');
+					$('#add-success-alert').addClass('alert-danger');
+					$('#add-success-alert-msg').html("<strong>Error!</strong> Username already invited.")
+					$('#add-success-alert').show();
+				}
+				else {
+					socket.emit('noti', { user: userr, IncOrDec: '+' });
+					socket.emit('confirmation', { user: userr, userid: datapass['to_id'], from: datapass['from'], office: datapass['office_name'], officeid: ofc, role: rol, date: datapass['noti_date'] });
+					var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
+					refreshTable('#roles-table', url);
+					$('#add-success-alert').removeClass('alert-danger');
+					$('#add-success-alert').addClass('alert-info');
+					$('#add-success-alert-msg').html("<strong>Info!</strong> A confirmation message has been sent to the user.")
+					$('#add-success-alert').show();
+					$('#role-user-name').val('');
+					$('#role-user-role').val('');
+				}
+
+			}
+		});
+	}
+
+});
+
+$('#add-success-alert-close').on('click', function() {
+	$('#add-success-alert').hide();
+});
+
+$('#pass-leadership-alert-close').on('click', function() {
+	$('#pass-leadership-alert').hide();
+});
+
+$('body').on('click', '.btn-noti-approve', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'confirmRole',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('approve', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
+$('body').on('click', '.btn-noti-decline', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'declineRole',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('decline', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
+$('#pass-leadership').on('click', function() {
+	var userr = $('#pass-leader-name').val();
+	var ofc = $('.list-item-office-active').data('officeid');
+	$.ajax({
+		url: 'passLeadership',
+		type: 'post',
+		data: { username: userr,
+						officeid: ofc },
+		dataType: 'json',
+		success: function(data) {
+			if(data['ok'] == 1) {
+				$('#pass-leadership-alert').removeClass('alert-info');
+				$('#pass-leadership-alert').addClass('alert-danger');
+				$('#pass-leadership-alert-msg').html("<strong>Error!</strong> Username not found.")
+				$('#pass-leadership-alert').show();
+			}
+			else if(data['ok'] == 2) {
+				$('#pass-leadership-alert').removeClass('alert-info');
+				$('#pass-leadership-alert').addClass('alert-danger');
+				$('#pass-leadership-alert-msg').html("<strong>Error!</strong> A leadership pass is still in pending.");
+				$('#pass-leadership-alert').show();
+			}
+			else {
+				socket.emit('noti', { user: userr, IncOrDec: '+' });
+				console.log("from: " + data['from']);
+				console.log("from_id: " + data['from_id']);
+				socket.emit('passleader', { user: userr, userid: data['to_id'], from: data['from'], office: data['office_name'], officeid: ofc, date: data['noti_date'] });
+//				var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
+//				refreshTable('#roles-table', url);
+				$('#pass-leadership-alert').removeClass('alert-danger');
+				$('#pass-leadership-alert').addClass('alert-info');
+				$('#pass-leadership-alert-msg').html("<strong>Info!</strong> A confirmation message has been sent to the user.")
+				$('#pass-leadership-alert').show();
+				$('#pass-leader-name').val('');
+			}
+		}
+	});
+});
+
+$('body').on('click', '.btn-pass-approve', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'confirmLeaderShip',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('confirmleader', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
+$('body').on('click', '.btn-pass-decline', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'declineLeaderShip',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('declineleader', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
 // endregion
 
 // region Serial
@@ -589,6 +913,48 @@ $('#btn-generate-serial').on('click', function(e){
   $('#serial-form').submit();
 });
 // endregion
+
+// region Semestral Award
+$('body').on('click', '#btn-start-sem', function() {
+	$.ajax({
+		url: 'startSem',
+		success: function(startdate){
+			$('#startdate').html(startdate);
+			$('#btn-start-sem').toggle();
+			$('#btn-stop-sem').toggle();
+		}
+	});
+});
+
+$('body').on('click', '#btn-stop-sem', function() {
+	BootstrapDialog.show({
+		title: "Confirmation",
+		message: "This will stop the current semestral period and will update the hall of fame. Are you sure you want to stop the semestral period?",
+		cssClass: "stop-semester",
+		buttons: [{
+			label: 'No',
+			action: function(dialog) {
+				dialog.close();
+			},
+			cssClass: 'btn-danger'
+		}, {
+			label: 'Yes',
+			id: 'btn-stop-sem-confirm',
+			action: function(dialog) {
+				$.ajax({
+					url: 'stopSem',
+					success: function() {
+						$('#startdate').html('');
+						$('#btn-start-sem').toggle();
+						$('#btn-stop-sem').toggle();
+						dialog.close();
+					}
+				})
+			}
+		}]
+	});
+});
+//
 
 $('#verify-account').on('click', function() {
   BootstrapDialog.show({
@@ -637,6 +1003,11 @@ function namelink(value, row) {
   return '<a href="' + value + '">' + username[username.length-1] + '</a>';
 }
 
+function unrank(value, row) {
+  if(row.points == 0) return '-';
+  else return value;
+}
+
 function changeTopThree(questType) {
   $.ajax({
     url: 'changeTopThree',
@@ -650,18 +1021,10 @@ function changeTopThree(questType) {
 
 $('#sel-quest-type').on('change', function(){
   var selectedVal = $('#sel-quest-type option:selected' ).val();
-  var geturl = "";
-  if(selectedVal == 1)
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Academic";
-  else if(selectedVal == 2)
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Co-Curricular";
-  else if(selectedVal == 3)
-    geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/Extra-Curricular";
-  
+  var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getRankings/" + selectedVal;
   changeTopThree(selectedVal);
-  $('#rank-table').bootstrapTable('refresh', {
-    url: geturl
-  });
+
+	refreshTable('#rank-table', geturl);
 });
 
 //endregion
@@ -721,17 +1084,18 @@ $('body').on('click', '#add-affil', function(){
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
-                    var n = $('input-org-name').val();
-                    var p = $('input-position').val();
-                    var d = $('input-join-date').val();
+                    var n = $('#input-org-name').val();
+                    var p = $('#input-position').val();
+                    var d = $('#input-join-date').val();
                     $.ajax({
-                      url: 'addAffiliation',
+                      url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addAffiliation',
                       type: 'post',
                       data: { name:n,
                               position: p, 
                               date: d },
-                      success: function(){
-                        alert('Affiliation Added');
+                      success: function(dataPass){
+												var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getAffilJson/";
+												refreshTable('#affil-table', geturl);
                       }
                     })
                 }
@@ -751,19 +1115,20 @@ $('body').on('click', '#add-involve', function(){
     buttons: [{
                 label: 'Add',
                 action: function(dialog) {
-                    var n = $('input-inv-name').val();
-                    var p = $('input-inv-venue').val();
-                    var d = $('input-inv-date').val();
+                    var n = $('#input-inv-name').val();
+                    var p = $('#input-inv-venue').val();
+                    var d = $('#input-inv-date').val();
                     $.ajax({
-                      url: 'addInvolvement',
+                      url: 'http://' + window.location.hostname + '/xiphias/index.php/pages/addInvolvement',
                       type: 'post',
                       data: { name:n,
-                              position: p, 
+                              venue: p, 
                               date: d },
-                      success: function(){
-                        alert('Involvement Added!');
+                      success: function(dataPass){
+                        var geturl = "http://" + window.location.hostname + "/xiphias/index.php/pages/getInvolvementJson/";
+												refreshTable('#involve-table', geturl);
                       }
-                    })
+                    });
                 }
             }, {
                 label: 'Cancel',
@@ -772,18 +1137,37 @@ $('body').on('click', '#add-involve', function(){
                 }
             }]
   });
-})
+});
+
 // endregion
 
+// Party
+$('#btn-view-party').on('click', function(){
+  BootstrapDialog.show({
+    title: 'Edit Profile',
+    message: $('<div class=""></div>').load('http://' + window.location.hostname + '/xiphias/index.php/pages/editProfile'),
+
+  });
+});
+//
+
 //region Sockets
-
-
-$('#')
-
 socket.on('message', function(data){
   var actualContent = $("#feeder").html();
   var msgContent = '<li>' + data.name + '</li>';
   var concatCOntent = msgContent + actualContent;
   $('#feeder').html(concatCOntent);
 });
+
+//socket.on('notification', function(data) {
+//	var 
+//});
 //endregion
+
+// region Debugs and Tries
+var count = 0;
+$('#socket-button').on('click', function() {
+	socket.emit('noti', { user: 'admin', IncOrDec: '-' });
+	count++;
+});
+//

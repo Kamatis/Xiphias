@@ -1575,3 +1575,98 @@ header h1 {
     transform: translateX(0);
   }
 }
+
+.btn span.glyphicon-ok {
+	opacity: 0;
+}
+.btn.active span.glyphicon-ok {
+	opacity: 1;
+}
+
+.db-freq {
+	background-color: #e6e6e6;
+}
+
+.db-freq.active {
+	background-color: #F4A663;
+}
+
+.db-type {
+	background-color: #e6e6e6;
+}
+
+.db-type.active {
+	background-color: #F4A663;
+}
+
+.dashboard-button {
+  border: 0;
+  background-color: transparent;
+  height: 39px;
+  width: 39px;
+  padding: 0px;
+  margin-top: -20.5px;
+  margin-right: -15px;
+  outline: none;
+}
+
+.dashboard-button:hover {
+  background-color: #c37736;
+}
+
+.nav>li>.dashboard-menuitem {
+  color: black;
+}
+
+.nav>li>a.dashboard-menuitem:hover {
+  background-color: #d9853c !important;
+  color: white !important;
+}
+
+.dashboard-active {
+  background-color: #d9853c !important;
+  color: white !important;
+}
+
+/*badge reward list style*/
+
+.badge-reward-list {
+  max-height: 250px;
+  overflow: auto;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.badge-reward-item {
+  cursor: pointer;
+}
+
+.badge-reward-item:hover {
+  border: 3px dashed #F4A663;
+}
+
+.badge-reward-active {
+  background-color: #F4A663;
+}
+
+/* quest-item rarity border */
+.quest-Common {
+  border-left: 3px solid #157c43;
+}
+
+.quest-Uncommon {
+  border-left: 3px solid #174671;
+}
+
+.quest-Rare {
+  border-left: 3px solid #452974;
+}
+
+.quest-Legendary {
+  border-left: 3px solid #9b481b;
+}
+
+.quest-Blue {
+  border-left: 3px solid #af231a;
+}

@@ -31,6 +31,11 @@ class Quest extends CI_model{
         $this->db->where('quest_id', $quest_id);
         return $this->db->get('quest')->row()->house_points;
     }
+
+    public function getRarityName($rarity_id) {
+        $this->db->where('rarity_id', $rarity_id);
+        return $this->db->get('rarity')->row()->rarity_name;
+    }
     
     public function getBadgeReward($quest_id) {
         $this->db->where('quest_id', $quest_id);
@@ -54,6 +59,7 @@ class Quest extends CI_model{
         foreach($query->result() as $row){
             $quest[$x]['questId'] = $row->quest_id;
             $quest[$x]['questName'] = $row->quest_title;
+            $quest[$x]['questRarity'] = $this->getRarityName($row->quest_rarity);
             $x++;
         }
         return $quest;
@@ -103,6 +109,14 @@ class Quest extends CI_model{
     public function updateQuestInfo($quest_id, $data){
         $this->db->where('quest_id', $quest_id);
         $this->db->update('quest', $data);
+    }
+    
+    public function hasBadgeReward($quest_id) {
+        $this->db->where('quest_id', $quest_id);
+        $this->db->where('badge_id is null', null, false);
+        if($this->db->get('quest')->num_rows() == 1)
+            return false;
+        return true;
     }
   
     public function getRarityInfo() {

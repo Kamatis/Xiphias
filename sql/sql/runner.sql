@@ -30,9 +30,10 @@ create table if not exists avatar(
 );
 
 create table if not exists quests_type(
+    quest_type_id int auto_increment not null,
     quest_type varchar(75) not null,
     description varchar(150) not null,
-    primary key(quest_type)
+    primary key(quest_type_id)
 );
 
 # Main Tables
@@ -63,19 +64,21 @@ create table if not exists house(
     house_name varchar(50) not null,
     house_points int not null,
     house_description varchar(150) not null,
+    house_logo varchar(100) not null,
     primary key(house_id)
 );
-
+/*
 create table if not exists affiliation(
     affiliation_id int auto_increment not null,
     name varchar(150) not null,
     primary key(affiliation_id)
-);
+); */
 
 create table if not exists player(
 	player_level int not null,
 	experience int not null,
     program_code varchar(25) null,
+		career_objectives varchar(250),
     house_id int not null,
     user_id int not null,
     foreign key(program_code) references program(program_code),
@@ -103,9 +106,20 @@ create table if not exists office(
     office_abbreviation varchar(15) not null,
     office_logo varchar(150),
     office_description varchar(150) not null,
-    user_id int not null,
+    user_id int,
     primary key(office_id),
     foreign key(user_id) references npc(user_id)
+);
+
+create table if not exists office_role (
+    approved int not null,
+    user_id int not null,
+    office_id int not null,
+    role varchar(50),
+    quest_permission int not null,
+    badge_permission int not null,
+    foreign key(user_id) references npc(user_id),
+    foreign key(office_id) references office(office_id)
 );
 
 create table if not exists party(
@@ -147,13 +161,13 @@ create table if not exists quest(
     venue varchar(150) not null,
     experience int not null,
     house_points int not null,
-    quest_type varchar(75) not null,
+    quest_type int not null,
     creator_id int not null,
     badge_id int,
     primary key(quest_id),
     foreign key(badge_id) references badge(badge_id),
     foreign key(quest_rarity) references rarity(rarity_id),
-    foreign key(quest_type) references quests_type(quest_type),
+    foreign key(quest_type) references quests_type(quest_type_id),
     foreign key(creator_id) references npc(user_id)
 );
 
@@ -196,14 +210,13 @@ create table if not exists student_affiliations(
     end_date date,
     position varchar(100) not null,
     user_id int not null,
-    affiliation_id int not null,
-    foreign key(user_id) references player(user_id),
-    foreign key(affiliation_id) references affiliation(affiliation_id)
+    affiliation varchar(100),
+    foreign key(user_id) references player(user_id)
 );
 
 create table if not exists school_attended(
-    start_date date not null,
-    end_date date not null,
+    start_date int not null,
+    end_date int not null,
     school_id int not null,
     user_id int not null,
     foreign key(school_id) references school(school_id),
@@ -226,6 +239,48 @@ create table if not exists event(
     description varchar(150),
     date_time timestamp
 );
+
+create table if not exists facebook_settings(
+    user_id int not null,
+    access_token varchar(255),
+    expiration_date datetime,
+    foreign key(user_id) references user(user_id)    
+);
+
+create table if not exists hall_of_fame (
+    hof_id int auto_increment,
+    description varchar(100) not null,
+    primary key(hof_id)
+);
+
+create table if not exists ranking (
+    hof_id int not null,
+    house_id int not null,
+    points int not null,
+    foreign key(house_id) references house(house_id),
+    foreign key(hof_id) references hall_of_fame(hof_id)
+);
+
+create table if not exists notification (
+	noti_from int not null,
+	noti_to int not null,
+	noti_type int not null,
+	office_id int not null,
+	noti_date date not null,
+	foreign key(noti_from) references npc(user_id),
+    foreign key(noti_to) references npc(user_id),
+	foreign key(office_id) references office(office_id)
+);
+
+create table if not exists semester (
+	on_going int not null,
+	date_started date
+);
+
+/*create table if not exists user_resume_details {
+		user_id int not null,
+		
+}*/
 
 /*# Extra Tables
 create table if not exists settings(

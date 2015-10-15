@@ -8,21 +8,28 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Pages extends CI_Controller {
     
+    public function __construct() {
+		parent::__construct();
+		$this->load->library('facebook');
+    }
+  
     public function index() {
         if($this->session->userdata('is_logged_in')){
-            $data = $this->user->getSessionData();
-            $data['title']      = 'Xiphias | Home';
+			$user_id = $this->session->userdata('user_id');
+            $data = $this->user->getSessionData($user_id);
+            $data['title'] = 'Xiphias | Home';
+			$data['noti' ] = $this->notification->getNotificationCount($user_id);
             
             $events = $this->event->getLiveEvents();
           
             for($x = 0; $x < count($events); $x++) {
-              $views['stream'] .= $this->load->view('index/streamItem', $events[$x], true); 
+            	$views['stream'] .= $this->load->view('index/streamItem', $events[$x], true); 
             }
           
 //            $views['stream']    = $this->load->view('index/streamItem', '', true); 
             $views['carousel']  = $this->load->view('index/carousel', '', true);
           
-            $body['menu']    = $this->load->view('menu', $data, true);
+            $body['menu'   ] = $this->load->view('menu', $data, true);
             $body['content'] = $this->load->view('index', $views, true);
           
             $this->load->view('header');
@@ -92,7 +99,8 @@ class Pages extends CI_Controller {
         echo json_encode($this->house->getHousePoints());
     }
     
-    public function getUserActivity($user_id) {
+    public function getUserActivity($username) {
+		$user_id = $this->user->getUserId($username);
         echo json_encode($this->user->getUserActivity($user_id));
     }
     
@@ -102,54 +110,61 @@ class Pages extends CI_Controller {
     }
   
     public function editProfile() {
-      $query = $this->course->getCourses();
-      $user_id = $this->session->userdata('user_id');
-      $data['description'] = $this->user->getDescription($user_id);
-      $data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
-      foreach ($query->result() as $row) {
-        if($this->user->getCourse($user_id) == $row->program_code)
-          $data['programs'] .= "<option value = \"$row->program_code\" selected>$row->program_name</option>\n";
-        else
-          $data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
-      }
-          
-        
-      for($yr = 2015; $yr>=1900; $yr--)
-        $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
-      
-          
-      $view = $this->load->view('profile/editProfile', $data , true);
-      echo $view;
+		$query = $this->course->getCourses();
+		$user_id = $this->session->userdata('user_id');
+		$data['description'] = $this->user->getDescription($user_id);
+		$data['programs'] = "<option value=\"0\" disabled selected>Select your course</option>\n";
+		foreach ($query->result() as $row) {
+			if($this->user->getCourse($user_id) == $row->program_code)
+				$data['programs'] .= "<option value = \"$row->program_code\" selected>$row->program_name</option>\n";
+			else
+				$data['programs'] .= "<option value = \"$row->program_code\">$row->program_name</option>\n";
+		}
+
+		for($yr = 2015; $yr>=1900; $yr--)
+			$data['years'] .= "<option value = \"$yr\">$yr</option>\n";
+
+		$view = $this->load->view('profile/editProfile', $data , true);
+		echo $view;
     }
   
     public function createResume() {
-      $query1 = $this->school->getSchools(1);
-      $query2 = $this->school->getSchools(2);
+		$query1 = $this->school->getSchools(1);
+		$query2 = $this->school->getSchools(2);
+		
+		$u_id = $this->session->userdata('user_id');
+		$data['school'   ] = $this->school->getSchoolAttended($u_id);
+		$data['address'  ] = $this->user->getHomeAddress($u_id); 
+		$data['contact'  ] = $this->user->getPhoneNumber($u_id);
+		$data['emailadd' ] = $this->user->getEmailAddress($u_id);
+		$data['objective'] = $this->player->getCareerObjective($u_id);
+		
+		$data['primary'] = "<option></option>\n";
+		foreach($query1->result() as $row) {
+			if($row->school_id == $data['school'][0]['school_id'])
+				$data['primary'] .= "<option value = \"$row->school_id\" selected>$row->school_name</option>\n";		
+			else
+				$data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+		}
+		
+		$data['secondary'] = "<option></option>\n";
+		foreach($query2->result() as $row) {
+			if($row->school_id == $data['school'][1]['school_id'])
+				$data['secondary'] .= "<option value = \"$row->school_id\" selected>$row->school_name</option>\n";
+			else
+				$data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+		}
+		for($yr = 2015; $yr>=1900; $yr--)
+			$data['years'] .= "<option value = \"$yr\">$yr</option>\n";
       
-      $data['primary'] = "<option></option>\n";
-      foreach($query1->result() as $row)
-          $data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
-      
-      $data['secondary'] = "<option></option>\n";
-      foreach($query2->result() as $row)
-          $data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
-      
-      for($yr = 2015; $yr>=1900; $yr--)
-        $data['years'] .= "<option value = \"$yr\">$yr</option>\n";
-      
-      $view = $this->load->view('profile/createResume', $data , true);
-      echo $view;
+		
+		$view = $this->load->view('profile/createResume', $data , true);
+		echo $view;
     }
   
     public function showAddAffiliation() {
-      $data['affiliations'] .= '<option></option>'; // always include this as first in the <option> list (don't delete)
-      
-      //      iterate all affiliations to be put to $data with format:
-//      $data['affiliations'] .= '<option value= [affil_id] >[affil_name]</option>';
-      $data['affiliations'] .= '<option>TACTICS</option>';  //sample only (can be deleted after)
-      $data['affiliations'] .= '<option>GROUPIE</option>';  //sample only (can be deleted after)
-      $view = $this->load->view('profile/affiliation', $data, true);
-      echo $view;
+		$view = $this->load->view('profile/affiliation', $data, true);
+		echo $view;
     }
   
     public function showAddInvolvement() {
@@ -165,22 +180,24 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] = "Xiphias | ".$username;
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
 
         $description['description'] = $this->user->getDescription($user_profile['user_id']);
-        $description['isOwner'] = ($data['username'] == $username);
+        $description['isOwner'    ] = ($data['username'] == $username);
 
         if($user_profile['isNPC'])
             $badges['badge'] = $this->badge->getMyBadges($user_profile['user_id']);
         else
             $badges['badge'] = $this->badge->getEarnedBadges($user_profile['user_id']);
 
-        $views['profileInfo']         = $this->load->view('profile/profileInfo', $user_profile, true);
-        $views['profileDescription']  = $this->load->view('profile/profileDescription', $description, true);
-        $views['profileBadges']       = $this->load->view('profile/profileBadges', $badges, true);
-        $views['profileTimeline']     = $this->load->view('profile/profileTimeline', '', true);
+        $views['profileInfo'       ] = $this->load->view('profile/profileInfo', $user_profile, true);
+        $views['profileDescription'] = $this->load->view('profile/profileDescription', $description, true);
+        $views['profileBadges'     ] = $this->load->view('profile/profileBadges', $badges, true);
+        $views['profileTimeline'   ] = $this->load->view('profile/profileTimeline', '', true);
 
         // views in <body>
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('profile', $views, true);
 
         // Main views inserted in <html>
@@ -193,8 +210,9 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title']      = "Xiphias | Settings";
-
-        $body['menu'] = $this->load->view('menu', $data, true);
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'   ] = $this->notification->getNotificationCount($user_id);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('settings', '', true);
 
         // Main views inserted in <html>
@@ -206,6 +224,8 @@ class Pages extends CI_Controller {
         $query = $this->db->get('user');
         $data = $this->user->getSessionData();
         $data['title'] = 'Xiphias | Quest Board';
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
         $user_id = $this->session->userdata('user_id');
 
         $quests = $this->quest->getAllQuests();
@@ -214,13 +234,13 @@ class Pages extends CI_Controller {
         $questCount = count($quests);
         for($x = 0; $x < $questCount; $x++)
         {
-          $quests[$x]['isNPC']   = $data['isNPC'];
-          $quests[$x]['awarded'] = $this->quest->doneAwarding($quests[$x]['quest_id'], $user_id);
-          $views['questpins'] .= $this->load->view('questboard/questpin', $quests[$x], true);
+			$quests[$x]['isNPC'  ] = $data['isNPC'];
+			$quests[$x]['awarded'] = $this->quest->doneAwarding($quests[$x]['quest_id'], $user_id);
+			$views['questpins'   ] .= $this->load->view('questboard/questpin', $quests[$x], true);
         }
             
 
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('questboard', $views, true);
 
         $this->load->view('header');
@@ -232,12 +252,14 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();
         $data['title'] =  'Xiphias | Leaderboards';
-        
-        $viewdata = $this->user->getTopThree('Academic');
+		$user_id = $this->session->userdata('user_id');
+        $data['noti'] = $this->notification->getNotificationCount($user_id);
+
+        $viewdata = $this->user->getTopThree(1);
         
         $views['steps'] = $this->load->view('leaderboards/steps', $viewdata, true);
         
-        $body['menu'] = $this->load->view('menu', $data, true);
+        $body['menu'   ] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('leaderboards', $views, true);
 
         $this->load->view('header');
@@ -245,27 +267,20 @@ class Pages extends CI_Controller {
     }
   
     public function famehall() {
-      $query = $this->db->get('user');
-      
-      $data = $this->user->getSessionData();
-      $data['title'] = 'Xiphias | Hall of Fame';
-      
-      // @Kelly
-      // data needed for 1 fame item:
-      // date         - may be Sem 1 S/Y 2014-2015
-      // house[]      - rankings for that duration -> 0-base
-      // houseLogo1st - logo of 1st place house
-      $viewdata = '';
-      
-      // iterate viewdata to be plugged in each fameitem view
-//      for($i = 0; $i < 6; $i++) // -> forsample
-        $views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata, true);
-      
-      $body['menu'] = $this->load->view('menu', $data, true);
-      $body['content'] = $this->load->view('famehall', $views, true);
-      
-      $this->load->view('header');
-      $this->load->view('body', $body);
+		$query = $this->db->get('user');
+		$data = $this->user->getSessionData();
+		$data['title'] = 'Xiphias | Hall of Fame';
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
+		$viewdata = $this->hallOfFame->getHallOfFame();
+		for($i = 0; $i < count($viewdata); $i++)
+			$views['fameitem'] .= $this->load->view('famehall/fameitem', $viewdata[$i], true);
+
+		$body['menu'] = $this->load->view('menu', $data, true);
+		$body['content'] = $this->load->view('famehall', $views, true);
+
+		$this->load->view('header');
+		$this->load->view('body', $body);
     }
   
     public function changeTopThree() {
@@ -289,13 +304,16 @@ class Pages extends CI_Controller {
 
         $data = $this->user->getSessionData();  
         $data['title'] =  "Xiphias | Dashboard";
-
+		$user_id = $this->session->userdata('user_id');
+		$data['noti'] = $this->notification->getNotificationCount($user_id);
         $user_id = $this->session->userdata('user_id');
 
         // Badges
         $myBadges = $this->badge->getMyBadges($user_id);
-        for($x = 0; $x < count($myBadges); $x++)
-          $badges['mybadges'] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+        for($x = 0; $x < count($myBadges); $x++) {
+          $badges['mybadges'   ] .= $this->load->view('dashboard/mybadges', $myBadges[$x], true);
+          $quest['badgeRewards'] .= $this->load->view('dashboard/badgeRewards', $badgeRewards[$x], true);
+        }
 
         // Quests
         $myQuests = $this->quest->getMyQuests($user_id);
@@ -304,27 +322,36 @@ class Pages extends CI_Controller {
 
         $rarities = $this->quest->getRarityInfo();
         for($x = 0; $x < count($rarities); $x++)
-          $quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
+        	$quest['questRarities'] .= $this->load->view('dashboard/questRarity.php', $rarities[$x], true);
         $quest['rare'] = count($rarities);
 
         // Parties
         $myParties = $this->party->getMyParties($user_id);
         for($x = 0; $x < count($myParties); $x++)
-          $party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
+        	$party['myParties'] .= $this->load->view('dashboard/myparties', $myParties[$x], true);
 
         // Offices
         $myOffices = $this->office->getMyOffices($user_id);
         for($x = 0; $x < count($myOffices); $x++)
             $office['myOffices'] .= $this->load->view('dashboard/myoffices', $myOffices[$x], true);
 
-        $views['error'] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
-        $views['dashboardMenu']   = $this->load->view('dashboard/dashboardMenu', $data, true);
-        $views['dashboardBadge']  = $this->load->view('dashboard/dashboardBadge', $badges, true);
-        $views['dashboardQuest']  = $this->load->view('dashboard/dashboardQuest', $quest, true);
-        $views['dashboardParty']  = $this->load->view('dashboard/dashboardParty', $party, true);
-        $views['dashboardOffice'] = $this->load->view('dashboard/dashboardOffice', $office, true);
-        $views['dashboardSerial'] = $this->load->view('dashboard/dashboardSerial', $data, true);
-        $views['dashboardNoti']   = $this->load->view('dashboard/dashboardNoti', '', true);
+		// Semestral Award
+		// @kelly
+		// *date*
+		$semaward['started'  ] = $this->semester->isStarted();
+		$semaward['startdate'] = date("F j, Y", strtotime($this->semester->getStartDate()));
+	  	
+	  	$notif['notif'] = $this->notification->getNotifications($user_id);	
+	  
+        $views['error'            ] = $this->load->view('warningAndErrors/UnverifiedNPC', $data, true);
+        $views['dashboardMenu'    ] = $this->load->view('dashboard/dashboardMenu', $data, true);
+        $views['dashboardBadge'   ] = $this->load->view('dashboard/dashboardBadge', $badges, true);
+        $views['dashboardQuest'   ] = $this->load->view('dashboard/dashboardQuest', $quest, true);
+        $views['dashboardParty'   ] = $this->load->view('dashboard/dashboardParty', $party, true);
+        $views['dashboardOffice'  ] = $this->load->view('dashboard/dashboardOffice', $office, true);
+        $views['dashboardSerial'  ] = $this->load->view('dashboard/dashboardSerial', $data, true);
+        $views['dashboardNoti'    ] = $this->load->view('dashboard/dashboardNoti', $notif, true);
+		$views['dashboardSemAward']	= $this->load->view('dashboard/dashboardSemAward', $semaward, true);
 
         $body['menu'] = $this->load->view('menu', $data, true);
         $body['content'] = $this->load->view('dashboard', $views, true);
@@ -360,8 +387,8 @@ class Pages extends CI_Controller {
         $badgePictures    = $_FILES['badge-pix'];
         
         $badge['badge_description'] = $badgeDescription;
-        $badge['creator_id']        = $this->session->userdata('user_id');
-        $badge['date_created']      = date('Y-m-d');
+        $badge['creator_id'       ] = $this->session->userdata('user_id');
+        $badge['date_created'     ] = date('Y-m-d');
         
         $badgeId = $this->badge->addBadge($badge);
         $upgradesCount = count($badgeName);
@@ -395,36 +422,37 @@ class Pages extends CI_Controller {
   
     public function addQuest() {
         $time = explode(' ', $this->input->post('date-range'));
-        $quest['quest_title']       = $this->input->post('questName');
+        $quest['quest_title'      ] = $this->input->post('questName');
         $quest['quest_description'] = $this->input->post('questDescription');
-        $quest['quest_rarity']      = 5;
-        $quest['date_created']      = date('Y-m-d');
-        $quest['start_date']        = date('Y-m-d', strtotime($time[0]));
-        $quest['end_date']          = date('Y-m-d', strtotime($time[2]));
-        $quest['experience']        = $this->input->post('range');
-        $quest['venue']             = $this->input->post('questVenue');
-        $quest['quest_type']        = "Academic";
-        $quest['house_points']      = 1;
+        $quest['quest_rarity'     ] = $this->input->post('quest_frequency');
+        $quest['date_created'     ] = date('Y-m-d');
+        $quest['start_date'       ] = date('Y-m-d', strtotime($time[0]));
+        $quest['end_date'         ] = date('Y-m-d', strtotime($time[2]));
+        $quest['experience'       ] = 1;
+        $quest['venue'            ] = $this->input->post('questVenue');
+        $quest['quest_type'       ] = $this->input->post('quest_type');
+        $quest['house_points'     ] = 1;
+        $quest['creator_id'       ] = $this->session->userdata('user_id');
+        
         $badge_id = $this->input->post('badge_id');
-        if(isset($badge_id))
-            $quest['badge_id']          = $this->input->post('badge_id');
-        $quest['creator_id']        = $this->session->userdata('user_id');
+        if($badge_id != -1)
+            $quest['badge_id'] = $badge_id;
+      
         $this->quest->addQuest($quest);
         
         $user_id = $this->session->userdata('user_id');
         $myQuests = $this->quest->getMyQuests($user_id);
-      
-        
+    
         for($x = 0; $x < count($myQuests); $x++)
             $questRefresh .= $this->load->view('dashboard/myquests', $myQuests[$x], TRUE);
         echo $questRefresh;
     }
   
     public function addParty() {
-        $party['creator_id']        = $this->session->userdata('user_id');
-        $party['party_name']        = $this->input->post('partyName');
+        $party['creator_id'       ] = $this->session->userdata('user_id');
+        $party['party_name'       ] = $this->input->post('partyName');
         $party['party_description'] = $this->input->post('partyDescription');
-        $party['party_password']    = md5($this->input->post('partyPasscode'));
+        $party['party_password'   ] = md5($this->input->post('partyPasscode'));
         $this->party->addParty($party);
         
         $user_id = $this->session->userdata('user_id');
@@ -436,10 +464,10 @@ class Pages extends CI_Controller {
     }
   
     public function addOffice() {
-        $office['office_name']         = $this->input->post('officeName');
-        $office['office_abbreviation'] = "HELLO"; // $this->input->post('txtShortForm');
-        $office['office_description']  = $this->input->post('officeDescription');
-        $office['user_id'] = $this->session->userdata('user_id');
+        $office['office_name'        ] = $this->input->post('officeLongName');
+        $office['office_abbreviation'] = $this->input->post('officeShortName');
+        $office['office_description' ] = $this->input->post('officeDescription');
+        $office['user_id'            ] = $this->session->userdata('user_id');
         $officeId = $this->office->addOffice($office);
          
         $officeLogo = $_FILES['office-pix'];
@@ -493,27 +521,38 @@ class Pages extends CI_Controller {
                 $this->house->awardHousePoint($houseId, $housePoint);
                 $this->quest->completeQuest($questId, $memberId[$x]);
                 
-                $event['username']    = $this->user->getUsername($memberId[$x]);
-                $event['description'] = 'completed ' . $this->quest->getQuestTitle($questId);
-                $event['date']        = date("F j, Y, g:i a");
+                $event['username'   ] = $this->user->getUsername($memberId[$x]);
+                $event['description'] = 'completed "' . $this->quest->getQuestTitle($questId) . '"';
+                $event['date'       ] = date("F j, Y, g:i a");
+                
+                $first_name = $this->user->getFirstName($memberId[$x]);
+                $linkData['description'] = 'This is a sample description for a sample facebook post.';
+                $linkData['picture'    ] = 'http://foursquareguru.com/media/badges/apple_big.png';
+                $linkData['name'       ] = $first_name . ' ' . $event['description'];
                 if($badgeId != false){
-                    $data['user_id'] = $memberId[$x];
-                    $data['badge_id'] = $badgeId;
+                    $data['user_id'    ] = $memberId[$x];
+                    $data['badge_id'   ] = $badgeId;
                     $data['date_earned'] = date('Y-m-d');
                     $this->user->awardBadge($data);
-                    $event['description'] .= ' and earned a ' . $this->badge->getBadgeName($badgeId, 1);
+                    $event['description'] .= ' and earned a "' . $this->badge->getBadgeName($badgeId, 1) . '"';
+                    $linkData['name']      = $first_name . ' ' . $event['description'];
+                }
+                $linkData['name'] .= ' | XIPHIAS';
+                if($this->fbauthorization->hasAccessToken($memberId[$x])) {
+                    $accessToken = $this->fbauthorization->getAccessTokens($memberId[$x]);
+                    $this->facebook->batchPost($accessToken, $linkData);
                 }
                 $this->event->addEvent($event);
                 $success = $this->load->view('index/streamItem', $event, true) . $success;
                 $success = $this->user->awardExperience($memberId[$x], $experience) . $success;
             }
-        } 
+        }
         echo $success;
     }
     
-    public function changePartyPassword(){
+    public function changePasscode(){
         $partyId = $this->input->post('party_id');
-        $data['party_password'] = md5($this->input->post('new_password'));
+        $data['party_password'] = md5($this->input->post('passcode'));
         $this->party->changePassword($partyId, $data);
     }
   
@@ -529,13 +568,13 @@ class Pages extends CI_Controller {
         $user_id = $this->user->addUser($data);
         if($data['user_type'] == 1){
             $player['player_level'] = 1;
-            $player['experience']   = 0;
-            $player['house_id']     = $this->user->assignHouse();
-            $player['user_id']      = $user_id;
-            $dataPass['house'] = $this->house->getHouseInfo($player['house_id']);
+            $player['experience'  ] = 0;
+            $player['house_id'    ] = $this->user->assignHouse();
+            $player['user_id'     ] = $user_id;
+            $dataPass['house'     ] = $this->house->getHouseInfo($player['house_id']);
             $this->user->addPlayer($player);
         } else {
-            $npc['user_id']     = $user_id;
+            $npc['user_id'    ] = $user_id;
             $npc['is_verified'] = 0;
             $this->user->addNPC($npc);
         }
@@ -548,14 +587,14 @@ class Pages extends CI_Controller {
     }
     
     public function questRegistration() {
-        $data['user_id']  = $this->session->userdata('user_id');
-        $data['quest_id'] = $this->input->post('quest_id');
+        $data['user_id'        ] = $this->session->userdata('user_id');
+        $data['quest_id'       ] = $this->input->post('quest_id');
         $data['date_registered'] = date('Y-m-d');
         $this->quest->register($data);
         
-        $event['username']    = $this->user->getUsername($data['user_id']);
+        $event['username'   ] = $this->user->getUsername($data['user_id']);
         $event['description'] = 'joined ' . $this->quest->getQuestTitle($data['quest_id']);
-        $event['date']        = date("F j, Y, g:i a");
+        $event['date'       ] = date("F j, Y, g:i a");
         $this->event->addEvent($event);
         echo $this->load->view('index/streamItem', $event, true);
     }
@@ -565,9 +604,9 @@ class Pages extends CI_Controller {
         $user_id  = $this->session->userdata('user_id');
         $this->quest->abortQuest($quest_id, $user_id);
         
-        $event['username']    = $this->user->getUsername($user_id);
+        $event['username'   ] = $this->user->getUsername($user_id);
         $event['description'] = 'quits ' . $this->quest->getQuestTitle($quest_id);
-        $event['date']        = date("F j, Y, g:i a");
+        $event['date'       ] = date("F j, Y, g:i a");
         $this->event->addEvent($event);
         echo $this->load->view('index/streamItem', $event, true);
     }
@@ -610,4 +649,270 @@ class Pages extends CI_Controller {
             $loginUrl = $helper->getLoginUrl('http://localhost/xiphias/',$permissions);
         }
     }
+  
+  
+  // facebook functions
+  // Note:  Some of these are not really used in the system
+  //        But used as testing the library modules
+	public function FB_link() {
+		$login_url = $this->facebook->loginUrl();
+		echo $login_url;
+	}
+  
+	public function FB_getAccessToken($memberId) {
+		$members[] = $memberId;
+		$accesstoken = $this->fbauthorization->getAccessTokens($members);
+		foreach($accesstoken as $toks) {
+			echo $toks;
+		}
+	}
+  
+	public function FB_exchangeToken() {
+		$fbSet = $this->facebook->exchangeToken();
+		$fbSet['user_id'] = $this->session->userdata('user_id');
+		$this->fbauthorization->addAccessToken($fbSet);
+	}
+  
+	public function FB_batchPost() {
+		$this->facebook->batchPost();
+	}
+
+	public function getOfficeMembers($office_id) {
+        $data = $this->officeRole->getOfficeMembers($office_id);
+		echo json_encode($data);
+	}
+
+	// @KELLY
+	// semestral awards
+	// no post inputs.. just use the current time of for startsem
+	public function startsem() {
+		// get current datetime and put in database
+		// reset house rankings
+        $this->house->resetHousePoints();
+		$this->semester->start();
+		echo "date";
+	}
+
+	public function stopSem() {
+		// get current datetime and put in database
+		// finalize house rankings by double-checking the exp accumulated by each houses between the start and stop date
+		// put in hall of fame
+        $data['description'] = "SY Year-(Year+1) nth Semester";
+        $hof_id = $this->hallOfFame->addHallOfFameEntry($data);
+        $this->ranking->addRankingsEntry($hof_id);
+		$this->semester->stop();
+		// don't reset house rankings
+		// ^this is so that users can still see the previous ranking without going to the hall of fame
+	}
+  
+  	public function addRoleMember() {
+		$user_name = $this->input->post('username');
+		$role = $this->input->post('role');
+		$data['approved'        ] = false;
+		$data['user_id'         ] = $this->user->getUserId($user_name);
+		$data['office_id'       ] = $this->input->post('officeid');
+		$data['role'            ] = $role;
+		$data['quest_permission'] = 0;
+		$data['badge_permission'] = 0;
+		$retdata['url'          ] = $data['office_id'];
+		if(!$this->user->validUsername($user_name) || !$this->user->isNPC($data['user_id']))
+			$retdata['ok']  = 1;
+		else if($this->office->isInvited($data['office_id'], $data['user_id']))
+			$retdata['ok']  = 2;
+		else {
+			$this->officeRole->addRoleMember($data);
+		  	$notif['noti_from'] = $this->session->userdata('user_id');
+			$notif['noti_to'  ] = $data['user_id'];
+			$notif['noti_type'] = 1;
+			$notif['office_id'] = $data['office_id'];
+		  	$notif['noti_date'] = date('Y-m-d');
+		  	$this->notification->addNotification($notif);
+		  
+		  	$retdata['from'       ] = $this->user->getUsername($notif['noti_from']);
+		  	$retdata['office_name'] = $this->office->getOfficeName($notif['office_id']);
+		  	$retdata['noti_type'  ] = 1;
+		  	$retdata['noti_date'  ] = date("F j, Y", strtotime($notif['noti_date']));
+			$retdata['to_id'      ] = $data['user_id'];
+			$retdata['from_id'    ] = $notif['noti_from'];
+			$retdata['ok'         ] = 0;
+		}
+		echo json_encode($retdata);
+  	}
+		
+	public function passLeadership() {
+		$username = $this->input->post('username');
+		$user_id = $this->user->getUserId($username);
+		$office_id = $this->input->post('officeid');
+		$data['user_id'  ] = $user_id;
+		$data['office_id'] = $office_id;
+		
+		$retdata['url'] = $data['office_id'];
+		if(!$this->user->validUsername($username) || !$this->user->isNPC($data['user_id'])) {
+			$retdata['ok']  = 1;
+		} else if ($this->office->isInvitedasAdmin($data['office_id'], $data['user_id'])){
+			$retdata['ok']  = 2;
+		} else {
+			$data['approved'        ] = false;
+			$data['role'            ] = 'Admin';
+			$data['quest_permission'] = 1;
+			$data['badge_permission'] = 1;
+			$this->officeRole->addRoleMember($data);
+
+			$notif['noti_from'] = $this->session->userdata('user_id');
+			$notif['noti_to'  ] = $user_id;
+			$notif['noti_type'] = 4;
+			$notif['office_id'] = $office_id;
+			$notif['noti_date'] = date('Y-m-d');
+			$this->notification->addNotification($notif);
+			
+			$retdata['from'       ] = $this->user->getUsername($notif['noti_from']);
+		  	$retdata['office_name'] = $this->office->getOfficeName($notif['office_id']);
+		  	$retdata['noti_type'  ] = 4;
+		  	$retdata['noti_date'  ] = date("F j, Y", strtotime($notif['noti_date']));
+			$retdata['to_id'      ] = $data['user_id'];
+			$retdata['from_id'    ] = $notif['noti_from'];
+			$retdata['ok'         ] = 0;
+		}
+		echo json_encode($retdata);
+	}
+		
+	public function debug() {
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));
+	}
+	
+    // function for generating resume
+	public function resume(){
+		$u_id = $this->session->userdata('user_id');
+		$info['address'           ] = $this->input->post('address');
+		$info['contact'           ] = $this->input->post('contact');
+		$info['emailadd'          ] = $this->input->post('emailadd');
+		$info['primary_school'    ] = $this->input->post('pschool');
+		$info['primary_school_s'  ] = $this->input->post('pstart');
+		$info['primary_school_e'  ] = $this->input->post('pend');
+		$info['secondary_school'  ] = $this->input->post('sschool');
+		$info['secondary_school_s'] = $this->input->post('sstart');
+		$info['secondary_school_e'] = $this->input->post('send');
+		
+		$user['home_address' ] = $info['address'];
+		$user['phone_number' ] = $info['contact'];
+		$user['email_address'] = $info['emailadd'];
+		$this->user->updateProfile($u_id, $user);
+		
+		$this->school->clearData($u_id);
+		$school['school_id' ] = $info['primary_school'];
+		$school['start_date'] = $info['primary_school_s'];
+		$school['end_date'  ] = $info['primary_school_e'];
+		$school['user_id'   ] = $u_id;
+		$this->school->addSchoolAttended($school);
+		$school['school_id' ] = $info['secondary_school'];
+		$school['start_date'] = $info['secondary_school_s'];
+		$school['end_date'  ] = $info['secondary_school_e'];
+		$school['user_id'   ] = $u_id;
+		$this->school->addSchoolAttended($school);
+		
+		$info['primary_school'  ] = $this->school->getSchoolName($info['primary_school'  ]);
+		$info['secondary_school'] = $this->school->getSchoolName($info['secondary_school']);
+		$info['objective'       ] = $this->input->post('objective');
+		$obj['career_objectives'] = $info['objective'];
+		$this->user->updateCareerObj($u_id, $obj);
+
+		$info['fullname']  = $this->user->getFirstName($u_id);
+		$info['fullname'] .= " " . $this->user->getMiddleName($u_id)[0];
+		$info['fullname'] .= ". " . $this->user->getLastName($u_id);
+
+		$info['affiliations'] = $this->affiliation->getAffiliations($u_id);
+		$info['involvement' ] = $this->involvement->getInvolvements($u_id);
+			
+		$data = $this->load->view('resume', $info, true);
+		$this->htmlpdf->convert($data);
+	}
+		
+	public function addAffiliation() {
+		$time = explode(' ', $this->input->post('date'));
+		$data['user_id'       ] = $this->session->userdata('user_id');
+		$data['affiliation'   ] = $this->input->post('name');
+		$data['position'      ] = $this->input->post('position');
+		$data['start_date'    ] = date('Y-m-d', strtotime($time[0]));
+		$data['end_date'      ] = date('Y-m-d', strtotime($time[2]));
+		$this->affiliation->addAffiliation($data);
+	}
+		
+	public function addInvolvement() {
+		$time = explode(' ', $this->input->post('date'));
+		$data['user_id'          ] = $this->session->userdata('user_id');
+		$data['involvement_name' ] = $this->input->post('name');
+		$data['involvement_venue'] = $this->input->post('venue');
+		$data['start_date'       ] = date('Y-m-d', strtotime($time[0]));
+		$data['end_date'         ] = date('Y-m-d', strtotime($time[2]));
+		$this->involvement->addInvolvement($data);
+		echo $data['involvement_name'];
+	}
+		
+	public function getAffilJson() {
+		echo json_encode($this->affiliation->getAffiliations($this->session->userdata('user_id')));
+	}
+		
+	public function getInvolvementJson() {
+		echo json_encode($this->involvement->getInvolvements($this->session->userdata('user_id')));		
+	}
+
+	public function confirmRole() {
+		$office_id = $this->input->post('office_id');
+		$from = $this->input->post('user_id');
+	  	$user_id = $this->session->userdata('user_id');
+	  	$this->officeRole->confirmRole($office_id, $user_id);
+		
+		$notif['noti_from'] = $this->session->userdata('user_id');
+		$notif['noti_to'  ] = $this->user->getUserId($from);
+		$notif['noti_type'] = 2;
+		$notif['office_id'] = $office_id;
+		$notif['noti_date'] = date('Y-m-d');
+		$this->notification->addNotification($notif); 
+	}
+  
+	public function declineRole() {
+	  	$office_id = $this->input->post('office_id');
+	  	$user_id = $this->session->userdata('user_id');
+		$from = $this->input->post('from');
+	  	$this->officeRole->declineRole($office_id, $user_id);
+		
+		$notif['noti_from'] = $this->session->userdata('user_id');
+		$notif['noti_to'  ] = $this->user->getUserId($from);
+		$notif['noti_type'] = 3;
+		$notif['office_id'] = $office_id;
+		$notif['noti_date'] = date('Y-m-d');
+		$this->notification->addNotification($notif); 
+	}
+	
+	public function deleteRole() {
+		$office_id = $this->input->post('office_id');
+		$user_id = $this->input->post('user_id');
+		$this->officeRole->deleteRole($office_id, $user_id);
+	}
+	
+	public function confirmLeaderShip() {
+		$office_id = $this->input->post('office_id');
+		$user_id = $this->session->userdata('user_id');
+		$this->officeRole->confirmLeaderShip($office_id, $user_id);
+	}
+	
+	public function declineLeadership() {
+		$office_id = $this->input->post('office_id');
+		$user_id = $this->session->userdata('user_id');
+		$this->officeRole->declineLeadership($office_id, $user_id);
+	}
+	
+	public function alterBadgePermission() {
+		$user_id = $this->input->post('userid');
+		$office_id = $this->input->post('officeid');
+		$role = $this->input->post('role');
+		$this->officeRole->alterBadgePermission($office_id, $user_id, $role);
+	}
+	
+	public function alterQuestPermission() {
+		$user_id = $this->input->post('userid');
+		$office_id = $this->input->post('officeid');
+		$role = $this->input->post('role');
+		$this->officeRole->alterQuestPermission($office_id, $user_id, $role);	
+	}
 }

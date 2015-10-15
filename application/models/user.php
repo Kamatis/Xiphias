@@ -11,6 +11,21 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         return $this->db->get('user')->row()->username;
     }
+  
+    public function getFirstName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->first_name;
+    }
+	
+		public function getLastName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->last_name;
+    }
+	
+		public function getMiddleName($user_id) {
+        $this->db->where('user_id', $user_id);
+        return $this->db->get('user')->row()->middle_name;
+    }
     
     public function getDescription($user_id){
         $this->db->where('user_id', $user_id);
@@ -228,11 +243,14 @@ class User extends CI_Model{
         $players = $this->db->get('player');
         $x = 0;
         foreach($players->result() as $player) {
-            $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
-            $data[$x]['level']  = $player->player_level;
-            $data[$x]['house']  = $this->house->getHouseName($player->house_id);
-            $data[$x]['points'] = $this->user->getPlayerPoints($player->user_id, $type);
-            $x++;
+            $points = $this->user->getPlayerPoints($player->user_id, $type);
+            if($points > 0) {
+                $data[$x]['name']   = $this->user->getProfileLink($this->user->getUsername($player->user_id));
+                $data[$x]['level']  = $player->player_level;
+                $data[$x]['house']  = $this->house->getHouseName($player->house_id);
+                $data[$x]['points'] = $points;
+                $x++;
+            }
         }
         usort($data, function($a, $b) {
             return $b['points'] - $a['points'];
@@ -253,14 +271,25 @@ class User extends CI_Model{
     public function getUserActivity($user_id) {
         $quests = $this->quest->getCompletedQuests($user_id);
         $x = 0;
+        $y = 0;
+        $level = 1;
         foreach($quests->result() as $quest) {
-            if($x != 0 && $data[$x]['date'] == $quest->date_completed) {
-                $data[$x]['quest'] .= '|';
+            if($x != 0 && $data[$x-1]['x'] == (strtotime($quest->date_completed))*1000) {
                 $x--;
+                $y++;
+            } else {
+                if($x != 0)
+                    $data[$x]['y'] = $data[$x-1]['y'];    
+                $y = 0;
             }
-            $data[$x]['date']  = $quest->date_completed;
-            $data[$x]['exp']   += $this->quest->getQuestExp($quest->quest_id);
-            $data[$x]['quest'] .= $this->quest->getQuestTitle($quest->quest_id);
+			$data[$x]['x']            = (strtotime($quest->date_completed))*1000;
+            $data[$x]['exp'][$y]     += $this->quest->getQuestExp($quest->quest_id);
+            $data[$x]['y']           += $data[$x]['exp'][$y];
+            $data[$x]['activity'][$y] = ($this->quest->getQuestTitle($quest->quest_id));
+            while($data[$x]['y'] >= $this->user->getLvlExp($level + 1)) {
+                $level++;
+                $data[$x]['marker']['symbol'] = "url(http://www.highcharts.com/demo/gfx/sun.png)";
+            }
             $x++;
         }
         return $data;
@@ -327,6 +356,7 @@ class User extends CI_Model{
     public function getSessionData(){
         $data['user_image'] = $this->session->userdata('image');
         $data['username']   = $this->session->userdata('username');
+				$data['user_id']		= $this->getUserId($data['username']);
         $data['isNPC']      = $this->session->userdata('isNPC');
         $data['isAdmin']    = $this->session->userdata('isAdmin');
         $data['isVerified'] = $this->session->userdata('isVerified');
@@ -353,5 +383,37 @@ class User extends CI_Model{
         $this->db->where('user_id', $user_id);
         $this->db->update('user', $data);
     }
-
+		
+		public function updateProfile($user_id, $data) {
+				$this->db->where('user_id', $user_id);
+				$this->db->update('user', $data);
+		}
+	
+	public function getHomeAddress($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->home_address;
+	}
+	
+	public function getPhoneNumber($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->phone_number;
+	}
+	
+	public function getEmailAddress($user_id) {
+		$this->db->where('user_id', $user_id);
+		return $this->db->get('user')->row()->email_address;
+	}
+	
+	public function updateCareerObj($user_id, $data) {
+		$this->db->where('user_id', $user_id);
+		$this->db->update('player', $data);
+	}
+	
+	public function validUsername($user_name) {
+		$this->db->where('username like binary \'' .$user_name .'\'');
+		$query = $this->db->get('user');
+		if($query->num_rows() > 0)
+			return true;
+		return false;
+	}
 }
