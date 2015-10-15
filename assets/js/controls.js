@@ -623,7 +623,7 @@ $('body').on('click', '.list-item-office', function(){
 });
 
 function boolIcon(value, row) {
-  if (value == "true")
+  if (value == "1")
   	return '<i class="fa fa-check"></i>';
 	else
 	return '<i></i>';
@@ -752,7 +752,7 @@ $('#add-success-alert-close').on('click', function() {
 $('body').on('click', '.btn-noti-approve', function() {
 	var ids = $(this).data('notiid').split("_");
 	var officeName = $(this).data('ofcName');
-    var trid = ids[0].concat(ids[1]);
+  var trid = ids[0].concat(ids[1]);
 	var senderr = $('#username-plate').html();
 	$.ajax({
 		url: 'confirmRole',
@@ -763,11 +763,38 @@ $('body').on('click', '.btn-noti-approve', function() {
 		},
 		success: function(data) {
 			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
 			socket.emit('approve', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
-            $('#noti-table').bootstrapTable('remove', {
-              field: 'id',
-              values: trid
-            })
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
+		}
+	});
+});
+
+$('body').on('click', '.btn-noti-decline', function() {
+	var ids = $(this).data('notiid').split("_");
+	var officeName = $(this).data('ofcName');
+  var trid = ids[0].concat(ids[1]);
+	var senderr = $('#username-plate').html();
+	$.ajax({
+		url: 'declineRole',
+		type: 'post',
+		data: {
+			office_id : ids[0],
+			user_id : ids[2]
+		},
+		success: function(data) {
+			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
+			socket.emit('noti', { user: senderr, IncOrDec: '-'});
+			socket.emit('decline', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+			var trida = [trid];
+			$('#noti-table').bootstrapTable('remove', {
+				field: 'id',
+				values: trida
+			})
 		}
 	});
 });
