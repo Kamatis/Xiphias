@@ -38,7 +38,17 @@ socket.on('decline', function(data) {
 socket.on('passleader', function(data) {
 	console.log(data.from + ' passed leadership');
 	$('#noti-table').bootstrapTable('append', format(data, 4));
-})
+});
+
+socket.on('confirmleader', function(data) {
+	console.log(data.from + ' confirmed leadership');
+	$('#noti-table').bootstrapTable('append', format(data, 5));
+});
+
+socket.on('declineleader', function(data) {
+	console.log(data.from + ' declined leadership');
+	$('#noti-table').bootstrapTable('append', format(data, 6));
+});
 
 // miscellaneus functions
 function format(data, mode) {
@@ -152,7 +162,7 @@ function format(data, mode) {
 	// if decline pass
 	else if(mode == 6) {
 		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
-		stringReq += ' agreed to be the new leader of ';
+		stringReq += ' declined to be the new leader of ';
 		stringReq += data.office;
 		stringReq += '.';
 		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
