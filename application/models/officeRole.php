@@ -45,7 +45,7 @@ class OfficeRole extends CI_Model {
 		$this->db->delete('notification');	
 	}
 	
-	public function confirmLeadership() {
+	public function confirmLeadership($office_id, $user_id) {
 		$this->db->where('office_id', $office_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->where('role', 'Admin');
@@ -55,6 +55,17 @@ class OfficeRole extends CI_Model {
 		$this->db->where('office_id', $office_id);
 		$this->db->where('user_id', $user_id);
 		$this->db->where('role !=', 'Admin');
+		$this->db->delete('office_role');
+		
+		$this->db->where('office_id', $office_id);
+		$this->db->where('noti_to', $user_id);
+		$this->db->delete('notification');
+	}
+	
+	public function declineLeadership($office_id, $user_id) {
+		$this->db->where('office_id', $office_id);
+		$this->db->where('user_id', $user_id);
+		$this->db->where('role', 'Admin');
 		$this->db->delete('office_role');
 		
 		$this->db->where('office_id', $office_id);
