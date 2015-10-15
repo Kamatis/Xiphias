@@ -815,12 +815,12 @@ class Pages extends CI_Controller {
 
 	public function confirmRole() {
 		$office_id = $this->input->post('office_id');
-		$from = $this->input->post('from');
+		$from = $this->input->post('user_id');
 	  	$user_id = $this->session->userdata('user_id');
 	  	$this->officeRole->confirmRole($office_id, $user_id);
 		
 		$notif['noti_from'] = $this->session->userdata('user_id');
-		$notif['noti_to'  ] = $from;
+		$notif['noti_to'  ] = $this->user->getUserId($from);
 		$notif['noti_type'] = 2;
 		$notif['office_id'] = $office_id;
 		$notif['noti_date'] = date('Y-m-d');
