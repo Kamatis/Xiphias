@@ -837,7 +837,7 @@ class Pages extends CI_Controller {
 	  	$this->officeRole->declineRole($office_id, $user_id);
 		
 		$notif['noti_from'] = $this->session->userdata('user_id');
-		$notif['noti_to'  ] = $from;
+		$notif['noti_to'  ] = $this->user->getUserId($from);
 		$notif['noti_type'] = 3;
 		$notif['office_id'] = $office_id;
 		$notif['noti_date'] = date('Y-m-d');
