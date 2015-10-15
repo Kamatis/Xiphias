@@ -48,6 +48,21 @@ io.sockets.on('connection', function(client) {
 		console.log(data.user + " declined a notification");
 		io.to(data.user).emit('decline', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
 	});
+
+	client.on('passleader', function(data) {
+		console.log(data.from + " passed leadership");
+		io.to(data.user).emit('passleader', { from: data.from, office: data.office, officeid: data.officeid, user: data.user, userid: data.userid });
+	});
+
+	client.on('confirmleader', function(data) {
+		console.log(data.user + " confirmed leadership pass");
+		io.to(data.user).emit('confirmleader', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
+	});
+
+	client.on('declineleader', function(data) {
+		console.log(data.user + " declined a leadership pass");
+		io.to(data.user).emit('declineleader', { from: data.from, office: data.office, officeid: data.officeid, user: data.user });
+	});
 });
 
 server.listen(8080);
