@@ -131,24 +131,33 @@ class Pages extends CI_Controller {
     public function createResume() {
 		$query1 = $this->school->getSchools(1);
 		$query2 = $this->school->getSchools(2);
-
-		$data['primary'] = "<option></option>\n";
-		foreach($query1->result() as $row)
-			$data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
-
-		$data['secondary'] = "<option></option>\n";
-		foreach($query2->result() as $row)
-			$data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
-      
-			
-		for($yr = 2015; $yr>=1900; $yr--)
-			$data['years'] .= "<option value = \"$yr\">$yr</option>\n";
-      
+		
 		$u_id = $this->session->userdata('user_id');
+		$data['school'   ] = $this->school->getSchoolAttended($u_id);
 		$data['address'  ] = $this->user->getHomeAddress($u_id); 
 		$data['contact'  ] = $this->user->getPhoneNumber($u_id);
 		$data['emailadd' ] = $this->user->getEmailAddress($u_id);
 		$data['objective'] = $this->player->getCareerObjective($u_id);
+		
+		$data['primary'] = "<option></option>\n";
+		foreach($query1->result() as $row) {
+			if($row->school_id == $data['school'][0]['school_id'])
+				$data['primary'] .= "<option value = \"$row->school_id\" selected>$row->school_name</option>\n";		
+			else
+				$data['primary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+		}
+		
+		$data['secondary'] = "<option></option>\n";
+		foreach($query2->result() as $row) {
+			if($row->school_id == $data['school'][1]['school_id'])
+				$data['secondary'] .= "<option value = \"$row->school_id\" selected>$row->school_name</option>\n";
+			else
+				$data['secondary'] .= "<option value = \"$row->school_id\">$row->school_name</option>\n";
+		}
+		for($yr = 2015; $yr>=1900; $yr--)
+			$data['years'] .= "<option value = \"$yr\">$yr</option>\n";
+      
+		
 		$view = $this->load->view('profile/createResume', $data , true);
 		echo $view;
     }
@@ -780,15 +789,35 @@ class Pages extends CI_Controller {
     // function for generating resume
 	public function resume(){
 		$u_id = $this->session->userdata('user_id');
-		$info['address' ] = $this->input->post('address');
-		$info['contact' ] = $this->input->post('contact');
-		$info['emailadd'] = $this->input->post('emailadd');
-
+		$info['address'           ] = $this->input->post('address');
+		$info['contact'           ] = $this->input->post('contact');
+		$info['emailadd'          ] = $this->input->post('emailadd');
+		$info['primary_school'    ] = $this->input->post('pschool');
+		$info['primary_school_s'  ] = $this->input->post('pstart');
+		$info['primary_school_e'  ] = $this->input->post('pend');
+		$info['secondary_school'  ] = $this->input->post('sschool');
+		$info['secondary_school_s'] = $this->input->post('sstart');
+		$info['secondary_school_e'] = $this->input->post('send');
+		
 		$user['home_address' ] = $info['address'];
 		$user['phone_number' ] = $info['contact'];
 		$user['email_address'] = $info['emailadd'];
 		$this->user->updateProfile($u_id, $user);
-
+		
+		$this->school->clearData($u_id);
+		$school['school_id' ] = $info['primary_school'];
+		$school['start_date'] = $info['primary_school_s'];
+		$school['end_date'  ] = $info['primary_school_e'];
+		$school['user_id'   ] = $u_id;
+		$this->school->addSchoolAttended($school);
+		$school['school_id' ] = $info['secondary_school'];
+		$school['start_date'] = $info['secondary_school_s'];
+		$school['end_date'  ] = $info['secondary_school_e'];
+		$school['user_id'   ] = $u_id;
+		$this->school->addSchoolAttended($school);
+		
+		$info['primary_school'  ] = $this->school->getSchoolName($info['primary_school'  ]);
+		$info['secondary_school'] = $this->school->getSchoolName($info['secondary_school']);
 		$info['objective'       ] = $this->input->post('objective');
 		$obj['career_objectives'] = $info['objective'];
 		$this->user->updateCareerObj($u_id, $obj);

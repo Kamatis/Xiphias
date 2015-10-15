@@ -216,8 +216,8 @@ create table if not exists student_affiliations(
 );
 
 create table if not exists school_attended(
-    start_date date not null,
-    end_date date not null,
+    start_date int not null,
+    end_date int not null,
     school_id int not null,
     user_id int not null,
     foreign key(school_id) references school(school_id),
