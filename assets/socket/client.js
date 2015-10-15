@@ -39,7 +39,9 @@ socket.on('decline', function(data) {
 function format(data, mode) {
 	var rows = [];
 	var stringReq = "";
-
+	var ofc = data.officeid;
+	var usr = data.userid;
+	var idd = ofc + "" + usr;
 	// if confirmation noti
 	if(mode == 1) {
 		stringReq += '<a href="http://localhost/xiphias/index.php/pages/profile/' + data.from + '">' + data.from + '</a>';
@@ -56,10 +58,11 @@ function format(data, mode) {
 		stringReq += data.office + '">Approve</a> ';
 		stringReq += '<a href="#" class="btn btn-danger btn-xs btn-noti-decline" data-notiId="';
 		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
-		stringReq += ' data-ofcName="';
+		stringReq += '" data-ofcName="';
 		stringReq += data.office + '">Decline</a>';
 		stringReq += '</div></div>';
 		rows.push({
+			id: idd,
 			request: stringReq,
 			date: 'today'
 		});
@@ -75,8 +78,9 @@ function format(data, mode) {
 		stringReq += '.';
 		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
 		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
-		stringReq += '>OK</a></div></div>';
+		stringReq += '">OK</a></div></div>';
 		rows.push({
+			id: idd,
 			request: stringReq,
 			data: 'today'
 		});
@@ -92,8 +96,9 @@ function format(data, mode) {
 		stringReq += '.';
 		stringReq += '<div class="row-fluid"><div class="form-group"><a href="#" class="btn btn-success btn-xs btn-noti-ok" data-notiId="';
 		stringReq += data.officeid + "_" + data.userid + "_" + data.from;
-		stringReq += '>OK</a></div></div>';
+		stringReq += '">OK</a></div></div>';
 		rows.push({
+			id: idd,
 			request: stringReq,
 			data: 'today'
 		});
