@@ -41,27 +41,37 @@
   <legend>Educational Background</legend>
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Primary School/Graduate Year:</label>
-    <div class="col-sm-8">
+    <div class="col-sm-6">
       <select class="form-control combobox" id="select-primary">
         <?php echo $primary; ?>
       </select>
     </div>
+		<div class="col-sm-2">
+      <select class="form-control">
+        <?php echo $pyearsfrom; ?>
+      </select>
+    </div>
     <div class="col-sm-2">
       <select class="form-control">
-        <?php echo $years; ?>
+        <?php echo $pyearsto; ?>
       </select>
     </div>
   </div>
   <div class="form-group"> 
     <label class="control-label col-sm-2" for="email">Secondary School/Graduate Year:</label>
-    <div class="col-sm-8">
+    <div class="col-sm-6">
       <select class="form-control combobox" id="select-secondary">
         <?php echo $secondary; ?>
       </select>
     </div>
+		<div class="col-sm-2">
+      <select class="form-control">
+        <?php echo $syearsfrom; ?>
+      </select>
+    </div>
     <div class="col-sm-2">
       <select class="form-control">
-        <?php echo $years; ?>
+        <?php echo $syearsto; ?>
       </select>
     </div>
   </div>
