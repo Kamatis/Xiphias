@@ -36,6 +36,7 @@ class Office extends CI_Model{
     
     public function getMyOffices($user_id){
         $this->db->where('user_id', $user_id);
+		$this->db->where('approved', 1);
         $query = $this->db->get('office_role');
         $x = 0;
         foreach($query->result() as $row){
