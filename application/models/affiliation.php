@@ -25,4 +25,15 @@ class Affiliation extends CI_Model {
 		}
 		return $data;
 	}
+	
+	public function getOrganizationList() {
+		$query = $this->db->get('affiliation');
+		$data;
+		$x = 0;
+		foreach($query->result() as $row) {
+			$data[$x]['affil_id'] = $row->affiliation_id;
+			$data[$x]['org_name'] = $row->name;
+			$x++;
+		}
+	}
 }

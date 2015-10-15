@@ -163,12 +163,7 @@ class Pages extends CI_Controller {
     }
   
     public function showAddAffiliation() {
-		$data['affiliations'] .= '<option></option>'; // always include this as first in the <option> list (don't delete)
-
-		//      iterate all affiliations to be put to $data with format:
-		//      $data['affiliations'] .= '<option value= [affil_id] >[affil_name]</option>';
-		$data['affiliations'] .= '<option>TACTICS</option>';  //sample only (can be deleted after)
-		$data['affiliations'] .= '<option>GROUPIE</option>';  //sample only (can be deleted after)
+		$data['affiliation'] = $this->affiliation->getOrganizationList();
 		$view = $this->load->view('profile/affiliation', $data, true);
 		echo $view;
     }
