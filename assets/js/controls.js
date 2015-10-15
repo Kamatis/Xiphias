@@ -811,6 +811,7 @@ $('#pass-leadership').on('click', function() {
 		type: 'post',
 		data: { username: userr,
 						officeid: ofc },
+		dataType: 'json',
 		success: function(data) {
 			if(data['ok'] == 1) {
 				$('#pass-leadership-alert').removeClass('alert-info');
