@@ -737,8 +737,8 @@ class Pages extends CI_Controller {
   	}
 		
 	public function passLeadership() {
-		$user_id = $this->user->getUserId($username);
 		$username = $this->input->post('username');
+		$user_id = $this->user->getUserId($username);
 		$office_id = $this->input->post('officeid');
 		$data['user_id'  ] = $user_id;
 		$data['office_id'] = $office_id;
