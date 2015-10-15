@@ -274,7 +274,8 @@ create table if not exists notification (
 );
 
 create table if not exists semester (
-	on_going int not null
+	on_going int not null,
+	date_started date
 );
 
 /*create table if not exists user_resume_details {
