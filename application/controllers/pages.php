@@ -163,7 +163,6 @@ class Pages extends CI_Controller {
     }
   
     public function showAddAffiliation() {
-		$data['affiliation'] = $this->affiliation->getOrganizationList();
 		$view = $this->load->view('profile/affiliation', $data, true);
 		echo $view;
     }
@@ -831,7 +830,7 @@ class Pages extends CI_Controller {
 	public function addAffiliation() {
 		$time = explode(' ', $this->input->post('date'));
 		$data['user_id'       ] = $this->session->userdata('user_id');
-		$data['affiliation_id'] = $this->input->post('name');
+		$data['affiliation'   ] = $this->input->post('name');
 		$data['position'      ] = $this->input->post('position');
 		$data['start_date'    ] = date('Y-m-d', strtotime($time[0]));
 		$data['end_date'      ] = date('Y-m-d', strtotime($time[2]));

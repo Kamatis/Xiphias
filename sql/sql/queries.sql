@@ -62,12 +62,12 @@ insert into rarity values (null, "Blue Moon", 41, 50, "assets/images/rarity/blue
 insert into user values(null, "admin", md5("admin"), "Admin", "Admin", "Admin", NULL, "facebook.com", "aadmin@gbox.adnu.edu.ph",null,"09091234567",3);
 # NPC Table
 insert into npc values(1,1);
-
+/*
 # Affiliations Table
 insert into affiliation values(null, "Days with the Lord");
 insert into affiliation values(null, "The Ateneo Consortium for Technological Information and Computing Sciences");
 insert into affiliation values(null, "Ateneo Paradigm Eclat Xircle");
-
+*/
 
 # House Table
 insert into house values (null, "Convex Hulk", 0, "Hustle...Loyalty...Respect", "assets/images/houses/house1_logo.png");
