@@ -7,14 +7,11 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">Xiphias</a>
+    <a class="navbar-brand" style="color: #ececea" href="<?php echo base_url(); ?>">ATENEUM</a>
   </div>
   
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
-      <li class="xiphiasMenu">
-        <a href="#" style="color: #ececea">News</a>
-      </li>
       <li class="xiphiasMenu">
         <a href="<?php echo base_url('index.php/pages/questboard'); ?>" style="color: #ececea">Quests</a>
       </li>
@@ -54,7 +51,7 @@
         <ul class="dropdown-menu" role="menu">
           <?php if($isNPC) { ?>
             <?php if($isVerified) {?>
-              <li class="dropdown-header">Use Xiphias as:</li>
+              <li class="dropdown-header">Use Ateneum as:</li>
               <?php foreach($offices as $office): ?>
                 <li><a href=""><?php echo $office['officeName']; ?></a></li>
               <?php endforeach; ?>
