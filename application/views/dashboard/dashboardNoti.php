@@ -3,7 +3,8 @@
     <table id="noti-table" data-toggle="table" data-show-header="false">
       <thead>
         <tr>
-          <th data-field="request" class="col-md-10">Request</th>
+          <th data-field="id" data-visible="false" class="col-md-1">ID</th>
+          <th data-field="request" class="col-md-9">Request</th>
           <th data-field="date" class="col-md-2">Date</th>
         </tr>
       </thead>
@@ -18,10 +19,11 @@
 					'noti_date'   = 
 			  -->
 		  <?php for($x = 0; $x < count($notif); $x++) { ?>
-				<tr data-notiId="<?php echo $notif[$x]['noti_id']; ?>">
+				<tr>
 
 					<!-- If confirmation -->
 					<?php if($notif[$x]['noti_type'] == 1) { ?>
+                        <td><?php echo $notif[$x]['office_id']; echo $notif[$x]['to']; ?></td>
 						<td>
 							<a href="<?php echo $notif[$x]['from_url']; ?>"><?php echo $notif[$x]['from'];?></a>
 							<?php

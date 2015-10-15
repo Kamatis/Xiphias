@@ -651,7 +651,7 @@ $('#roles-table').bootstrapTable({
 		var uid = row.deleteRole;
 		var ofc = $('.list-item-office-active').data('officeid');
 
-		if(field == "badge-actions" && row.approved == "1") {
+		if(field == "badge-actions" && row.approved == true) {
 			$.ajax({
 				url: 'badgePermission',
 				type: 'post',
@@ -663,7 +663,7 @@ $('#roles-table').bootstrapTable({
 				}
 			}); // end of ajax badgePermission call
 		} // end of badge permission update
-		else if(field == "quest-actions" && row.approved == "1") {
+		else if(field == "quest-actions" && row.approved == true) {
 			$.ajax({
 				url: 'questPermission',
 				type: 'post',
@@ -728,7 +728,7 @@ $('#add-role-member').on('click', function() {
 				}
 				else {
 					socket.emit('noti', { user: userr, IncOrDec: '+' });
-					socket.emit('confirmation', { user: userr, userid: datapass['to_id'], from: datapass['from'], office: datapass['office_name'], officeid: ofc, role: rol });
+					socket.emit('confirmation', { user: userr, userid: datapass['to_id'], from: datapass['from'], office: datapass['office_name'], officeid: ofc, role: rol, date: datapass['noti_date'] });
 					var url = "http://" + window.location.hostname + "/xiphias/index.php/pages/getOfficeMembers/" + datapass['url'];
 					refreshTable('#roles-table', url);
 					$('#add-success-alert').removeClass('alert-danger');
@@ -752,17 +752,22 @@ $('#add-success-alert-close').on('click', function() {
 $('body').on('click', '.btn-noti-approve', function() {
 	var ids = $(this).data('notiid').split("_");
 	var officeName = $(this).data('ofcName');
+    var trid = ids[0].concat(ids[1]);
 	var senderr = $('#username-plate').html();
 	$.ajax({
 		url: 'confirmRole',
 		type: 'post',
 		data: {
 			office_id : ids[0],
-			user_id : ids[1]
+			user_id : ids[2]
 		},
 		success: function(data) {
 			socket.emit('noti', { user: ids[2], IncOrDec: '+'});
 			socket.emit('approve', { user: ids[2], from: senderr, office: officeName, officeid: ids[0] });
+            $('#noti-table').bootstrapTable('remove', {
+              field: 'id',
+              values: trid
+            })
 		}
 	});
 });
