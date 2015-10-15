@@ -87,7 +87,6 @@
 								</div>
 							</div>
 						</td>
-
 					<?php } ?> <!-- endif approve -->
 
 					<!-- If decline -->
@@ -115,8 +114,44 @@
 								</div>
 							</div>
 						</td>
-
 					<?php } ?> <!-- endif decline -->
+
+					<!-- If confirmation -->
+					<?php if($notif[$x]['noti_type'] == 4) { ?>
+
+						<td>
+							<a href="<?php echo $notif[$x]['from_url']; ?>"><?php echo $notif[$x]['from'];?></a>
+							<?php
+							echo ' wants to pass the leadership of ';
+							echo $notif[$x]['office_name'];
+							echo ' to you.';
+							?>
+							<div class="row-fluid">
+								<div class="form-group">
+									<a href="#" class="btn btn-success btn-xs btn-pass-approve"
+										 data-notiId="<?php
+																		echo $notif[$x]['office_id'];
+																		echo '_';
+																		echo $notif[$x]['to'];
+																		echo '_';
+																		echo $notif[$x]['from']; ?>"
+										 data-ofcName="<?php
+																		echo $notif[$x]['office_name'];
+																		?>">Approve</a>
+									<a href="#" class="btn btn-danger btn-xs btn-pass-decline"
+										 data-notiId="<?php
+																		echo $notif[$x]['office_id'];
+																		echo '_';
+																		echo $notif[$x]['to'];
+																		echo '_';
+																		echo $notif[$x]['from']; ?>"
+										 data-ofcName="<?php
+																		echo $notif[$x]['office_name'];
+																		?>">Decline</a>
+								</div>
+							</div>
+						</td>
+					<?php } ?> <!-- endif confirmation -->
 
 					<td><?php echo $notif[$x]['noti_date']; ?></td>
 				</tr>
